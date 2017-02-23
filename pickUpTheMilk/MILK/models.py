@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 
 from django.db import models
 
@@ -38,7 +37,7 @@ class ShoppingList(models.Model):
     itemQuantity = models.IntegerField(default = 1)
 
 # have removed all user names from the below table as these can be inferred
-# from the ids 
+# from the ids
 class Transaction(models.Model):
     requestID = models.ForeignKey(ShoppingList)
     requestorID = models.ForeignKey(ItemToUser)
