@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load MILK_template_tags %}
+{% load staticfiles %}
+
+
+<html>
+	<head lang="en">
+		<meta charset="UTF-8" />
+		<title>Pick Up The Milk!
+		{% block title_block %}
+			Pick Up The Milk
+		{% endblock %}
+		</title>
+	</head>
+	<body>
+		<div>
+			{% block body_block %}
+			{% endblock %}
+		</div>
+
+		<div>
+			{% block sidebar_block %}
+			{% endblock %}
+		</div>
+	</body>
+</html>
+		
