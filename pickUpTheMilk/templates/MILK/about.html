@@ -1,1 +1,36 @@
 {% extends 'MILK/base.html' %}
+
+{% block title_block %}
+		About
+{% endblock %}
+
+{% block body_block %}
+  <div>
+  <h3>About Us</h3>
+    <p>
+      Living in a shared household? Tired of not having a web application that
+      helps you more easily keep track of expenditure for commonly bought/communal
+      items? Bored of your job and need a fresh start in life?
+    </p>
+
+    <p>
+      We can't help with that last one, but if you answered yes to the first two
+      then Pick Up The Milk! is for you!
+    </p>
+
+    <p>
+      Our platform gives your household a shared shopping list accessable from
+      ANYWHERE in the world <small><small><small>where you have internet access</small></small></small>. We can simplify
+      tracking of purchases and help you record money owed between users.
+      <a href="{% url 'register' %}">Sign up</a> today!
+    </p>
+  </div>
+
+  <h3>Frequently Asked Questions</h3>
+  <div>
+    <li><b>Why should I use your service?</b><br>
+        This is where we sell it to them...
+    <li><b>Is this a question?</b><br>
+      No.
+  <div>
+{% endblock %}
