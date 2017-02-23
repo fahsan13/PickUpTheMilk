@@ -18,7 +18,8 @@ def register(request):
     return HttpResponse("PLACEHOLDER: Register now! (don't know why you'd want to...)")
 
 def sitemap(request):
-    return HttpResponse("PLACEHOLDER: Not present- the greatest sitemap the world has ever seen")
+    response = render(request, 'MILK/sitemap.html', {})
+    return response
 
 def contact(request):
     return HttpResponse("PLACEHOLDER: Contact one of the 5 fools behind this site")
