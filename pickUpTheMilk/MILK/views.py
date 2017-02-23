@@ -1,6 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 
+# Import user profile from models
+from MILK.models import Profile
+
+
 def home(request):
     return HttpResponse("Welcome to Passive Aggressive Cost-Sharing Application v. 0.1")
 
@@ -21,3 +25,9 @@ def about(request):
 
 def creategroup(request):
     return HttpResponse("PLACEHOLDER: Create a new group")
+
+
+# Work in progress...
+def profile(request, profileID):
+    profileID = Profile.objects.get(profileID)
+    return HttpResponse("PLACEHOLDER: Your profile")

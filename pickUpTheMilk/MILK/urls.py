@@ -9,4 +9,8 @@ urlpatterns = [
     url(r'^contact/', views.contact, name= 'contact'),
     url(r'^about/', views.about, name= 'about'),
     url(r'^create-group/', views.creategroup, name= 'sitemap'),
+
+    # Work in progress
+    url(r'^profileID=(?P<profileID>[\w\-]+)/$', views.profile, name= 'profile'),
+
 ]
