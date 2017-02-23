@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 
 # Import user profile from models
-from MILK.models import Profile
+from MILK.models import User
 
 def home(request):
     return HttpResponse("Welcome to Passive Aggressive Cost-Sharing Application v. 0.1")
