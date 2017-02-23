@@ -3,11 +3,8 @@ from django.http import HttpResponse
 from django.conf import settings
 
 # Import user profile from models
-<<<<<<< HEAD
-# from MILK.models import Profile
-=======
+
 from MILK.models import User
->>>>>>> 208614c83522ee1a4f48377382b65636a6de2f26
 
 def home(request):
 
