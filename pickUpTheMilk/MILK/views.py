@@ -4,7 +4,6 @@ from django.http import HttpResponse
 # Import user profile from models
 from MILK.models import Profile
 
-
 def home(request):
     return HttpResponse("Welcome to Passive Aggressive Cost-Sharing Application v. 0.1")
 
