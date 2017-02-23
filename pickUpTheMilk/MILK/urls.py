@@ -11,6 +11,6 @@ urlpatterns = [
     url(r'^create-group/', views.creategroup, name= 'sitemap'),
 
     # Work in progress
-    url(r'^profileID=(?P<profileID>[\w\-]+)/$', views.profile, name= 'profile'),
+    # url(r'^profileID=(?P<profileID>[\w\-]+)/$', views.profile, name= 'profile'),
 
 ]
