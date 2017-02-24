@@ -15,17 +15,17 @@ def login(request):
     return HttpResponse("PLACEHOLDER: Login page")
 
 def register(request):
-    return HttpResponse("PLACEHOLDER: Register now! (don't know why you'd want to...)")
+    return render(request, 'MILK/register.html', {})
 
 def sitemap(request):
     response = render(request, 'MILK/sitemap.html', {})
     return response
 
 def contact(request):
-    return HttpResponse("PLACEHOLDER: Contact one of the 5 fools behind this site")
+    return render(request, 'MILK/contact.html', {})
 
 def about(request):
-    return HttpResponse("PLACEHOLDER: About this broken web app")
+    return render(request, 'MILK/about.html', {})
 
 def creategroup(request):
     return HttpResponse("PLACEHOLDER: Create a new group")
