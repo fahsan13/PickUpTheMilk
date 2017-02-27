@@ -60,6 +60,7 @@ class Transaction(models.Model):
     requestID = models.IntegerField(default = 0, unique = True)
     requestorID = models.ForeignKey(ItemToUser, related_name = 'requestorID')
     purchaserID = models.ForeignKey(User, related_name = 'purchaserID')
+    payeeID = models.ForeignKey(User, related_name = 'payeeID')
     itemID = models.ForeignKey(Item, related_name = 'transactionItem')
     # can handle items costing up to 9999.99
     value = models.DecimalField(max_digits=6, decimal_places=2)
