@@ -1,9 +1,20 @@
 {% extends 'MILK/base.html' %}
 
 {% block title_block %}
-		Site Map
+
 {% endblock %}
 
 {% block body_block %}
 		<h3>Sitemap</h3>
+
+    <section>
+    <h4>Dont't get lost</h4></br>
+    <a href="{% url 'about' %}">About</a></br>
+    <a href="{% url 'contact' %}">Contact Us</a></br>
+    <a href="{% url 'home' %}">Home</a></br>
+    <a href="{% url 'login' %}">Login</a></br>
+    <a href="{% url 'register' %}">Register</a></br>
+
+
+    </section>
 {% endblock %}

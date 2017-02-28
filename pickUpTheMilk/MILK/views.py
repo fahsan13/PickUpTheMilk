@@ -12,7 +12,8 @@ def home(request):
     return response
 
 def login(request):
-    return HttpResponse("PLACEHOLDER: Login page")
+    response = render(request, 'MILK/login.html', {})
+    return response
 
 def register(request):
     return render(request, 'MILK/register.html', {})
