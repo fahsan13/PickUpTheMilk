@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'MILK',
+    'registration'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -122,3 +123,18 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS =[STATIC_DIR, ]
+
+# If true, users can register
+REGISTRATION_OPEN = True
+# One week activation window
+ACCOUNT_ACTIVATION_DAYS = 7
+# If True, the user will be automatically logged in
+REGISTRATION_AUTO_LOGIN = True
+
+# The page you want users to arrive at after they log in
+# NOTE - once profile URLS are figured out, we should change this to
+# redirect to a user's profile
+LOGIN_REDIRECT_URL = '/'
+# Page users are redirected to if they are not logged in
+# and are trying to access pages requiring login information
+LOGIN_URL = '/accounts/login/'

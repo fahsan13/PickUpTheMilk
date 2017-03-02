@@ -1,26 +1,27 @@
 from django.db import models
 from django.utils import timezone
-# Create your models here.
-
+from django.contrib.auth.models import User
 
 class Item(models.Model):
-    itemID = models.IntegerField(default = 0, unique = True)
+    
     itemName = models.CharField(max_length = 128, unique = True)
 
     def __str__(self):
-        return self.itemID
+        return self.itemName
     def __unicode__(self):
-        return self.itemID
+        return self.itemName
 
-class User(models.Model):
-    userID = models.IntegerField(default = 0, unique = True)
-    userName = models.CharField(max_length = 128, unique = False)
-    Balance = models.DecimalField(max_digits=6, decimal_places=2)
+# Extension to the default Django User model to add 'balance' field
+class UserProfile(models.Model):
+    # Line below links this extension to the base user model
+    user = models.OneToOneField(User)
+    balance = models.DecimalField(max_digits=6, decimal_places=2)
+
     def __str__(self):
-        return self.userID
+        return self.user.username
     def __unicode__(self):
-        return self.userID
-
+        return self.user.username
+        # Do we need to create an ID field?
 
 class ShoppingList(models.Model):
     listID = models.IntegerField(default = 0, unique = True)

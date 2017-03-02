@@ -1,20 +1,29 @@
 {% extends 'MILK/base.html' %}
 {% load staticfiles %}
 {% block title_block %}
-
+  Home
 {% endblock %}
 
 {% block body_block %}
 
     <h1><img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" />Welcome to Passive Aggressive Cost-Sharing Application v. 0.1<img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" /></h1>
     <section>
-    Use our website and we will harvest your shopping data and use it to target adds at you!
+      {% if user.is_authenticated %}
+        Welcome back, {{ user.username }} </br>
+        <a href="{% url 'auth_logout' %}">Logout</a> </br>
+        <a href="{% url 'additem' %}">Add item - THIS IS A TEST</a>
+
+
+      {% else %}
+        Use our website and we will harvest your shopping data and use it to target adds at you!
+        <aside>
+      		<p>
+      			<a href="{% url 'auth_login' %}?/next=/">Login</a> or
+      			<a href="{% url 'registration_register' %}">Register</a>
+      		<p>
+      	</aside>
+      {% endif %}
     </section>
 
-	<aside>
-		<p>
-			<a href="{% url 'login' %}">Login</a> or 
-			<a href="{% url 'register' %}">Register</a>
-		<p>
-	</aside>
+
 {% endblock %}

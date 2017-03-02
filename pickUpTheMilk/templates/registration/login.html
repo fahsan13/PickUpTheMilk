@@ -1,0 +1,19 @@
+{% extends 'MILK/base.html' %}
+
+{% block body_block %}
+  <h3> Login!</h3>
+
+  {% if registered %}
+    You are successfully registered
+  {% else %}
+    <form method="post" action=".">
+
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <!-- Button to click to submit the form -->
+    <input type="submit" name="Log in"/>
+    <input type="hidden" name="next" value="{{ next }}" />
+  </form>
+  {% endif %}
+{% endblock %}
