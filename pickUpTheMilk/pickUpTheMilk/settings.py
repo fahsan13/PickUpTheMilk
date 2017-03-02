@@ -134,7 +134,7 @@ REGISTRATION_AUTO_LOGIN = True
 # The page you want users to arrive at after they log in
 # NOTE - once profile URLS are figured out, we should change this to
 # redirect to a user's profile
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/profile/'
 # Page users are redirected to if they are not logged in
 # and are trying to access pages requiring login information
 LOGIN_URL = '/accounts/login/'
