@@ -47,7 +47,7 @@ django_pages = [
 36 "url":"http://flask.pocoo.org"} ]
 37
 38 cats = { }
-
+mhgjhg
 51 for cat, cat_data in cats.items():
 52 c = add_cat(cat)
 53 for p in cat_data["pages"]:
