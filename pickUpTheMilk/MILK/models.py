@@ -7,9 +7,9 @@ class Item(models.Model):
     itemName = models.CharField(max_length = 128, unique = True)
 
     def __str__(self):
-        return self.itemID
+        return self.itemName
     def __unicode__(self):
-        return self.itemID
+        return self.itemName
 
 # Extension to the default Django User model to add 'balance' field
 class UserProfile(models.Model):

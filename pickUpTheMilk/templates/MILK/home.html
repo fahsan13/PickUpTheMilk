@@ -10,7 +10,9 @@
     <section>
       {% if user.is_authenticated %}
         Welcome back, {{ user.username }} </br>
-        <a href="{% url 'auth_logout' %}">Logout</a>
+        <a href="{% url 'auth_logout' %}">Logout</a> </br>
+        <a href="{% url 'additem' %}">Add item - THIS IS A TEST</a>
+
 
       {% else %}
         Use our website and we will harvest your shopping data and use it to target adds at you!

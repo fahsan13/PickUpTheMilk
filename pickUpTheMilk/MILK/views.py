@@ -5,7 +5,7 @@ from django.conf import settings
 # Import user profile from models
 
 from MILK.models import User
-from MILK.forms import UserForm
+from MILK.forms import UserForm, itemForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -32,3 +32,19 @@ def creategroup(request):
 def userprofile(request, userID):
     userID = User.objects.get(userID)
     return render(request, 'MILK/userprofile.html', userID)
+
+@login_required
+def additem(request):
+    form = itemForm()
+
+    if request.method == 'POST':
+        form = itemForm(request.POST)
+
+    if form.is_valid():
+        item=form.save(commit=True)
+        print(item)
+    else:
+        print(form.errors)
+        
+    response = render(request, 'MILK/additem.html', {'form':form})
+    return response
