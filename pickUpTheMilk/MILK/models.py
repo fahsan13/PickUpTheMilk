@@ -3,8 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 class Item(models.Model):
-
-    itemID = models.AutoField(default=0, primary_key=True)
+    
     itemName = models.CharField(max_length = 128, unique = True)
 
     def __str__(self):
