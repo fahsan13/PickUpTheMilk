@@ -1,0 +1,14 @@
+{% extends 'MILK/base.html' %}
+
+{% block body_block %}
+  <h3> Register here!</h3>
+
+    <form method="post" action=".">
+
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <!-- Button to click to submit the form -->
+    <input type="submit" name="Submit"/>
+  </form>
+{% endblock %}
