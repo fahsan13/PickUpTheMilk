@@ -22,8 +22,14 @@
       {% endfor %}
 
       <!-- Button to click to submit the form -->
-      <input type="submit" name="submit" value="Add Item" />
+
+      <input type="submit" name="submit" value="Add Item" onClick ="itemAlert()"/>
       </form>
+
+      <script>
+        function itemAlert(){
+          alert("Item added to list")}
+       </script>
   </div>
 
 {% endblock %}
