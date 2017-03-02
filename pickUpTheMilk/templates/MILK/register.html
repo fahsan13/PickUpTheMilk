@@ -7,8 +7,17 @@
 {% block body_block %}
   <h3> Register here!</h3>
 
-  <div>
-    (This is where we put another form)
-  </div>
+  {% if registered %}
+    You are successfully registered
+  {% else %}
+    <form id="user_form" method="post" action="{% url 'register' %}"
+        enctype="multipart/form-data">
 
+    {% csrf_token %}
+    {{ user_form.as_p }}
+
+    <!-- Button to click to submit the form -->
+    <input type="submit" name="submit" value="Register" />
+  </form>
+  {% endif %}
 {% endblock %}
