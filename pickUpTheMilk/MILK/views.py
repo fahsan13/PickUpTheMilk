@@ -4,8 +4,8 @@ from django.conf import settings
 
 # Import user profile from models
 
-from MILK.models import User
-from MILK.forms import UserForm, itemForm
+from MILK.models import User, Group
+from MILK.forms import UserForm, itemForm, groupForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -25,9 +25,6 @@ def contact(request):
 def about(request):
     return render(request, 'MILK/about.html', {})
 
-def creategroup(request):
-    return HttpResponse("PLACEHOLDER: Create a new group")
-
 # # Work in progress...
 def userprofile(request, userID):
     userID = User.objects.get(userID)
@@ -45,6 +42,22 @@ def additem(request):
         print(item)
     else:
         print(form.errors)
-        
+
     response = render(request, 'MILK/additem.html', {'form':form})
+    return response
+
+@login_required
+def creategroup(request):
+    form = groupForm()
+
+    if request.method == 'POST':
+        form = groupForm(request.Post)
+
+    if form.is_valid():
+        group=form.save(commit=True)
+        print(group)
+    else:
+        print(form.errors)
+
+    response = render(request, 'MILK/create-group.html', {'form':form})
     return response

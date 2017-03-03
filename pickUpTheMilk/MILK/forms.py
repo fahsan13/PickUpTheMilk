@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from MILK.models import Item
 
 class UserForm(forms.ModelForm):
@@ -20,3 +20,11 @@ class itemForm(forms.ModelForm):
     class Meta:
         model = Item
         fields = ('itemName',)
+
+class groupForm(forms.ModelForm):
+    group = forms.CharField(max_length=128, help_text="Please enter the new group's name:")
+    groupID = forms.IntegerField(widget=forms.HiddenInput(), initial = 1000)
+
+    class Meta:
+        model = Group
+        fields = ('group',)

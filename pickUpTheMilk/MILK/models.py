@@ -1,9 +1,9 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 class Item(models.Model):
-    
+
     itemName = models.CharField(max_length = 128, unique = True)
 
     def __str__(self):
@@ -22,6 +22,24 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.user.username
         # Do we need to create an ID field?
+
+class Group(models.Model):
+    group = models.CharField(max_length = 128, unique = True)
+
+    def __str__(self):
+            return self.group.name
+    def __unicode__(self):
+            return self.group.name
+
+class UserToGroup(models.Model):
+        userID = models.ForeignKey(User)
+        groupID = models.ForeignKey(Group)
+        def __str__(self):
+            return self
+        def __unicode__(self):
+            return self
+
+
 
 class ShoppingList(models.Model):
     listID = models.IntegerField(default = 0, unique = True)
