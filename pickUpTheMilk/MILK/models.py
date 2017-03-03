@@ -3,7 +3,10 @@ from django.utils import timezone
 from django.contrib.auth.models import User, Group
 
 class Item(models.Model):
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2044cd81785fa7bd99cacfb612f39934c13e6aea
     itemName = models.CharField(max_length = 128, unique = True)
 
     def __str__(self):
@@ -15,13 +18,14 @@ class Item(models.Model):
 class UserProfile(models.Model):
     # Line below links this extension to the base user model
     user = models.OneToOneField(User)
-    balance = models.DecimalField(max_digits=6, decimal_places=2)
+    balance = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
 
     def __str__(self):
         return self.user.username
     def __unicode__(self):
         return self.user.username
-        # Do we need to create an ID field?
+    def getUserID(self):
+        return self.user.id
 
 class Group(models.Model):
     group = models.CharField(max_length = 128, unique = True)

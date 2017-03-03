@@ -6,6 +6,39 @@
 
 {% block body_block %}
   <div>
-  <h3>This is a profile</h3>
+  <h3>{{ user.username }}'s profile</h3>
+
+	<!-- Not working. Need to populate a user's default
+ 			balance as 0 when they register, gonna be fun...
+			also balance isn't needed, just here for testing purposes-->
+	<h4>Your current balance is: {{ user.balance }}</h4>
+	<h4>Your id is: {{ user.getUserID }}</h4>
+
+	</br>
+
+	<div>
+		<b>Add item</b>
+		<form id="itemForm" method="post" action".">
+
+		{% csrf_token %}
+
+		{% for hidden in form.hidden_fields %}
+			{{ hidden }}
+		{% endfor %}
+		{% for field in form.visible_fields %}
+			{{ field.errors }}
+			{{ field.help_text }}
+			{{ field }}
+		{% endfor %}
+
+		<!-- Button to click to submit the form -->
+		<input type="submit" name="submit" value="Add Item" onClick="myAlert()"/>
+		</form>
+				<script>
+					function myAlert() {
+						alert("Item successfully added")}
+				</script>
+		</div>
+
   <div>
 {% endblock %}

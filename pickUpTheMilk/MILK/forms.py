@@ -9,6 +9,11 @@ class UserForm(forms.ModelForm):
         model = User
         fields = ('username', 'email', 'password')
 
+# class UserProfileForm(forms.ModelForm):
+#     class Meta:
+#         model = UserProfile
+#         fields = ('user', 'balance')
+
 # Still in progress. Form to add item to database.
 class itemForm(forms.ModelForm):
     itemName = forms.CharField(max_length=128,

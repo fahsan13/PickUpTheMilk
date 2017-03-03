@@ -11,7 +11,7 @@
       {% if user.is_authenticated %}
         Welcome back, {{ user.username }} </br>
         <a href="{% url 'auth_logout' %}">Logout</a> </br>
-        <a href="{% url 'additem' %}">Add item - THIS IS A TEST</a>
+        <a href="{% url 'profile' %}">View your profile</a>
 
 
       {% else %}

@@ -7,13 +7,12 @@ urlpatterns = [
     url(r'^contact/', views.contact, name= 'contact'),
     url(r'^about/', views.about, name= 'about'),
     url(r'^create-group/', views.creategroup, name= 'creategroup'),
-    url(r'^accounts/', include('registration.backends.simple.urls')),
+    url(r'^profile/', views.userprofile, name= 'profile'),
+
 
 
 
     # Work in progress
-    url(r'^profileID=(?P<userID>[\w\-]+)/$', views.userprofile, name= 'profile'),
-
-    url(r'^additem/', views.additem, name= 'additem'),
-
+    # url(r'^profileID=(?P<userID>[\w\-]+)/', views.userprofile, name= 'profile'),
+    # url(r'^profileID=(?P<userID>^\d*[1-9]\d*$)/', views.userprofile, name= 'profile'),
 ]

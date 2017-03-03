@@ -26,12 +26,8 @@ def about(request):
     return render(request, 'MILK/about.html', {})
 
 # # Work in progress...
-def userprofile(request, userID):
-    userID = User.objects.get(userID)
-    return render(request, 'MILK/userprofile.html', userID)
-
 @login_required
-def additem(request):
+def userprofile(request):
     form = itemForm()
 
     if request.method == 'POST':
@@ -43,7 +39,11 @@ def additem(request):
     else:
         print(form.errors)
 
+<<<<<<< HEAD
     response = render(request, 'MILK/additem.html', {'form':form})
+=======
+    response = render(request, 'MILK/userprofile.html', {'form':form})
+>>>>>>> 2044cd81785fa7bd99cacfb612f39934c13e6aea
     return response
 
 @login_required
