@@ -7,7 +7,7 @@
 {% block body_block %}
     <h3> Create the group you want to share costs with!</h3>
     <div>
-        <form id = "groupForm", method = "post", action = "/create-group">
+        <form id = "groupForm", method = "post", action = "/create-group/">
             {% csrf_token %}
             {% for hidden in form.hidden_fields %}
                 {{ hidden }}

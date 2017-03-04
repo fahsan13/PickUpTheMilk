@@ -1,4 +1,5 @@
 {% extends 'MILK/base.html' %}
+{% load staticfiles %}
 
 {% block body_block %}
   <h3> Register here!</h3>
@@ -7,6 +8,7 @@
 
     {% csrf_token %}
     {{ form.as_p }}
+    {{ profile_form.as_p}}
 
     <!-- Button to click to submit the form -->
     <input type="submit" name="Submit"/>
