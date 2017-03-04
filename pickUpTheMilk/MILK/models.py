@@ -3,10 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User, Group
 
 class Item(models.Model):
-<<<<<<< HEAD
 
-=======
->>>>>>> 2044cd81785fa7bd99cacfb612f39934c13e6aea
     itemName = models.CharField(max_length = 128, unique = True)
 
     def __str__(self):
@@ -36,7 +33,7 @@ class Group(models.Model):
             return self.group.name
 
 class UserToGroup(models.Model):
-        userID = models.ForeignKey(User)
+        userID = models.OneToOneField(User)
         groupID = models.ForeignKey(Group)
         def __str__(self):
             return self
@@ -53,15 +50,16 @@ class ShoppingList(models.Model):
     itemID = models.ForeignKey(Item)
     itemQuantity = models.IntegerField(default = 1)
     def __str__(self):
-        return self.listID
+        return '{}'.format(self.user)
     def __unicode__(self):
         return self.listID
 
 class ItemToUser(models.Model):
     userID = models.ForeignKey(User)
     itemID = models.ForeignKey(Item)
+
     def __str__(self):
-        return self.userID
+        return '{} , {}'.format(self.userID, self.itemID)
     def __unicode__(self):
         return self.userID
 
@@ -73,7 +71,7 @@ class UserToList(models.Model):
     userID = models.ForeignKey(User)
     listID = models.ForeignKey(ShoppingList)
     def __str__(self):
-        return self.userID
+        return '{}'.format(self.userID)
     def __unicode__(self):
         return self.userID
 
