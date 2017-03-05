@@ -51,7 +51,7 @@ def creategroup(request):
     form = groupForm()
 
     if request.method == 'POST':
-        form = groupForm(request.Post)
+        form = groupForm(request.POST)
 
     if form.is_valid():
         group=form.save(commit=True)

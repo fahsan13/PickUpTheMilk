@@ -17,6 +17,9 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     balance = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
 
+#adding a profile picture
+    picture = models.ImageField(upload_to='profile_images', blank=True)
+
     def __str__(self):
         return self.user.username
     def __unicode__(self):

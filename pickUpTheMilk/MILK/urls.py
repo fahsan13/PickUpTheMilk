@@ -6,7 +6,7 @@ urlpatterns = [
     url(r'^sitemap/', views.sitemap, name= 'sitemap'),
     url(r'^contact/', views.contact, name= 'contact'),
     url(r'^about/', views.about, name= 'about'),
-    url(r'^create-group/', views.creategroup, name= 'creategroup'),
+    url(r'^create-group/', views.creategroup, name= 'create-group'),
     url(r'^profile/', views.userprofile, name= 'profile'),
 
 
