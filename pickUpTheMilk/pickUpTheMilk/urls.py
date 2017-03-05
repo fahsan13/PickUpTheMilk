@@ -18,6 +18,8 @@ from django.contrib import admin
 from django.conf.urls import include
 from MILK import views
 from registration.backends.simple.views import RegistrationView
+from django.conf import settings
+from django.conf.urls.static import static
 
 # Create a new class that redirects the user to the index page, #if successful at logging
 class MyRegistrationView(RegistrationView):
@@ -32,4 +34,4 @@ urlpatterns = [
         name='registration_register'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

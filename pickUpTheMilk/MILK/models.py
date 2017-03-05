@@ -3,10 +3,7 @@ from django.utils import timezone
 from django.contrib.auth.models import User, Group
 
 class Item(models.Model):
-<<<<<<< HEAD
 
-=======
->>>>>>> 2044cd81785fa7bd99cacfb612f39934c13e6aea
     itemName = models.CharField(max_length = 128, unique = True)
 
     def __str__(self):
