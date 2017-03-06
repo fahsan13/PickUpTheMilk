@@ -1,6 +1,6 @@
 from django import forms
-from django.contrib.auth.models import User, Group
-from MILK.models import Item, UserProfile
+from django.contrib.auth.models import User
+from MILK.models import Item, UserProfile, Group
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())
@@ -22,14 +22,14 @@ class itemForm(forms.ModelForm):
 
     # Probably want this to be auto generated rather
     # than have the user enter an ID each time...
-    itemID = forms.IntegerField(widget=forms.HiddenInput(),initial=0)
+    ##itemID = forms.IntegerField(widget=forms.HiddenInput(),initial=0)
     class Meta:
         model = Item
         fields = ('itemName',)
 
 class groupForm(forms.ModelForm):
     group = forms.CharField(max_length=128, help_text="Please enter the new group's name:")
-    groupID = forms.IntegerField(widget=forms.HiddenInput(), initial = 1000)
+   ## groupID = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
 
     class Meta:
         model = Group

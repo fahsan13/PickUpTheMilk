@@ -40,8 +40,6 @@ def userprofile(request):
         print(form.errors)
 
 
-    
-
     response = render(request, 'MILK/userprofile.html', {'form':form})
 
     return response

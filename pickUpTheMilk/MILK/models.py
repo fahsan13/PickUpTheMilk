@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User
 
 class Item(models.Model):
 
@@ -31,9 +31,9 @@ class Group(models.Model):
     group = models.CharField(max_length = 128, unique = True)
 
     def __str__(self):
-            return self.group.name
+            return self.group
     def __unicode__(self):
-            return self.group.name
+            return self.group
 
 class UserToGroup(models.Model):
         userID = models.OneToOneField(User)

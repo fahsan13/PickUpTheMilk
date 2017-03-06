@@ -3,14 +3,14 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.models import User
 
-from MILK.models import Item, ShoppingList, ItemToUser, UserToList, Transaction, UserProfile
+from MILK.models import Item, ShoppingList, ItemToUser, UserToList, Transaction, UserProfile, Group
 # Register your models here.
 
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'itemName',)
 
 class GroupAdmin(admin.ModelAdmin):
-    list_display = ('id', 'group')
+    list_display = ('id', 'group',)
 
 #display doesn't work because formated string return type is not iterable, will need fixed
 #class ItemToUser(admin.ModelAdmin):
@@ -28,3 +28,4 @@ admin.site.register(ItemToUser)
 admin.site.register(UserToList)
 admin.site.register(Transaction)
 admin.site.register(UserProfile)
+admin.site.register(Group, GroupAdmin)
