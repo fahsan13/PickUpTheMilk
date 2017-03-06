@@ -12,7 +12,32 @@
         Welcome back, {{ user.username }} </br>
         <a href="{% url 'auth_logout' %}">Logout</a> </br>
         <a href="{% url 'profile' %}">View your profile</a>
-
+		
+		<div>
+		<h6> Communal shopping List</h6>
+		</div>
+		
+        <div>
+        {% if Items %}
+        <ul>
+			<!-- Changing this to item in Items gives an error
+			message about it not being iterable. Can't say I know how to fix it -->
+            {% for item in placeholder %}
+            <li>
+			Test print
+            {{ Items.ITEMNAME }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+            Your shopping list is empty.
+			
+        {% endif %}
+        </div>
+		
+		<div>
+		<h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>
+		</div>
 
       {% else %}
         Use our website and we will harvest your shopping data and use it to target adds at you!

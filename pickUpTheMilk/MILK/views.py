@@ -4,7 +4,7 @@ from django.conf import settings
 
 # Import user profile from models
 
-from MILK.models import User, Group
+from MILK.models import User, Group, Item
 from MILK.forms import UserForm, itemForm, groupForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
@@ -12,7 +12,12 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 
 def home(request):
-    response = render(request, 'MILK/home.html', {})
+
+    #Placed here assuming we're keeping lists on home page? if I'm wrong, easy to change
+    item_list = Item.objects
+    context_dict = {'Items': item_list}
+
+    response = render(request, 'MILK/home.html', context_dict)
     return response
 
 def sitemap(request):
