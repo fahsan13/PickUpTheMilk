@@ -14,8 +14,9 @@ class Item(models.Model):
 class UserProfile(models.Model):
     # Line below links this extension to the base user model
     user = models.OneToOneField(User)
+
     balance = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
-#adding a profile picture
+    #adding a profile picture
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __str__(self):
@@ -41,7 +42,6 @@ class UserToGroup(models.Model):
             return self
         def __unicode__(self):
             return self
-
 
 
 class ShoppingList(models.Model):

@@ -10,10 +10,12 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'email', 'password')
 
 class UserProfileForm(forms.ModelForm):
-     picture = forms.FileField(widget=forms.FileInput())
-     class Meta:
-         model = UserProfile
-         fields = ('balance', 'picture')
+    balance = forms.DecimalField(widget=forms.HiddenInput(),initial=0)
+    picture = forms.ImageField(required=False)
+
+    class Meta:
+        model = UserProfile
+        fields = ('balance', 'picture')
 
 # Still in progress. Form to add item to database.
 class itemForm(forms.ModelForm):
