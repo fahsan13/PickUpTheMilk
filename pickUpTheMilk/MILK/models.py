@@ -3,7 +3,6 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 class Item(models.Model):
-
     itemName = models.CharField(max_length = 128, unique = True)
 
     def __str__(self):
@@ -16,7 +15,6 @@ class UserProfile(models.Model):
     # Line below links this extension to the base user model
     user = models.OneToOneField(User)
     balance = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
-
 #adding a profile picture
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
@@ -29,6 +27,7 @@ class UserProfile(models.Model):
 
 class Group(models.Model):
     group = models.CharField(max_length = 128, unique = True)
+    administrator = models.ForeignKey(UserProfile, null = True)
 
     def __str__(self):
             return self.group

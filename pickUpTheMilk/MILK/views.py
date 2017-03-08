@@ -54,13 +54,12 @@ def creategroup(request):
     form = groupForm()
 
     if request.method == 'POST':
-        form = groupForm(request.POST)
-
-    if form.is_valid():
-        group=form.save(commit=True)
-        print(group)
-    else:
-        print(form.errors)
+        form = groupForm(request.POST, user=request.user)
+        if form.is_valid():
+            group=form.save(commit=True)
+            print(group)
+        else:
+            print(form.errors)
 
     response = render(request, 'MILK/create-group.html', {'form':form})
     return response
