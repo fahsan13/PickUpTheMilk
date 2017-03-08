@@ -54,7 +54,7 @@ class ShoppingList(models.Model):
     def __str__(self):
         return '{}'.format(self.user)
     def __unicode__(self):
-        return self.listID
+        return '{}'.format(self.user)
 
 class ItemToUser(models.Model):
     userID = models.ForeignKey(User)
@@ -63,7 +63,7 @@ class ItemToUser(models.Model):
     def __str__(self):
         return '{} , {}'.format(self.userID, self.itemID)
     def __unicode__(self):
-        return self.userID
+        return '{} , {}'.format(self.userID, self.itemID)
 
 
 ##UserToList is an addition to ensure we could keep track of two separate
@@ -75,7 +75,7 @@ class UserToList(models.Model):
     def __str__(self):
         return '{}'.format(self.userID)
     def __unicode__(self):
-        return self.userID
+        return '{}'.format(self.userID)
 
 # have removed all user names from the below table as these can be inferred
 # from the ids
@@ -91,6 +91,6 @@ class Transaction(models.Model):
     # date is useful for checking which items have recently been purchased
     DateandTime = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return self.requestID
+        return '{}'.self.requestID
     def __unicode__(self):
-        return self.requestID
+        return '{}'.self.requestID
