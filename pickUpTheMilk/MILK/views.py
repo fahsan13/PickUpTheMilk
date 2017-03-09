@@ -14,7 +14,7 @@ from django.contrib.auth.decorators import login_required
 def home(request):
 
     #Placed here assuming we're keeping lists on home page? if I'm wrong, easy to change
-    item_list = Item.objects
+    item_list = Item.objects.order_by('id')
     context_dict = {'Items': item_list}
 
     response = render(request, 'MILK/home.html', context_dict)

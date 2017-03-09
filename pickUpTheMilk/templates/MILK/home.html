@@ -22,10 +22,9 @@
         <ul>
 			<!-- Changing this to item in Items gives an error
 			message about it not being iterable. Can't say I know how to fix it -->
-            {% for item in placeholder %}
+            {% for item in Items %}
             <li>
-			Test print
-            {{ Items.ITEMNAME }}
+            {{ item.itemName }}
             </li>
             {% endfor %}
         </ul>
