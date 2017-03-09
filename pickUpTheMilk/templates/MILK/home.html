@@ -20,8 +20,6 @@
         <div>
         {% if Items %}
         <ul>
-			<!-- Changing this to item in Items gives an error
-			message about it not being iterable. Can't say I know how to fix it -->
             {% for item in Items %}
             <li>
 				{{ item.itemName }}
@@ -30,16 +28,25 @@
         </ul>
         {% else %}
             Your shopping list is empty.
-			
-        {% endif %}
+		{% endif %}	
+        
         </div>
 		
 		<div>
 		<h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>
+		{% if Items %}
+			{% for item in Items %}
+				{% if item.itemNeedsBought %}
+				<li>
+					{{ item.itemName }}
+				</li>
+				{% endif %}
+			{% endfor %}
 		</div>
+		{% endif %}
 
       {% else %}
-        Use our website and we will harvest your shopping data and use it to target adds at you!
+        Use our website and we will harvest your shopping data and use it to target ads at you!
         <aside>
       		<p>
       			<a href="{% url 'auth_login' %}?/next=/">Login</a> or
