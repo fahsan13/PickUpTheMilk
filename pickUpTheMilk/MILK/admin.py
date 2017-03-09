@@ -7,7 +7,7 @@ from MILK.models import Item, ShoppingList, ItemToUser, UserToList, Transaction,
 # Register your models here.
 
 class ItemAdmin(admin.ModelAdmin):
-    list_display = ('id', 'itemName',)
+    list_display = ('id', 'itemName', 'itemNeedsBought')
 
 class GroupAdmin(admin.ModelAdmin):
     list_display = ('id', 'group',)
