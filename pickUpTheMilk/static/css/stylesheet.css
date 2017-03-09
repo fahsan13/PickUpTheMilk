@@ -1,8 +1,8 @@
-{% load staticfiles %}
+
 /*A wee bit of padding on the top*/
 body {
-  padding-top: 10px;
-  /*background-image: url(https://d30y9cdsu7xlg0.cloudfront.net/png/81327-200.png);*/
+  padding-top: 30px;
+  background-color : lightblue;
       }
 
 h1 {
@@ -11,13 +11,13 @@ h1 {
   border-bottom: 1px solid #eee;
     }
 
-/*Navigation Bar*/
+/*Navigation Bar maybe #3d4544?*/
 ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #3d4544;
+    background-color: #2999d0;
 }
 
 li {
@@ -31,13 +31,21 @@ li a {
     padding: 14px 16px;
     text-decoration: none;
 }
-
-/* Change the link color to #111 (black) on hover */
+/* Change the link color to white on hover */
 li a:hover {
     background-color: white;
     color: black;
 }
 
+#main {
+  background-color: #2999d0;
+  height: 100vh;
+  width: 70%;
+  margin-right: auto;
+  margin-left: auto;
+
+}
+
 .active {
-    background-color: #54f0dc;
+    background-color: #4CAF50;
 }
