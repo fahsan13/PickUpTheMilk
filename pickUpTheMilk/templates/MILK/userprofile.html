@@ -8,11 +8,9 @@
   <div>
   <h3>{{ user.username }}'s profile</h3>
 
-	<!-- Not working. Need to populate a user's default
- 			balance as 0 when they register, gonna be fun...
-			also balance isn't needed, just here for testing purposes-->
-	<h4>Your current balance is: {{ user.balance }}</h4>
-	<h4>Your id is: {{ user.getUserID }}</h4>
+	<!-- These might not all be necessary but we can see how to get this info  -->
+	<h4>Your current balance is: {{ userprofile.balance }}</h4>
+	<h4>Your profile id is: {{ user.id }}</h4>
 	<h4>Your group is: {{ user.groups.all }}</h4>
 
 	</br>
