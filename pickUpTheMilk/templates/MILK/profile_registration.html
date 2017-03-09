@@ -1,15 +1,18 @@
 {% extends 'MILK/base.html' %}
 
+{% block title_block %}
+  Registration - step 2
+{% endblock %}
+
 {% block body_block %}
-  <h3> Register here!</h3>
+  <h2> Register - Step 2</h2>
 
     <form method="post" action="." enctype="multipart/form-data">
 
     {% csrf_token %}
-
     {{ form.as_p }}
 
     <!-- Button to click to submit the form -->
-    <input type="submit" name="Submit" value="Register"/>
+    <input type="submit" name="Submit" value="Upload/Skip"/>
   </form>
 {% endblock %}

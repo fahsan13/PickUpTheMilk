@@ -1,20 +1,43 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
 
 # Import user profile from models
 
-from MILK.models import User, Group, Item
-from MILK.forms import UserForm, itemForm, groupForm
+from MILK.models import User, UserProfile, Group, Item
+from MILK.forms import UserForm, itemForm, groupForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 
-def home(request):
+@login_required
+def register_profile(request):
+    form = UserProfileForm()
 
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            user_profile = form.save(commit=False)
+            user_profile.user = request.user
+            user_profile.save()
+
+            return redirect('home')
+        else:
+            print(form.errors)
+
+<<<<<<< HEAD
     #Placed here assuming we're keeping lists on home page? if I'm wrong, easy to change
     item_list = Item.objects.order_by('id')
+=======
+    context_dict = {'form':form}
+
+    return render(request, 'MILK/profile_registration.html', context_dict)
+
+def home(request):
+    # Placed here assuming we're keeping lists on home page? if I'm wrong, easy to change
+    item_list = Item.objects
+>>>>>>> 7cc591b58019c8cbd25219cc13df92f571f3e062
     context_dict = {'Items': item_list}
 
     response = render(request, 'MILK/home.html', context_dict)
@@ -30,9 +53,21 @@ def contact(request):
 def about(request):
     return render(request, 'MILK/about.html', {})
 
-# # Work in progress...
+# # Work in progress... See Chapter 15 of TwD!
 @login_required
 def userprofile(request):
+
+    # Obtain user ID
+    user = request.user
+
+    # Instead of passing whole user object, can just assign a single
+    # field (e.d. user_id) a value from the model and pass that instead.
+    # user_id = user.id
+
+    # Retrieve UserProfile extension (containing balance/picture).
+    # We will then pass this to the profile.html
+    userprofile = UserProfile.objects.get_or_create(user=user)[0]
+
     form = itemForm()
 
     if request.method == 'POST':
@@ -44,8 +79,7 @@ def userprofile(request):
     else:
         print(form.errors)
 
-
-    response = render(request, 'MILK/userprofile.html', {'form':form})
+    response = render(request, 'MILK/userprofile.html', {'form':form,'user':user, 'userprofile': userprofile})
 
     return response
 
@@ -54,13 +88,12 @@ def creategroup(request):
     form = groupForm()
 
     if request.method == 'POST':
-        form = groupForm(request.POST)
-
-    if form.is_valid():
-        group=form.save(commit=True)
-        print(group)
-    else:
-        print(form.errors)
+        form = groupForm(request.POST, user=request.user)
+        if form.is_valid():
+            group=form.save(commit=True)
+            print(group)
+        else:
+            print(form.errors)
 
     response = render(request, 'MILK/create-group.html', {'form':form})
     return response

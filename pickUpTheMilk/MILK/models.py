@@ -3,7 +3,6 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 class Item(models.Model):
-
     itemName = models.CharField(max_length = 128, unique = True)
 
     def __str__(self):
@@ -15,9 +14,9 @@ class Item(models.Model):
 class UserProfile(models.Model):
     # Line below links this extension to the base user model
     user = models.OneToOneField(User)
-    balance = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
 
-#adding a profile picture
+    balance = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+    #adding a profile picture
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __str__(self):
@@ -29,6 +28,7 @@ class UserProfile(models.Model):
 
 class Group(models.Model):
     group = models.CharField(max_length = 128, unique = True)
+    administrator = models.ForeignKey(UserProfile, null = True)
 
     def __str__(self):
             return self.group
@@ -44,7 +44,6 @@ class UserToGroup(models.Model):
             return self
 
 
-
 class ShoppingList(models.Model):
     listID = models.IntegerField(default = 0, unique = True)
     #list name could be the address or whatever
@@ -55,7 +54,7 @@ class ShoppingList(models.Model):
     def __str__(self):
         return '{}'.format(self.user)
     def __unicode__(self):
-        return self.listID
+        return '{}'.format(self.user)
 
 class ItemToUser(models.Model):
     userID = models.ForeignKey(User)
@@ -64,7 +63,7 @@ class ItemToUser(models.Model):
     def __str__(self):
         return '{} , {}'.format(self.userID, self.itemID)
     def __unicode__(self):
-        return self.userID
+        return '{} , {}'.format(self.userID, self.itemID)
 
 
 ##UserToList is an addition to ensure we could keep track of two separate
@@ -76,7 +75,7 @@ class UserToList(models.Model):
     def __str__(self):
         return '{}'.format(self.userID)
     def __unicode__(self):
-        return self.userID
+        return '{}'.format(self.userID)
 
 # have removed all user names from the below table as these can be inferred
 # from the ids
@@ -92,6 +91,6 @@ class Transaction(models.Model):
     # date is useful for checking which items have recently been purchased
     DateandTime = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return self.requestID
+        return '{}'.self.requestID
     def __unicode__(self):
-        return self.requestID
+        return '{}'.self.requestID

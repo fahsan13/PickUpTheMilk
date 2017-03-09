@@ -10,10 +10,12 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'email', 'password')
 
 class UserProfileForm(forms.ModelForm):
-     picture = forms.FileField(widget=forms.FileInput())
-     class Meta:
-         model = UserProfile
-         fields = ('balance', 'picture')
+    balance = forms.DecimalField(widget=forms.HiddenInput(),initial=0)
+    picture = forms.ImageField(required=False)
+
+    class Meta:
+        model = UserProfile
+        fields = ('balance', 'picture')
 
 # Still in progress. Form to add item to database.
 class itemForm(forms.ModelForm):
@@ -29,8 +31,18 @@ class itemForm(forms.ModelForm):
 
 class groupForm(forms.ModelForm):
     group = forms.CharField(max_length=128, help_text="Please enter the new group's name:")
-   ## groupID = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
+    administrator = forms.ModelChoiceField(queryset= UserProfile.objects.all(), widget = forms.HiddenInput(), required = False)
+
+    def __init__(self, *args, **kwargs):
+        self.user = kwargs.pop('user', None)
+        super(groupForm, self).__init__(*args, **kwargs)
+
+    def clean_administrator(self):
+
+        return UserProfile.objects.get(user = self.user)
+
+
 
     class Meta:
         model = Group
-        fields = ('group',)
+        fields = ('group', 'administrator')

@@ -3,12 +3,12 @@ from MILK import views
 
 urlpatterns = [
     url(r'^$', views.home, name= 'home'),
-    url(r'^sitemap/', views.sitemap, name= 'sitemap'),
-    url(r'^contact/', views.contact, name= 'contact'),
-    url(r'^about/', views.about, name= 'about'),
-    url(r'^create-group/', views.creategroup, name= 'create-group'),
-    url(r'^profile/', views.userprofile, name= 'profile'),
-
+    url(r'^sitemap/$', views.sitemap, name= 'sitemap'),
+    url(r'^contact/$', views.contact, name= 'contact'),
+    url(r'^about/$', views.about, name= 'about'),
+    url(r'^create-group/$', views.creategroup, name= 'create-group'),
+    url(r'^profile/$', views.userprofile, name= 'profile'),
+    url(r'^register_profile/$', views.register_profile, name='register_profile'),
 
 
 
