@@ -11,7 +11,7 @@
   <h3>{{ selecteduser.username }}'s profile</h3>
 
 	{% if userprofile.picture %}
-		<img src="{{ MEDIA_URL }}{{userprofile.picture }}"
+		<img src="{{ MEDIA_URL }}{{ userprofile.picture }}"
      	width="64"
      	height="64"
      	alt="{{selecteduser.username}}" />
@@ -22,25 +22,28 @@
 	{% endif %}
 
 	<!-- These might not all be necessary but we can see how to get this info  -->
-	<h5>Your current balance is: {{ userprofile.balance }}</h5>
-	<h5>Your profile id is: {{ user.id }}</h5>
-	<h5>Your group is: {{ user.groups.all }}</h5>
+	<h5>{{ selecteduser.username }}'s current balance: {{ userprofile.balance }}</h5>
+	<h5> Member of: {{ user.groups.all }}</h5>
 
 	</br>
+
+
 	<div>
-		<b>Add item</b>
-		<form id="itemForm" method="post" action".">
+		{% if selecteduser.username == user.username %}
+			<b>Add item</b>
+			<form id="itemForm" method="post" action".">
 
-		{% csrf_token %}
+			{% csrf_token %}
 
-		{% for hidden in form.hidden_fields %}
-			{{ hidden }}
-		{% endfor %}
-		{% for field in form.visible_fields %}
-			{{ field.errors }}
-			{{ field.help_text }}
-			{{ field }}
-		{% endfor %}
+			{% for hidden in form.hidden_fields %}
+				{{ hidden }}
+			{% endfor %}
+
+			{% for field in form.visible_fields %}
+				{{ field.errors }}
+				{{ field.help_text }}
+				{{ field }}
+			{% endfor %}
 
 		<!-- Button to click to submit the form -->
 		<input type="submit" name="submit" value="Add Item" onClick="myAlert()"/>
@@ -50,8 +53,9 @@
 						alert("Item successfully added")}
 				</script>
 		</div>
-	<div>
-		<a href="{% url 'create-group' %}">Create a Group</a>
+		<div>
+			<a href="{% url 'create-group' %}">Create a Group</a>
     </div>
+		{% endif %}
   <div>
 {% endblock %}
