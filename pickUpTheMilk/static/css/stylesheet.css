@@ -1,0 +1,45 @@
+
+
+{% load staticfiles %}
+/*A wee bit of padding on the top*/
+body {
+  padding-top: 10px;
+  background-image: url(https://d30y9cdsu7xlg0.cloudfront.net/png/81327-200.png);
+      }
+
+h1 {
+  margin-bottom: 20px;
+  padding-bottom: 9px;
+  border-bottom: 1px solid #eee;
+    }
+
+/*Navigation Bar*/
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #3d4544;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+/* Change the link color to #111 (black) on hover */
+li a:hover {
+    background-color: white;
+    color: black;
+}
+
+.active {
+    background-color: #54f0dc;
+}
