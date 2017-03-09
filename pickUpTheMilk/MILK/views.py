@@ -50,14 +50,12 @@ def about(request):
 
 # # Work in progress... See Chapter 15 of TwD!
 @login_required
-def userprofile(request):
+def userprofile(request, username):
 
-    # Obtain user ID
-    user = request.user
-
-    # Instead of passing whole user object, can just assign a single
-    # field (e.d. user_id) a value from the model and pass that instead.
-    # user_id = user.id
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return redirect('index')
 
     # Retrieve UserProfile extension (containing balance/picture).
     # We will then pass this to the profile.html
@@ -68,13 +66,13 @@ def userprofile(request):
     if request.method == 'POST':
         form = itemForm(request.POST)
 
-    if form.is_valid():
-        item=form.save(commit=True)
-        print(item)
-    else:
-        print(form.errors)
+        if form.is_valid():
+            item=form.save(commit=True)
+            print(item)
+        else:
+            print(form.errors)
 
-    response = render(request, 'MILK/userprofile.html', {'form':form,'user':user, 'userprofile': userprofile})
+    response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user, 'userprofile': userprofile})
 
     return response
 

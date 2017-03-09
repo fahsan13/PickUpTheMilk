@@ -44,6 +44,7 @@ initial-scale=1, shrink-to-fit=no">
     <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
 
     if {% if user.is_authenticated %}
+      <a class="nav-item nav-link" href="{% url 'profile' user.username %}">Profile</a>
       <a class="nav-item nav-link" href="{% url 'auth_logout' %}">Logout</a>
     {% else %}
       <a class="nav-item nav-link" href="{% url 'auth_login' %}">Login</a>

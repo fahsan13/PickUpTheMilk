@@ -1,20 +1,32 @@
 {% extends 'MILK/base.html' %}
 
+{% load staticfiles %}
+
 {% block title_block %}
-		Profile
+		{{ selecteduser.username }} Profile
 {% endblock %}
 
 {% block body_block %}
   <div>
-  <h3>{{ user.username }}'s profile</h3>
+  <h3>{{ selecteduser.username }}'s profile</h3>
+
+	{% if userprofile.picture %}
+		<img src="{{ MEDIA_URL }}{{userprofile.picture }}"
+     	width="64"
+     	height="64"
+     	alt="{{selecteduser.username}}" />
+			<br/>
+	{% else %}
+		<img width="64" height="64" src="http://lorempixel.com/64/64/people/"/>
+		Why not upload your own profile picture?
+	{% endif %}
 
 	<!-- These might not all be necessary but we can see how to get this info  -->
-	<h4>Your current balance is: {{ userprofile.balance }}</h4>
-	<h4>Your profile id is: {{ user.id }}</h4>
-	<h4>Your group is: {{ user.groups.all }}</h4>
+	<h5>Your current balance is: {{ userprofile.balance }}</h5>
+	<h5>Your profile id is: {{ user.id }}</h5>
+	<h5>Your group is: {{ user.groups.all }}</h5>
 
 	</br>
-
 	<div>
 		<b>Add item</b>
 		<form id="itemForm" method="post" action".">

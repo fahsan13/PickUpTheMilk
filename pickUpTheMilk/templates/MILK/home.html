@@ -11,12 +11,12 @@
       {% if user.is_authenticated %}
         Welcome back, {{ user.username }} </br>
         <a href="{% url 'auth_logout' %}">Logout</a> </br>
-        <a href="{% url 'profile' %}">View your profile</a>
-		
+        <a href="{% url 'profile' user.username %}">View your profile</a>
+
 		<div>
 		<h6> Communal shopping List</h6>
 		</div>
-		
+
         <div>
         {% if Items %}
         <ul>
@@ -28,10 +28,10 @@
         </ul>
         {% else %}
             Your shopping list is empty.
-		{% endif %}	
-        
+		{% endif %}
+
         </div>
-		
+
 		<div>
 		<h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>
 		{% if Items %}
