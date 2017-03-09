@@ -26,18 +26,13 @@ def register_profile(request):
         else:
             print(form.errors)
 
-<<<<<<< HEAD
-    #Placed here assuming we're keeping lists on home page? if I'm wrong, easy to change
-    item_list = Item.objects.order_by('id')
-=======
     context_dict = {'form':form}
 
     return render(request, 'MILK/profile_registration.html', context_dict)
 
 def home(request):
     # Placed here assuming we're keeping lists on home page? if I'm wrong, easy to change
-    item_list = Item.objects
->>>>>>> 7cc591b58019c8cbd25219cc13df92f571f3e062
+    item_list = Item.objects.order_by('id')
     context_dict = {'Items': item_list}
 
     response = render(request, 'MILK/home.html', context_dict)
