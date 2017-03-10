@@ -11,13 +11,13 @@ h1 {
   border-bottom: 1px solid #eee;
     }
 
-/*Navigation Bar maybe #3d4544?*/
+/*Navigation Bar maybe #3d4544?   #2999d0*/
 ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #2999d0;
+    background-color: #3d4544;
 }
 
 li {
@@ -29,23 +29,20 @@ li a {
     color: white;
     text-align: center;
     padding: 14px 16px;
-    text-decoration: none;
+     text-decoration: none;
 }
 /* Change the link color to white on hover */
 li a:hover {
     background-color: white;
     color: black;
+     text-decoration: none;
 }
 
 #main {
-  background-color: #2999d0;
+  background-color: white;
   height: 100vh;
   width: 70%;
   margin-right: auto;
   margin-left: auto;
 
-}
-
-.active {
-    background-color: #4CAF50;
 }

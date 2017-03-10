@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- makes
     website available on all devices -->
 </head>
-<body style="background-image: url('{% static "images/bg-1.png"%}')";>
+<body style="background-image: url('{% static "images/bg-copy1.png"%}')";>
 
 
 <div>
@@ -18,8 +18,9 @@
 
 
 <!-- HEADER BAR -->
-<ul>
+<ul style="navbar">
   <!--<li><a img src="{%static "images/smalllogo.png" %}"></a> -->
+  <li><a img src="{%static "images/milklogo.png" %}>
   <li><a href="{% url 'home' %}">Homepage</a>
   <li><a href="{% url 'about' %}">About</a>
   <li><a href="{% url 'contact'%}">Contact Us</a>
@@ -39,7 +40,6 @@
 
 
  <!-- FOOTER -->
-
   <a href="{% url 'home' %}">Homepage</a>
   <a href="{% url 'about' %}">About/FAQ</a>
   <a href="{% url 'contact'%}">Contact Us</a>
