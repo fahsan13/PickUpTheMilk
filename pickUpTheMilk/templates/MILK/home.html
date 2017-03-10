@@ -1,60 +1,50 @@
 {% extends 'MILK/base.html' %}
 {% load staticfiles %}
-{% block title_block %}
-  Home
-{% endblock %}
+
+{% block title_block %} Home {% endblock %}
 
 {% block body_block %}
+<h1><img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" />Welcome to Passive Aggressive Cost-Sharing Application v. 0.1<img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" /></h1>
 
-    <h1><img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" />Welcome to Passive Aggressive Cost-Sharing Application v. 0.1<img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" /></h1>
-    <section>
-      {% if user.is_authenticated %}
-        Welcome back, {{ user.username }} </br>
-        <a href="{% url 'auth_logout' %}">Logout</a> </br>
-        <a href="{% url 'profile' user.username %}">View your profile</a>
+<section>
+    {% if user.is_authenticated %} Welcome back, {{ user.username }} </br>
 
-		<div>
-		<h6> Communal shopping List</h6>
-		</div>
-
-        <div>
+    <div>
+        <h6> Communal shopping List</h6>
+    </div>
+    <div>
         {% if Items %}
         <ul>
             {% for item in Items %}
             <li>
-				{{ item.itemName }}
+                {{ item.itemName }}
             </li>
             {% endfor %}
         </ul>
         {% else %}
-            Your shopping list is empty.
-		{% endif %}
-
-        </div>
-
-		<div>
-		<h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>
-		{% if Items %}
-			{% for item in Items %}
-				{% if item.itemNeedsBought %}
-				<li>
-					{{ item.itemName }}
-				</li>
-				{% endif %}
-			{% endfor %}
-		</div>
-		{% endif %}
-
-      {% else %}
-        Use our website and we will harvest your shopping data and use it to target ads at you!
+          Your shopping list is empty.
+        {% endif %}
+    </div>
+      <div>
+          <h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>
+          {% if Items %}
+            {% for item in Items %}
+              {% if item.itemNeedsBought %}
+                <li>
+                  {{ item.itemName }}
+                </li>
+              {% endif %}
+            {% endfor %}
+      </div>
+    {% endif %}
+    {% else %}
+      Use our website and we will harvest your shopping data and use it to target ads at you!
         <aside>
-      		<p>
-      			<a href="{% url 'auth_login' %}?/next=/">Login</a> or
-      			<a href="{% url 'registration_register' %}">Register</a>
-      		<p>
-      	</aside>
+            <p>
+                <a href="{% url 'auth_login' %}?/next=/">Login</a> or
+                <a href="{% url 'registration_register' %}">Register</a>
+                <p>
+        </aside>
       {% endif %}
-    </section>
-
-
+</section>
 {% endblock %}

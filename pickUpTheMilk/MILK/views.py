@@ -9,6 +9,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 
+# View for second page in 2-step registration process. Required as we're
+# using registration-redux package and still want to populate the UserProfile
+# fields --(initial) balance and picture-- when the user registers.
 @login_required
 def register_profile(request):
     form = UserProfileForm()
@@ -28,6 +31,7 @@ def register_profile(request):
 
     return render(request, 'MILK/profile_registration.html', context_dict)
 
+# View for the home page of the site.
 def home(request):
     # Placed here assuming we're keeping lists on home page? if I'm wrong, easy to change
     item_list = Item.objects.order_by('id')
@@ -59,7 +63,7 @@ def userprofile(request, username):
         return redirect('home')
 
     # Retrieve UserProfile extension (containing balance/picture).
-    # We will then pass this to the profile.html
+    # We will then pass this to profile.html
     userprofile = UserProfile.objects.get_or_create(user=user)[0]
 
     form = itemForm()
@@ -77,20 +81,22 @@ def userprofile(request, username):
 
     return response
 
-# TO-DO- figure out a way to get the 'create group' link to disappear from
-# a user's page if they already have a group
+# View for create-group.html.
 
+# TO-DO: Want user to be redirected to their
+# profile when they have created a group! Also,
+# the template should check if user has group; if they
+# do, they can't make another.
 @login_required
 def creategroup(request):
 
-    # Don't know if this should be here but it throws up errors after first 'if'
-    form = groupForm(request.user, request.POST)
+    form = groupForm(request.POST)
 
     # Get currently logged in user.
     user=request.user
 
     if request.method == 'POST':
-        # form = groupForm(request.user, request.POST)
+        form = groupForm(request.user, request.POST)
         if form.is_valid():
             # Save the group
             group=form.save(commit=True)
@@ -99,6 +105,7 @@ def creategroup(request):
             # Add user to this newly created group :)
             user.groups.add(groupname)
             print(group)
+            return userprofile(request, user.username)
         else:
             print(form.errors)
 

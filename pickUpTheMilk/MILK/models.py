@@ -2,6 +2,7 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User, Group
 
+# Class for an item: tracks its name and whether or not it needs bought.
 class Item(models.Model):
 
     itemName = models.CharField(max_length = 128, unique = True)
@@ -26,15 +27,12 @@ class UserProfile(models.Model):
     def getUserID(self):
         return self.user.id
 
-# Extension to the default Django Group model
+# Extension to the default Django Group model. Stores Administrator for a group.
 class GroupDetail(models.Model):
     # Links this extension to the default Django Group model
     group = models.OneToOneField(Group)
     # Additional group details we want to store
     administrator = models.ForeignKey(User, null = True, related_name = 'the_group_creator')
-
-
-    # member = models.ManyToManyField(User)
 
     def __str__(self):
         return '{}'.format(self.group)
@@ -52,7 +50,7 @@ class UserToGroup(models.Model):
 
 class ShoppingList(models.Model):
     listID = models.IntegerField(default = 0, unique = True)
-    #list name could be the address or whatever
+    # List name could be the address or whatever
     listName = models.CharField(max_length = 128, unique = False)
     user = models.ForeignKey(User, related_name ='ID')
     itemID = models.ForeignKey(Item)
@@ -71,9 +69,9 @@ class ItemToUser(models.Model):
     def __unicode__(self):
         return '{} , {}'.format(self.userID, self.itemID)
 
-##UserToList is an addition to ensure we could keep track of two separate
-##groups with two separate lists (no overlap of users with multiple groups at
-## this stage)
+# UserToList is an addition to ensure we could keep track of two separate
+# groups with two separate lists (no overlap of users with multiple groups at
+# this stage)
 class UserToList(models.Model):
     userID = models.ForeignKey(User)
     listID = models.ForeignKey(ShoppingList)
@@ -82,18 +80,18 @@ class UserToList(models.Model):
     def __unicode__(self):
         return '{}'.format(self.userID)
 
-# have removed all user names from the below table as these can be inferred
-# from the ids
+# Dave removed all user names from the below table as these can be inferred
+# from the IDs
 class Transaction(models.Model):
     requestID = models.IntegerField(default = 0, unique = True)
     requestorID = models.ForeignKey(ItemToUser, related_name = 'requestorID')
     purchaserID = models.ForeignKey(User, related_name = 'purchaserID')
     payeeID = models.ForeignKey(User, related_name = 'payeeID')
     itemID = models.ForeignKey(Item, related_name = 'transactionItem')
-    # can handle items costing up to 9999.99
+    # Can handle items costing up to 9999.99
     value = models.DecimalField(max_digits=6, decimal_places=2)
     itemQuantity = models.IntegerField(default =1)
-    # date is useful for checking which items have recently been purchased
+    # Date is useful for checking which items have recently been purchased
     DateandTime = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return '{}'.self.requestID

@@ -9,8 +9,4 @@ urlpatterns = [
     url(r'^create-group/$', views.creategroup, name= 'create-group'),
     url(r'^profile/(?P<username>[\w\-]+)/$', views.userprofile, name= 'profile'),
     url(r'^register_profile/$', views.register_profile, name='register_profile'),
-
-    # Work in progress
-    # url(r'^profileID=(?P<userID>[\w\-]+)/', views.userprofile, name= 'profile'),
-    # url(r'^profileID=(?P<userID>^\d*[1-9]\d*$)/', views.userprofile, name= 'profile'),
 ]

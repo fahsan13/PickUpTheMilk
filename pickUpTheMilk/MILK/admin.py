@@ -2,9 +2,7 @@ from django.contrib import admin
 from django.core.urlresolvers import reverse
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.contrib.auth.models import User, Group
-
 from MILK.models import Item, ShoppingList, ItemToUser, UserToList, Transaction, UserProfile, GroupDetail, UserToGroup
-# Register your models here.
 
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'itemName', 'itemNeedsBought')

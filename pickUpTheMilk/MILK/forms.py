@@ -24,7 +24,6 @@ class itemForm(forms.ModelForm):
 class groupForm(forms.ModelForm):
     group = forms.CharField(max_length=128, help_text="Please enter the new group's name:")
     administrator = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
-    # member = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
 
     def __init__(self, user, *args, **kwargs):
         self.user = user
@@ -37,15 +36,9 @@ class groupForm(forms.ModelForm):
     def clean_administrator(self):
         return User.objects.get(id = self.user.id)
 
-    # def clean_member(self):
-    #     return User.objects.get(id = self.user.id)
-    # #
-
     def save(self, commit = True):
         # This is an attempt to override the save method to stop the group creating itself twice
         new_group_detail = GroupDetail.objects.create(group = self.cleaned_data.get('group'),administrator = self.cleaned_data.get('administrator'))
-        # first_member = self.cleaned_data.get('member')
-        # new_group_detail.member.add(first_member)
         
     class Meta:
         model = Group
