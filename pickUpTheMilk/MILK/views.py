@@ -5,7 +5,7 @@ from django.conf import settings
 # Import user profile from models
 
 from MILK.models import User, UserProfile, Group, Item
-from MILK.forms import UserForm, itemForm, groupForm, UserProfileForm
+from MILK.forms import itemForm, groupForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -55,7 +55,7 @@ def userprofile(request, username):
     try:
         user = User.objects.get(username=username)
     except User.DoesNotExist:
-        return redirect('index')
+        return redirect('home')
 
     # Retrieve UserProfile extension (containing balance/picture).
     # We will then pass this to the profile.html
@@ -81,7 +81,7 @@ def creategroup(request):
     form = groupForm()
 
     if request.method == 'POST':
-        form = groupForm(request.POST, user=request.user)
+        form = groupForm(request.POST, user=request.user.id)
         if form.is_valid():
             group=form.save(commit=True)
             print(group)

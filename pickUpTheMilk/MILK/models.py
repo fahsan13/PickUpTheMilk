@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 class Item(models.Model):
 
@@ -13,11 +13,10 @@ class Item(models.Model):
 
 # Extension to the default Django User model to add 'balance' field
 class UserProfile(models.Model):
-    # Line below links this extension to the base user model
+    # Line below links this extension to Django's User model
     user = models.OneToOneField(User)
-
+    # Additional fields we want to track/store
     balance = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
-    #adding a profile picture
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __str__(self):
@@ -27,23 +26,27 @@ class UserProfile(models.Model):
     def getUserID(self):
         return self.user.id
 
-class Group(models.Model):
-    group = models.CharField(max_length = 128, unique = True)
-    administrator = models.ForeignKey(UserProfile, null = True)
+# Extension to the default Django Group model
+class GroupDetail(models.Model):
+    # Links this extension to the default Django Group model
+    group = models.OneToOneField(Group)
+    # Additional group details we want to store
+    administrator = models.ForeignKey(UserProfile, null = True, related_name = 'the_group_creator')
+    member = models.ManyToManyField(UserProfile)
 
     def __str__(self):
-            return self.group
+        return '{}'.format(self.group)
     def __unicode__(self):
-            return self.group
+        return '{}'.format(self.group)
 
 class UserToGroup(models.Model):
-        userID = models.OneToOneField(User)
-        groupID = models.ForeignKey(Group)
-        def __str__(self):
-            return self
-        def __unicode__(self):
-            return self
+    userID = models.OneToOneField(User)
+    groupID = models.ForeignKey(Group)
 
+    def __str__(self):
+        return '{}'.format(self.id)
+    def __unicode__(self):
+        return '{}'.format(self.id)
 
 class ShoppingList(models.Model):
     listID = models.IntegerField(default = 0, unique = True)
@@ -65,7 +68,6 @@ class ItemToUser(models.Model):
         return '{} , {}'.format(self.userID, self.itemID)
     def __unicode__(self):
         return '{} , {}'.format(self.userID, self.itemID)
-
 
 ##UserToList is an addition to ensure we could keep track of two separate
 ##groups with two separate lists (no overlap of users with multiple groups at
