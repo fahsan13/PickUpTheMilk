@@ -78,15 +78,14 @@ def userprofile(request, username):
             print(form.errors)
 
     response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user, 'userprofile': userprofile,})
-
     return response
 
 # View for create-group.html.
-
-# TO-DO: Want user to be redirected to their
-# profile when they have created a group! Also,
-# the template should check if user has group; if they
-# do, they can't make another.
+# Need to implement error handling for when
+# group with a given name already exists IF
+# we don't later refactor this so that we use
+# group IDs in URLs instead of unique group names but thats
+# a bit harder and I can't be bothered right now.
 @login_required
 def creategroup(request):
 
@@ -110,4 +109,44 @@ def creategroup(request):
             print(form.errors)
 
     response = render(request, 'MILK/create-group.html', {'form':form})
+    return response
+
+def userprofile(request, username):
+
+    try:
+        user = User.objects.get(username=username)
+    except User.DoesNotExist:
+        return redirect('home')
+
+    # Retrieve UserProfile extension (containing balance/picture).
+    # We will then pass this to profile.html
+    userprofile = UserProfile.objects.get_or_create(user=user)[0]
+
+    form = itemForm()
+
+    if request.method == 'POST':
+        form = itemForm(request.POST)
+
+        if form.is_valid():
+            item=form.save(commit=True)
+            print(item)
+        else:
+            print(form.errors)
+
+    response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user, 'userprofile': userprofile,})
+    return response
+
+# View for communal group page
+# NOTE: urls for a group can't have spaces yet - regex doesn't
+# account for them. May need to clean group names to remove spaces
+# when they're created.
+@login_required
+def grouppage(request, groupname):
+    # Work in progress...
+    try:
+        group = Group.objects.get(name=groupname)
+    except Group.DoesNotExist:
+        return redirect('home')
+
+    response = render(request, 'MILK/grouppage.html', {'group':group})
     return response

@@ -5,8 +5,11 @@
 {% endblock %}
 
 {% block body_block %}
-    <h3> Create the group you want to share costs with!</h3>
-    <div>
+    {% if user.groups.all.0 %}
+      <h3>Unable to create new group! You are already a member of: {{ user.groups.all.0 }}</h3>
+    {% else %}
+      <h3> Create the group you want to share costs with!</h3>
+      <div>
         <form id = "groupForm", method = "post", action = "/create-group/">
             {% csrf_token %}
 
@@ -18,6 +21,7 @@
                 {{ field.help_text }}
                 {{ field }}
             {% endfor %}
-            <input type="submit" name="submit" value="Submit" />
-          </form>
+          <input type="submit" name="submit" value="Submit" />
+        </form>
+    {% endif %}
 {% endblock%}

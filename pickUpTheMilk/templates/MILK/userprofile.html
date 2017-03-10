@@ -18,7 +18,11 @@
 			<br/>
 	{% else %}
 		<img width="64" height="64" src="http://lorempixel.com/64/64/people/"/>
-		Why not upload your own profile picture?
+		{% if selecteduser.username == user.username %}
+			Why not upload your own profile picture?
+		{% else %}
+			{{ selecteduser.username }} hasn't uploaded a profile picture.
+		{% endif %}
 	{% endif %}
 
 	<!-- These might not all be necessary but we can see how to get this info  -->
@@ -26,13 +30,22 @@
 	<!-- Think this will only display first group properly, BUT they should only have one in the simplest case -->
 
 	<div>
-	{% if user.groups.all.0 %}
-		<h5>Member of: {{ user.groups.all.0 }}</h5>
+	{% if selecteduser.groups.all.0 %}
+		<h5>
+			Member of group: {{ selecteduser.groups.all.0 }}</br>
+			<a href="{% url 'group' user.groups.all.0 %}">Visit your group page</a>
+	 </h5>
+
+
 	{% else %}
 			<h5>Not a member of any groups :(</h5>
 			<div>
 				<a href="{% url 'create-group' %}">Create a Group</a>
 	    </div>
+
+			</br>
+			<h5>POSSIBLE TO-DO: GIVE THEM A WAY TO JOIN AN EXISTING GROUP?</h5>
+
 	{% endif %}
 	</div>
 	</br>

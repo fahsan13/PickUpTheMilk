@@ -30,7 +30,8 @@ class groupForm(forms.ModelForm):
         super(groupForm, self).__init__(*args, **kwargs)
 
     def clean_group(self):
-        new_group, _ = Group.objects.get_or_create(name = self.cleaned_data.get('group'))
+        # .replace bit strips all whitespace from name entered.
+        new_group, _ = Group.objects.get_or_create(name = self.cleaned_data.get('group').replace(" ", ""))
         return new_group
 
     def clean_administrator(self):
@@ -39,7 +40,7 @@ class groupForm(forms.ModelForm):
     def save(self, commit = True):
         # This is an attempt to override the save method to stop the group creating itself twice
         new_group_detail = GroupDetail.objects.create(group = self.cleaned_data.get('group'),administrator = self.cleaned_data.get('administrator'))
-        
+
     class Meta:
         model = Group
         fields = ('group', 'administrator')
