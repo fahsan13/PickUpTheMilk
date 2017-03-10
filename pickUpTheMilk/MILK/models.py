@@ -31,8 +31,10 @@ class GroupDetail(models.Model):
     # Links this extension to the default Django Group model
     group = models.OneToOneField(Group)
     # Additional group details we want to store
-    administrator = models.ForeignKey(UserProfile, null = True, related_name = 'the_group_creator')
-    member = models.ManyToManyField(UserProfile)
+    administrator = models.ForeignKey(User, null = True, related_name = 'the_group_creator')
+
+
+    # member = models.ManyToManyField(User)
 
     def __str__(self):
         return '{}'.format(self.group)

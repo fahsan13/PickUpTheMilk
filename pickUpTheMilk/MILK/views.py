@@ -78,12 +78,22 @@ def userprofile(request, username):
 
 @login_required
 def creategroup(request):
-    form = groupForm()
+
+    # Don't know if this should be here but it throws up errors after first 'if'
+    form = groupForm(request.user, request.POST)
+
+    # Get currently logged in user.
+    user=request.user
 
     if request.method == 'POST':
-        form = groupForm(request.POST, user=request.user.id)
+        # form = groupForm(request.user, request.POST)
         if form.is_valid():
+            # Save the group
             group=form.save(commit=True)
+            # Get group name from form; field within form containing name is 'group'!
+            groupname=form.cleaned_data['group']
+            # Add user to this newly created group :)
+            user.groups.add(groupname)
             print(group)
         else:
             print(form.errors)
