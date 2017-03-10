@@ -2,8 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
 
-# Import user profile from models
-
 from MILK.models import User, UserProfile, Group, Item
 from MILK.forms import itemForm, groupForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
@@ -48,8 +46,11 @@ def contact(request):
 def about(request):
     return render(request, 'MILK/about.html', {})
 
-# # Work in progress... See Chapter 15 of TwD!
-@login_required
+# TO-DO - list all members of a group
+# Let admin of a group add other members
+# This could be done by checking against group details
+# if (currentuser == administrator)
+#   display links to allow them to add users@login_required
 def userprofile(request, username):
 
     try:
@@ -72,9 +73,12 @@ def userprofile(request, username):
         else:
             print(form.errors)
 
-    response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user, 'userprofile': userprofile})
+    response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user, 'userprofile': userprofile,})
 
     return response
+
+# TO-DO- figure out a way to get the 'create group' link to disappear from
+# a user's page if they already have a group
 
 @login_required
 def creategroup(request):

@@ -23,10 +23,19 @@
 
 	<!-- These might not all be necessary but we can see how to get this info  -->
 	<h5>{{ selecteduser.username }}'s current balance: {{ userprofile.balance }}</h5>
-	<h5> Member of: {{ user.groups.all }}</h5>
+	<!-- Think this will only display first group properly, BUT they should only have one in the simplest case -->
 
+	<div>
+	{% if user.groups.all.0 %}
+		<h5>Member of: {{ user.groups.all.0 }}</h5>
+	{% else %}
+			<h5>Not a member of any groups :(</h5>
+			<div>
+				<a href="{% url 'create-group' %}">Create a Group</a>
+	    </div>
+	{% endif %}
+	</div>
 	</br>
-
 
 	<div>
 		{% if selecteduser.username == user.username %}
@@ -53,9 +62,7 @@
 						alert("Item successfully added")}
 				</script>
 		</div>
-		<div>
-			<a href="{% url 'create-group' %}">Create a Group</a>
-    </div>
+
 		{% endif %}
   <div>
 {% endblock %}
