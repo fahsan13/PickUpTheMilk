@@ -62,3 +62,10 @@ class groupForm(forms.ModelForm):
     class Meta:
         model = Group
         fields = ('group', 'administrator')
+
+# Allows admin to add a user to a group
+# TO-DO - any way to filter so only shows users who have no
+# group?
+class AddUser(forms.Form):
+    user = forms.ModelChoiceField(queryset= User.objects.all())
+    # user = forms.ModelChoiceField(queryset= User.objects.get(groups = None))
