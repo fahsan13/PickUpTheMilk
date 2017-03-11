@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
 
-from MILK.models import User, UserProfile, Group, Item
+from MILK.models import User, UserProfile, Group, GroupDetail, Item
 from MILK.forms import itemForm, groupForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
@@ -155,10 +155,15 @@ def userprofile(request, username):
 @login_required
 def grouppage(request, groupname):
     # Work in progress...
+
+    # Get current user
+    user=request.user
+
     try:
-        group = Group.objects.get(name=groupname)
+        groupname = Group.objects.get(name=groupname)
+        groupdetail = GroupDetail.objects.get(group=groupname)
     except Group.DoesNotExist:
         return redirect('home')
 
-    response = render(request, 'MILK/grouppage.html', {'group':group})
+    response = render(request, 'MILK/grouppage.html', {'group':groupname, 'groupdetail':groupdetail, 'user':user,})
     return response

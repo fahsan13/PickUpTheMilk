@@ -9,8 +9,19 @@
 {% block body_block %}
   <div>
   <h3>Group page for {{ group.name }}</h3>
-  This is where we will display collective group info!
+  <h4>Your group admin is <a href="{% url 'profile' groupdetail.administrator %}">{{ groupdetail.administrator }}</a></h4>
+
+  This is where we will display collective group info!</br>
 
   To-do: links to all other group members profiles.
+
+
+
+    <div>
+      {% if user == groupdetail.administrator %}
+        You can see this because you're the group admin!
+        This is where you might do admin stuff, like add users...
+      {% endif %}
+
 
 {% endblock %}
