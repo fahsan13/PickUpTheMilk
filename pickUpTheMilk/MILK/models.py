@@ -6,6 +6,7 @@ from django.contrib.auth.models import User, Group
 class Item(models.Model):
 
     itemName = models.CharField(max_length = 128, unique = True)
+    groupBuying = models.ForeignKey(Group, default=0)
     itemNeedsBought = models.BooleanField(default = False)
     def __str__(self):
         return self.itemName
@@ -52,13 +53,13 @@ class ShoppingList(models.Model):
     listID = models.IntegerField(default = 0, unique = True)
     # List name could be the address or whatever
     listName = models.CharField(max_length = 128, unique = False)
-    user = models.ForeignKey(User, related_name ='ID')
+    groupName = models.ForeignKey(Group, default=0)
     itemID = models.ForeignKey(Item)
     itemQuantity = models.IntegerField(default = 1)
     def __str__(self):
-        return '{}'.format(self.user)
+        return '{}'.format(self.groupName)
     def __unicode__(self):
-        return '{}'.format(self.user)
+        return '{}'.format(self.groupName)
 
 class ItemToUser(models.Model):
     userID = models.ForeignKey(User)

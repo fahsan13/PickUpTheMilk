@@ -66,6 +66,9 @@ def userprofile(request, username):
     # We will then pass this to profile.html
     userprofile = UserProfile.objects.get_or_create(user=user)[0]
 
+
+
+
     form = itemForm()
 
     if request.method == 'POST':
@@ -73,11 +76,20 @@ def userprofile(request, username):
 
         if form.is_valid():
             item=form.save(commit=True)
+            group = user.groups.all(id=0)
+            item.groupBuying = request.POST[group]
+            item.save()
+
             print(item)
+
         else:
             print(form.errors)
 
-    response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user, 'userprofile': userprofile,})
+     # List not populating on usder profile page, not sure why yet
+
+    item_list = Item.objects.order_by('id')
+    context_dict = {'Items': item_list}
+    response = render(request, 'MILK/userprofile.html', context_dict, {'form':form, 'selecteduser':user, 'userprofile': userprofile,})
     return response
 
 # View for create-group.html.

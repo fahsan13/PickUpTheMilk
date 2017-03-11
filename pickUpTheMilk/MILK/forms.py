@@ -13,8 +13,10 @@ class UserProfileForm(forms.ModelForm):
 
 # Form to add an item to database.
 class itemForm(forms.ModelForm):
+
+
     itemName = forms.CharField(max_length=128,
-                        help_text="Please enter the item name:")
+                               help_text="Please enter the item name:")
 
     class Meta:
         model = Item

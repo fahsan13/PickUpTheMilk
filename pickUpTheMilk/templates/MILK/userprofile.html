@@ -34,23 +34,8 @@
 		<h5>
 			Member of group: {{ selecteduser.groups.all.0 }}</br>
 			<a href="{% url 'group' user.groups.all.0 %}">Visit your group page</a>
-	 </h5>
-
-
-	{% else %}
-			<h5>Not a member of any groups :(</h5>
-			<div>
-				<a href="{% url 'create-group' %}">Create a Group</a>
-	    </div>
-
-			</br>
-			<h5>POSSIBLE TO-DO: GIVE THEM A WAY TO JOIN AN EXISTING GROUP?</h5>
-
-	{% endif %}
-	</div>
-	</br>
-
-	<div>
+	     </h5>
+    <div>
 		{% if selecteduser.username == user.username %}
 			<b>Add item</b>
 			<form id="itemForm" method="post" action".">
@@ -74,8 +59,36 @@
 					function myAlert() {
 						alert("Item successfully added")}
 				</script>
-		</div>
-
 		{% endif %}
+
+	</div>
+<!-- View Group list -->
+         <div>
+        {% if Items %}
+        <ul>
+            {% for item in Items %}
+            <li>
+                {{ item.itemName }}
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+          Your shopping list is empty.
+        {% endif %}
+    </div>
+	{% else %}
+			<h5>Not a member of any groups :(</h5>
+			<div>
+				<a href="{% url 'create-group' %}">Create a Group</a>
+	    </div>
+
+			</br>
+			<h5>POSSIBLE TO-DO: GIVE THEM A WAY TO JOIN AN EXISTING GROUP?</h5>
+
+	{% endif %}
+	</div>
+	</br>
+
+
   <div>
 {% endblock %}
