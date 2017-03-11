@@ -14,13 +14,29 @@ class UserProfileForm(forms.ModelForm):
 # Form to add an item to database.
 class itemForm(forms.ModelForm):
 
-
     itemName = forms.CharField(max_length=128,
                                help_text="Please enter the item name:")
+    addedby = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        group = kwargs.pop(Group, None)
+
+        super(itemForm, self).__init__(*args, **kwargs)
+
+    def clean_addedby(self):
+        user = User.objects.get(id = self.user.id)
+        return user
+
+    def clean_groupBuying(self):
+        print("hihi")
+
+        return group
+
 
     class Meta:
         model = Item
-        fields = ('itemName',)
+        fields = ('itemName', 'addedby')
 
 # Used when a new group is created
 class groupForm(forms.ModelForm):

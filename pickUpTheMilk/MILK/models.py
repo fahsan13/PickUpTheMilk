@@ -6,8 +6,9 @@ from django.contrib.auth.models import User, Group
 class Item(models.Model):
 
     itemName = models.CharField(max_length = 128, unique = True)
-    groupBuying = models.ForeignKey(Group, default=0)
+    groupBuying = models.ForeignKey(Group, null = True)
     itemNeedsBought = models.BooleanField(default = False)
+    addedby = models.ForeignKey(User, null = True)
     def __str__(self):
         return self.itemName
     def __unicode__(self):
@@ -34,6 +35,7 @@ class GroupDetail(models.Model):
     group = models.OneToOneField(Group)
     # Additional group details we want to store
     administrator = models.ForeignKey(User, null = True, related_name = 'the_group_creator')
+    shoppinglist = models.ManyToManyField(Item)
 
     def __str__(self):
         return '{}'.format(self.group)
@@ -49,43 +51,14 @@ class UserToGroup(models.Model):
     def __unicode__(self):
         return '{}'.format(self.id)
 
-class ShoppingList(models.Model):
-    listID = models.IntegerField(default = 0, unique = True)
-    # List name could be the address or whatever
-    listName = models.CharField(max_length = 128, unique = False)
-    groupName = models.ForeignKey(Group, default=0)
-    itemID = models.ForeignKey(Item)
-    itemQuantity = models.IntegerField(default = 1)
-    def __str__(self):
-        return '{}'.format(self.groupName)
-    def __unicode__(self):
-        return '{}'.format(self.groupName)
 
-class ItemToUser(models.Model):
-    userID = models.ForeignKey(User)
-    itemID = models.ForeignKey(Item)
 
-    def __str__(self):
-        return '{} , {}'.format(self.userID, self.itemID)
-    def __unicode__(self):
-        return '{} , {}'.format(self.userID, self.itemID)
-
-# UserToList is an addition to ensure we could keep track of two separate
-# groups with two separate lists (no overlap of users with multiple groups at
-# this stage)
-class UserToList(models.Model):
-    userID = models.ForeignKey(User)
-    listID = models.ForeignKey(ShoppingList)
-    def __str__(self):
-        return '{}'.format(self.userID)
-    def __unicode__(self):
-        return '{}'.format(self.userID)
 
 # Dave removed all user names from the below table as these can be inferred
 # from the IDs
 class Transaction(models.Model):
     requestID = models.IntegerField(default = 0, unique = True)
-    requestorID = models.ForeignKey(ItemToUser, related_name = 'requestorID')
+    #requestorID = models.ForeignKey(Ite, related_name = 'requestorID')
     purchaserID = models.ForeignKey(User, related_name = 'purchaserID')
     payeeID = models.ForeignKey(User, related_name = 'payeeID')
     itemID = models.ForeignKey(Item, related_name = 'transactionItem')
@@ -98,3 +71,40 @@ class Transaction(models.Model):
         return '{}'.self.requestID
     def __unicode__(self):
         return '{}'.self.requestID
+
+
+
+
+#graveyard of unused models
+
+
+#class ShoppingList(models.Model):
+#    listID = models.IntegerField(default = 0, unique = True)
+    # List name could be the address or whatever
+#    listName = models.CharField(max_length = 128, unique = False)
+#    groupName = models.ForeignKey(Group, default=0)
+#    itemID = models.ForeignKey(Item)
+#    itemQuantity = models.IntegerField(default = 1)
+#    def __str__(self):
+#        return '{}'.format(self.groupName)
+#    def __unicode__(self):
+#        return '{}'.format(self.groupName)
+
+
+#class ItemToUser(models.Model):
+#    userID = models.ForeignKey(User)
+#    itemID = models.ForeignKey(Item)
+
+#    def __str__(self):
+#        return '{} , {}'.format(self.userID, self.itemID)
+#    def __unicode__(self):
+#        return '{} , {}'.format(self.userID, self.itemID)
+
+
+#class UserToList(models.Model):
+#    userID = models.ForeignKey(User)
+#    listID = models.ForeignKey(ShoppingList)
+#    def __str__(self):
+#        return '{}'.format(self.userID)
+#    def __unicode__(self):
+#        return '{}'.format(self.userID)

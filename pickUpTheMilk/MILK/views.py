@@ -66,16 +66,16 @@ def userprofile(request, username):
     # We will then pass this to profile.html
     userprofile = UserProfile.objects.get_or_create(user=user)[0]
 
-
-
-
-    form = itemForm()
-
+    form = itemForm(request.user, request.POST)
     if request.method == 'POST':
         form = itemForm(request.POST)
 
+        # Get currently logged in user.
+        user=request.user
+
         if form.is_valid():
             item=form.save(commit=True)
+            addedby=form.cleaned_data['addedby']
             group = user.groups.all(id=0)
             item.groupBuying = request.POST[group]
             item.save()
@@ -134,14 +134,15 @@ def userprofile(request, username):
     # We will then pass this to profile.html
     userprofile = UserProfile.objects.get_or_create(user=user)[0]
 
-    form = itemForm()
-
+    form = itemForm(user)
     if request.method == 'POST':
-        form = itemForm(request.POST)
-
+        form = itemForm(request.user, request.POST)
         if form.is_valid():
             item=form.save(commit=True)
-            print(item)
+            currentuser = form.cleaned_data['addedby']
+            currentgroup = form.cleaned_data['groupBuying']
+            item.groupBuying = currentgroup
+            item.addedby = currentuser
         else:
             print(form.errors)
 
