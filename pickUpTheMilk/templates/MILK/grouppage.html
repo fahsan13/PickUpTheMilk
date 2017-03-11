@@ -8,7 +8,7 @@
 
 {% block body_block %}
   <div>
-  <h3>Group page for {{ group.name }}</h3>
+  <h3>Group page for {{ currentgroup.name }}</h3>
   <h4>Your group admin is <a href="{% url 'profile' groupdetail.administrator %}">{{ groupdetail.administrator }}</a></h4>
 
   This is where we will display collective group info!</br>
@@ -16,11 +16,30 @@
   To-do: links to all other group members profiles.
 
 
-
     <div>
       {% if user == groupdetail.administrator %}
-        You can see this because you're the group admin!
-        This is where you might do admin stuff, like add users...
+      <b>You can see this because you're the group admin!</b></br></br>
+        NOTE: listing every user; try to filter this so it only returns users who have no group</br>
+        But will probably make it a search field later so admin can enter a username </br>
+        Would still have to handle case where user already has a group.</br>
+
+        <form id="AddUser" method="post" action".">
+
+        {% csrf_token %}
+
+        {% for hidden in form.hidden_fields %}
+          {{ hidden }}
+        {% endfor %}
+
+        {% for field in form.visible_fields %}
+          {{ field.errors }}
+          {{ field.help_text }}
+          {{ field }}
+        {% endfor %}
+
+      <!-- Button to click to submit the form -->
+      <input type="submit" name="submit" value="Add a member to {{ currentgroup.name }}"
+
       {% endif %}
 
 

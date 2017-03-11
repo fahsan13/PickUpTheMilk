@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.conf import settings
 
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
-from MILK.forms import itemForm, groupForm, UserProfileForm
+from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -149,21 +149,31 @@ def userprofile(request, username):
     return response
 
 # View for communal group page
-# NOTE: urls for a group can't have spaces yet - regex doesn't
-# account for them. May need to clean group names to remove spaces
-# when they're created.
 @login_required
 def grouppage(request, groupname):
-    # Work in progress...
 
     # Get current user
     user=request.user
-
     try:
+        # No idea why this is working; change groupname
+        # reference on left and it breaks :/
         groupname = Group.objects.get(name=groupname)
         groupdetail = GroupDetail.objects.get(group=groupname)
     except Group.DoesNotExist:
         return redirect('home')
 
-    response = render(request, 'MILK/grouppage.html', {'group':groupname, 'groupdetail':groupdetail, 'user':user,})
+    if request.method == 'POST':
+        form = AddUser(request.POST)
+
+        if form.is_valid():
+            selecteduser = form.cleaned_data['user']
+            selecteduser.groups.add(groupname)
+            print("User successfully added!")
+        else:
+            print(form.errors)
+    else:
+        # Not a POST, so just render empty form
+        form = AddUser()
+
+    response = render(request, 'MILK/grouppage.html', {'currentgroup':groupname, 'groupdetail':groupdetail, 'user':user, 'form':form})
     return response
