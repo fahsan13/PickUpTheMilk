@@ -66,9 +66,6 @@ def userprofile(request, username):
     # We will then pass this to profile.html
     userprofile = UserProfile.objects.get_or_create(user=user)[0]
 
-
-
-
     form = itemForm()
 
     if request.method == 'POST':
@@ -154,6 +151,9 @@ def grouppage(request, groupname):
 
     # Get current user
     user=request.user
+    # Get all members of the group
+    groupmembers = User.objects.filter(groups__name=groupname)
+
     try:
         # No idea why this is working; change groupname
         # reference on left and it breaks :/
@@ -175,5 +175,5 @@ def grouppage(request, groupname):
         # Not a POST, so just render empty form
         form = AddUser()
 
-    response = render(request, 'MILK/grouppage.html', {'currentgroup':groupname, 'groupdetail':groupdetail, 'user':user, 'form':form})
+    response = render(request, 'MILK/grouppage.html', {'currentgroup':groupname, 'groupdetail':groupdetail, 'user':user, 'form':form, 'members':groupmembers})
     return response

@@ -17,12 +17,12 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #3d4544;
+    /*background-color: #3d4544;*/
 }
 
-li {
+/*li {
     float: left;
-}
+}*/
 
 li a {
     display: block;

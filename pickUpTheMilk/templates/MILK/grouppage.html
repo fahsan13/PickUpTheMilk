@@ -11,10 +11,13 @@
   <h3>Group page for {{ currentgroup.name }}</h3>
   <h4>Your group admin is <a href="{% url 'profile' groupdetail.administrator %}">{{ groupdetail.administrator }}</a></h4>
 
-  This is where we will display collective group info!</br>
+  This is where we will display collective group info!</br></br>
 
-  To-do: links to all other group members profiles.
-
+  <div><b>Group Members</b>
+    {% for user in members %}
+      <ul><a href="{% url 'profile' user.username %}">{{ user.username }}</a></ul>
+    {% endfor %}
+  </div></br>
 
     <div>
       {% if user == groupdetail.administrator %}
