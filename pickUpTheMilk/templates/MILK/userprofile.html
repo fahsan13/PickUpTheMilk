@@ -30,10 +30,10 @@
 	<!-- Think this will only display first group properly, BUT they should only have one in the simplest case -->
 
 	<div>
-	{% if selecteduser.groups.all.0 %}
+	{% if userprofile.group %}
 		<h5>
-			Member of group: {{ selecteduser.groups.all.0 }}</br>
-			<a href="{% url 'group' user.groups.all.0 %}">Visit your group page</a>
+			Member of group: {{ userprofile.group }}</br>
+			<a href="{% url 'group' userprofile.group %}">Visit your group page</a>
 	     </h5>
     <div>
 		{% if selecteduser.username == user.username %}
