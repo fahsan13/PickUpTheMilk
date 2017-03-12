@@ -2,8 +2,7 @@ from django.contrib import admin
 from django.core.urlresolvers import reverse
 from django.contrib.auth.admin import UserAdmin, GroupAdmin
 from django.contrib.auth.models import User, Group
-from MILK.models import Item, Transaction, UserProfile, GroupDetail, UserToGroup
-
+from MILK.models import Item, Transaction, UserProfile, GroupDetail
 class ItemAdmin(admin.ModelAdmin):
     list_display = ('id', 'itemName', 'itemNeedsBought')
 
@@ -33,4 +32,3 @@ admin.site.register(Transaction)
 admin.site.register(UserProfile)
 admin.site.register(Group, GroupAdmin)
 admin.site.register(GroupDetail)
-admin.site.register(UserToGroup)

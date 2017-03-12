@@ -27,7 +27,7 @@ class GroupDetail(models.Model):
         return '{}'.format(self.group)
     def __unicode__(self):
         return '{}'.format(self.group)
-        
+
 # Extension to the default Django User model to add 'balance' field
 class UserProfile(models.Model):
     # Line below links this extension to Django's User model
@@ -45,14 +45,6 @@ class UserProfile(models.Model):
         return self.user.id
 
 
-class UserToGroup(models.Model):
-    userID = models.OneToOneField(User)
-    groupID = models.ForeignKey(Group)
-
-    def __str__(self):
-        return '{}'.format(self.id)
-    def __unicode__(self):
-        return '{}'.format(self.id)
 
 
 
@@ -74,40 +66,3 @@ class Transaction(models.Model):
         return '{}'.self.requestID
     def __unicode__(self):
         return '{}'.self.requestID
-
-
-
-
-#graveyard of unused models
-
-
-#class ShoppingList(models.Model):
-#    listID = models.IntegerField(default = 0, unique = True)
-    # List name could be the address or whatever
-#    listName = models.CharField(max_length = 128, unique = False)
-#    groupName = models.ForeignKey(Group, default=0)
-#    itemID = models.ForeignKey(Item)
-#    itemQuantity = models.IntegerField(default = 1)
-#    def __str__(self):
-#        return '{}'.format(self.groupName)
-#    def __unicode__(self):
-#        return '{}'.format(self.groupName)
-
-
-#class ItemToUser(models.Model):
-#    userID = models.ForeignKey(User)
-#    itemID = models.ForeignKey(Item)
-
-#    def __str__(self):
-#        return '{} , {}'.format(self.userID, self.itemID)
-#    def __unicode__(self):
-#        return '{} , {}'.format(self.userID, self.itemID)
-
-
-#class UserToList(models.Model):
-#    userID = models.ForeignKey(User)
-#    listID = models.ForeignKey(ShoppingList)
-#    def __str__(self):
-#        return '{}'.format(self.userID)
-#    def __unicode__(self):
-#        return '{}'.format(self.userID)
