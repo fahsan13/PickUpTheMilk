@@ -127,7 +127,7 @@ def creategroup(request):
         else:
             print(form.errors)
 
-    response = render(request, 'MILK/create-group.html', {'form':form, 'userprofile': user_profile})
+    response = render(request, 'MILK/create-group.html', {'form':form})
     return response
 
 def userprofile(request, username):
