@@ -13,15 +13,13 @@ class UserProfileForm(forms.ModelForm):
 
 # Form to add an item to database.
 class itemForm(forms.ModelForm):
-
-    itemName = forms.CharField(max_length=128,
-                               help_text="Please enter the item name:")
+    itemName = forms.CharField(max_length=128, help_text="Please enter the item name:")
     addedby = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
+    groupBuying = forms.ModelChoiceField(queryset= Group.objects.all(), widget = forms.HiddenInput(), required = False)
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, user, group, *args, **kwargs):
         self.user = user
-        group = kwargs.pop(Group, None)
-
+        self.group = group
         super(itemForm, self).__init__(*args, **kwargs)
 
     def clean_addedby(self):
@@ -29,9 +27,9 @@ class itemForm(forms.ModelForm):
         return user
 
     def clean_groupBuying(self):
-        print("hihi")
-
+        group = User.objects.get(group = self.group)
         return group
+
 
 
     class Meta:
@@ -58,9 +56,12 @@ class groupForm(forms.ModelForm):
     def save(self, commit = True):
         # This is an attempt to override the save method to stop the group creating itself twice
         new_group_detail = GroupDetail.objects.create(group = self.cleaned_data.get('group'),administrator = self.cleaned_data.get('administrator'))
+        user_profile = UserProfile.objects.get(user = self.user)
+        user_profile.group = new_group_detail
+        user_profile.save()
 
     class Meta:
-        model = Group
+        model = GroupDetail
         fields = ('group', 'administrator')
 
 # Allows admin to add a user to a group

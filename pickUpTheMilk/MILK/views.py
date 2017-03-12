@@ -70,7 +70,7 @@ def userprofile(request, username):
     form = itemForm()
 
     if request.method == 'POST':
-        form = itemForm(request.user, request.POST)
+        form = itemForm(request.user, request. request.POST)
 
         # Get currently logged in user.
         user=request.user
@@ -107,16 +107,21 @@ def creategroup(request):
 
     # Get currently logged in user.
     user=request.user
+    # get their user profile
+    user_profile = UserProfile.objects.get(user = user)
+
 
     if request.method == 'POST':
-        form = groupForm(request.user, request.POST)
+        form = groupForm(user, request.POST)
         if form.is_valid():
             # Save the group
             group=form.save(commit=True)
             # Get group name from form; field within form containing name is 'group'!
-            groupname=form.cleaned_data['group']
-            # Add user to this newly created group :)
-            user.groups.add(groupname)
+            user_group = form.cleaned_data['group']
+            user_group_detail = GroupDetail.objects.get(group = user_group)
+            # set user's group field to this newly created group
+            user_profile.group = user_group_detail
+            user_profile.save()
             print(group)
             return userprofile(request, user.username)
         else:
@@ -128,15 +133,12 @@ def creategroup(request):
 def userprofile(request, username):
 
     try:
-        user = User.objects.get(username=username)
-    except User.DoesNotExist:
+        user = UserProfile.objects.get(user__username = username)
+        group = user.group
+    except UserProfile.DoesNotExist:
         return redirect('home')
 
-    # Retrieve UserProfile extension (containing balance/picture).
-    # We will then pass this to profile.html
-    userprofile = UserProfile.objects.get_or_create(user=user)[0]
-
-    form = itemForm(user)
+    form = itemForm(user, group)
     if request.method == 'POST':
         form = itemForm(request.user, request.POST)
         if form.is_valid():
@@ -148,7 +150,7 @@ def userprofile(request, username):
         else:
             print(form.errors)
 
-    response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user, 'userprofile': userprofile,})
+    response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user.user, 'userprofile': user,})
     return response
 
 # View for communal group page
