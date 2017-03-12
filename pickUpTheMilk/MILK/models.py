@@ -27,7 +27,7 @@ class GroupDetail(models.Model):
         return '{}'.format(self.group)
     def __unicode__(self):
         return '{}'.format(self.group)
-        
+
 # Extension to the default Django User model to add 'balance' field
 class UserProfile(models.Model):
     # Line below links this extension to Django's User model
@@ -35,7 +35,9 @@ class UserProfile(models.Model):
     # Additional fields we want to track/store
     balance = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     picture = models.ImageField(upload_to='profile_images', blank=True)
-    group =  models.ForeignKey(GroupDetail, null = True)
+
+    # Not currently in use
+    # group =  models.ForeignKey(GroupDetail, null = True)
 
     def __str__(self):
         return self.user.username

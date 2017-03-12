@@ -30,8 +30,6 @@ class itemForm(forms.ModelForm):
         group = User.objects.get(group = self.group)
         return group
 
-
-
     class Meta:
         model = Item
         fields = ('itemName', 'addedby')
@@ -56,9 +54,6 @@ class groupForm(forms.ModelForm):
     def save(self, commit = True):
         # This is an attempt to override the save method to stop the group creating itself twice
         new_group_detail = GroupDetail.objects.create(group = self.cleaned_data.get('group'),administrator = self.cleaned_data.get('administrator'))
-        user_profile = UserProfile.objects.get(user = self.user)
-        user_profile.group = new_group_detail
-        user_profile.save()
 
     class Meta:
         model = GroupDetail
@@ -68,5 +63,4 @@ class groupForm(forms.ModelForm):
 # TO-DO - any way to filter so only shows users who have no
 # group?
 class AddUser(forms.Form):
-    user = forms.ModelChoiceField(queryset= User.objects.all())
-    # user = forms.ModelChoiceField(queryset= User.objects.get(groups = None))
+    user = forms.ModelChoiceField(queryset= User.objects.filter(groups=None))
