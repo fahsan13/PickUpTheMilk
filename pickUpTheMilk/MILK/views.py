@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.conf import settings
 
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
-from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser
+from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, BuyItem
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -184,4 +184,26 @@ def grouppage(request, groupname):
         form = AddUser()
 
     response = render(request, 'MILK/grouppage.html', {'currentgroup':groupname, 'groupdetail':groupdetail, 'user':user, 'form':form, 'members':groupmembers})
+    return response
+
+
+@login_required
+def buyitem(request):
+    #get itemID
+    form=BuyItem
+
+    if request.method == 'POST':
+        form =BuyItem(request.POST)
+
+        if form.is_valid():
+            currentitem= form.cleaned_data['id']
+            #print(itemID)
+            #item= Item.objects.get('id')
+            currentitem.itemNeedsBought ^= True
+            currentitem.save()
+        else:
+            print(form.errors)
+
+
+    response = render(request, 'MILK/buyitem.html', {'form':form})
     return response

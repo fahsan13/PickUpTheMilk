@@ -70,3 +70,11 @@ class groupForm(forms.ModelForm):
 class AddUser(forms.Form):
     user = forms.ModelChoiceField(queryset= User.objects.all())
     # user = forms.ModelChoiceField(queryset= User.objects.get(groups = None))
+
+
+# allows item to be bought
+class BuyItem(forms.Form):
+    id = forms.ModelChoiceField(queryset=Item.objects.all())
+
+    # def clean_item(self):
+    #     id = Item.objects.get(id = self.item)
