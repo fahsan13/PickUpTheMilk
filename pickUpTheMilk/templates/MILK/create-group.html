@@ -5,8 +5,8 @@
 {% endblock %}
 
 {% block body_block %}
-    {% if user.groups.all.0 %}
-      <h3>Unable to create new group! You are already a member of: {{ user.groups.all.0 }}</h3>
+    {% if userprofile.group  %}
+      <h3>Unable to create new group! You are already a member of: {{ userprofile.group }}</h3>
     {% else %}
       <h3> Create the group you want to share costs with!</h3>
       <div>
