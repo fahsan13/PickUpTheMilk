@@ -4,14 +4,16 @@
 {% block title_block %} Home {% endblock %}
 
 {% block body_block %}
-<h1><img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" />Welcome to Passive Aggressive Cost-Sharing Application v. 0.2</h1>
+<h1> <img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100"/>
+  Welcome to Passive Aggressive Cost-Sharing Application v. 0.2
+</h1>
 
 <section>
 
-    {% if user.is_authenticated %} Welcome back, {{ user.username }} </br>
+    {% if user.is_authenticated %} Welcome back, {{ user.username }} </br></br>
 
     <div>
-        <h6> Communal shopping List</h6>
+        <h6>Communal shopping list:</h6>
 
     </div>
     <div>
@@ -26,6 +28,7 @@
         {% else %}
           Your shopping list is empty.
         {% endif %}
+      </br>
     </div>
       <div>
           <h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>

@@ -1,0 +1,60 @@
+{% extends 'MILK/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %} Buy Item {% endblock %}
+
+{% block body_block %}
+<h1>Buy Items</h1>
+
+
+
+    {% if user.is_authenticated %} Welcome back, {{ user.username }} </br>
+
+    <div>
+        <h6> Communal shopping List</h6>
+
+
+    <div>
+        <form id="BuyItem" method="post" action"."}>
+
+        {% csrf_token %}
+
+        {% for hidden in form.hidden_fields %}
+          {{ hidden }}
+        {% endfor %}
+
+        {% for field in form.visible_fields %}
+          {{ field.errors }}
+          {{ field.help_text }}
+          {{ field }}
+        {% endfor %}
+
+        <input type="submit", name="submit", value="Buy an item">
+
+        {% if Items %}
+
+
+        <ul>
+            {% for item in Items %}
+
+                {{ item.itemName }}
+
+
+
+            </li>
+
+            {% endfor %}
+        </ul>
+        {% else %}
+          Your shopping list is empty.
+        {% endif %}
+
+
+
+    </div>
+
+
+
+      {% endif %}
+
+{% endblock %}

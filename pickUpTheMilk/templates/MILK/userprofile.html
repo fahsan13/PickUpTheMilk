@@ -38,23 +38,23 @@
     <div>
 		{% if selecteduser.username == user.username %}
 			<b>Add item</b>
-			<form id="itemForm" method="post" action".">
+				<form id="itemForm" method="post" action".">
 
-			{% csrf_token %}
+				{% csrf_token %}
 
-			{% for hidden in form.hidden_fields %}
-				{{ hidden }}
-			{% endfor %}
+				{% for hidden in form.hidden_fields %}
+					{{ hidden }}
+				{% endfor %}
 
-			{% for field in form.visible_fields %}
-				{{ field.errors }}
-				{{ field.help_text }}
-				{{ field }}
-			{% endfor %}
+				{% for field in form.visible_fields %}
+					{{ field.errors }}
+					{{ field.help_text }}
+					{{ field }}
+				{% endfor %}
 
-		<!-- Button to click to submit the form -->
-		<input type="submit" name="submit" value="Add Item" onClick="myAlert()"/>
-		</form>
+			<!-- Button to click to submit the form -->
+			<input type="submit" name="submit" value="Add Item" onClick="myAlert()"/>
+			</form>
 				<script>
 					function myAlert() {
 						alert("Item successfully added")}
@@ -65,7 +65,7 @@
 <!-- View Group list -->
          <div>
         {% if Items %}
-        <ul>
+        <ul> <b>Communal shopping list:</b>
             {% for item in Items %}
             <li>
                 {{ item.itemName }}

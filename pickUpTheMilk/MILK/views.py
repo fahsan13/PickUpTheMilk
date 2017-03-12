@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.conf import settings
 
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
-from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser
+from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, BuyItem
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -50,51 +50,6 @@ def contact(request):
 def about(request):
     return render(request, 'MILK/about.html', {})
 
-# # TO-DO - list all members of a group
-# # Let admin of a group add other members
-# # This could be done by checking against group details
-# # if (currentuser == administrator)
-# #   display links to allow them to add users@login_required
-# def userprofile(request, username):
-#
-#     try:
-#         user = User.objects.get(username=username)
-#
-#     except User.DoesNotExist:
-#         return redirect('home')
-#
-#     # Retrieve UserProfile extension (containing balance/picture).
-#     # We will then pass this to profile.html
-#     userprofile = UserProfile.objects.get_or_create(user=user)[0]
-#
-#
-#     form = itemForm()
-#
-#     if request.method == 'POST':
-#         form = itemForm(request.user, request. request.POST)
-#
-#         # Get currently logged in user.
-#         user=request.user
-#
-#         if form.is_valid():
-#             item=form.save(commit=True)
-#             addedby=form.cleaned_data['addedby']
-#             group = user.groups.all(id=0)
-#             item.groupBuying = request.POST[group]
-#             item.save()
-#
-#             print(item)
-#
-#         else:
-#             print(form.errors)
-#
-#      # List not populating on usder profile page, not sure why yet
-#
-#     item_list = Item.objects.order_by('id')
-#     context_dict = {'Items': item_list}
-#     response = render(request, 'MILK/userprofile.html', context_dict, {'form':form, 'selecteduser':user, 'userprofile': userprofile,})
-#     return response
-
 # View for create-group.html.
 # Need to implement error handling for when
 # group with a given name already exists IF
@@ -111,7 +66,6 @@ def creategroup(request):
     # get their user profile
     user_profile = UserProfile.objects.get(user = user)
 
-
     if request.method == 'POST':
         form = groupForm(user, request.POST)
         if form.is_valid():
@@ -126,7 +80,7 @@ def creategroup(request):
         else:
             print(form.errors)
 
-    response = render(request, 'MILK/create-group.html', {'form':form})
+    response = render(request, 'MILK/create-group.html', {'form':form, 'userprofile': user_profile})
     return response
 
 # View for a user's profile
@@ -134,7 +88,6 @@ def userprofile(request, username):
 
     try:
         user = User.objects.get(username=username)
-
         # User should only functionally have one group
         group = user.groups.all()
     except User.DoesNotExist:
@@ -144,19 +97,26 @@ def userprofile(request, username):
     # We will then pass this to profile.html
     userprofile = UserProfile.objects.get_or_create(user=user)[0]
 
-    form = itemForm(user, group)
+    # probably need to pass group into here. groupbuying and addedby
+    # not actually being set.
+    form = itemForm(user)
     if request.method == 'POST':
-        form = itemForm(request.user, request.POST)
+        form = itemForm(user, request.POST)
         if form.is_valid():
-            item=form.save(commit=True)
+            item=form.save(commit=False)
             currentuser = form.cleaned_data['addedby']
             currentgroup = form.cleaned_data['groupBuying']
             item.groupBuying = currentgroup
             item.addedby = currentuser
+            item.save()
         else:
             print(form.errors)
 
-    response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user, 'userprofile': userprofile, })
+    # Get items so we can display on user's page
+    item_list = Item.objects.order_by('id')
+    context_dict = {'Items': item_list, 'form':form, 'selecteduser':user, 'userprofile': userprofile,}
+
+    response = render(request, 'MILK/userprofile.html', context_dict)
     return response
 
 # View for communal group page
@@ -189,5 +149,25 @@ def grouppage(request, groupname):
         # Not a POST, so just render empty form
         form = AddUser()
 
-    response = render(request, 'MILK/grouppage.html', {'currentgroup':groupname, 'groupdetail':groupdetail, 'user':user, 'form':form, 'members':groupmembers})
+    response = render(request, 'MILK/grouppage.html',  {'currentgroup':groupname, 'groupdetail':groupdetail, 'user':user, 'form':form, 'members':groupmembers})
     return response
+
+@login_required
+def buyitem(request):
+   #get itemID
+   form=BuyItem
+
+   if request.method == 'POST':
+       form =BuyItem(request.POST)
+
+       if form.is_valid():
+           currentitem= form.cleaned_data['id']
+           #print(itemID)
+           #item= Item.objects.get('id')
+           currentitem.itemNeedsBought = False
+           currentitem.save()
+       else:
+           print(form.errors)
+
+   response = render(request, 'MILK/buyitem.html', {'form':form})
+   return response
