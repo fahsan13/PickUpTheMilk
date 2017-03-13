@@ -11,39 +11,47 @@
         Pick Up the Milk - {% block title %}The Flatshare Shopping List{% endblock %}
     </title>
 </head>
-<!-- <body style="background-image: url('{% static "images/bg-copy1.png"%}')";> -->
+  <body style="background-image: url('{% static "images/bg-copy1.png"%}')";>
 
-<body>
 
+  <!-- HEADER BAR -->
   {% block navigation_block %}
   <ul style="navbar">
-    <li><a href="{% url 'home' %}">Homepage</a> </li>
-    <li><a href="{% url 'about' %}">About</a>
-    <li><a href="{% url 'contact'%}">Contact Us</a>
-    <li><a href="{% url 'sitemap' %}">Site Map</a>
+    {% if app_url == '/' %}
+      <li><a class="active" href="{% url 'home' %}">Homepage</a>
+    {% else %}
+      <li><a href="{% url 'home' %}">Homepage</a>
+    {% endif %}
+
+    {% if app_url == '/about/' %}
+      <li><a class="active" href="{% url 'about' %}">About</a>
+    {% else %}
+      <li><a href="{% url 'about' %}">About</a>
+    {% endif %}
+
+    {% if app_url == '/contact/' %}
+        <li><a class="active" href="{% url 'contact'%}">Contact Us</a>
+    {% else %}
+      <li><a href="{% url 'contact'%}">Contact Us</a>
+    {% endif %}
+
+    {% if app_url == '/sitemap/' %}
+        <li><a class="active" href="{% url 'sitemap' %}">Site Map</a>
+    {% else %}
+        <li><a href="{% url 'sitemap' %}">Site Map</a>
+    {% endif %}
+
        {% if user.is_authenticated %}
         <li style="float:right"><a href="{% url 'auth_logout' %}">Logout</a>
       {% else %}
+
         <li style="float:right"><a href="{% url 'auth_login' %}">Log in</a>
       {% endif %}
   </ul>
-
   {% endblock %}
 
-
-
-      {% block body_block %}
-       <div>
-         <h1> hello </h1>
-       </div>
-
-       {% endblock %}
-       {% block legs_block %}
-        {% endblock %}
-
-
-
-<!-- HEADER BAR -->
+  {% block body_block %}
+  {% endblock %}
 
 <!--BODY OF THE TEXT-->
 
@@ -54,8 +62,6 @@
   <a href="{% url 'contact'%}">Contact Us</a>
   <a href="{% url 'sitemap' %}">Site Map</a>
 {% endblock %}
-
-
  <!--maxCDN -->
  <!-- Placed at the end of the document so the pages load faster -->
  <!-- Latest compiled and minified CSS -->

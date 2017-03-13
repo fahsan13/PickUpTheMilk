@@ -51,10 +51,12 @@ li a.active{
   margin-left: auto;
 }
 
+
+
 /* parralax */
 .parallax {
     /* The image used */
-    background-image: url("img_parallax.jpg");
+    background-image: url(https://endpoint895270.azureedge.net/static/mediabank/milk-splash-blue.jpg);
 
     /* Set a specific height */
     height: 500px;
@@ -65,3 +67,7 @@ li a.active{
     background-repeat: no-repeat;
     background-size: cover;
 }
+/*@media only screen and (max-device-width: 1024px) {
+    .parallax {
+        background-attachment: scroll;
+    }*/

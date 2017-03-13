@@ -25,7 +25,6 @@ def register_profile(request):
             return redirect('home')
         else:
             print(form.errors)
-
     context_dict = {'form':form}
 
     return render(request, 'MILK/profile_registration.html', context_dict)
@@ -33,20 +32,27 @@ def register_profile(request):
 def home(request):
     # Placed here assuming we're keeping lists on home page? if I'm wrong, easy to change
     item_list = Item.objects.order_by('id')
-    context_dict = {'Items': item_list}
+    app_url = request.path
 
+    context_dict = {'Items': item_list, 'app_url': app_url }
     response = render(request, 'MILK/home.html', context_dict)
     return response
 
 def sitemap(request):
-    response = render(request, 'MILK/sitemap.html', {})
+    app_url = request.path
+    response = render(request, 'MILK/sitemap.html', {'app_url': app_url})
     return response
 
 def contact(request):
-    return render(request, 'MILK/contact.html', {})
+
+    app_url = request.path
+    return render(request, 'MILK/contact.html', {'app_url': app_url})
 
 def about(request):
-    return render(request, 'MILK/about.html', {})
+    app_url = request.path
+    return render(request, 'MILK/about.html', {'app_url': app_url})
+
+
 
 # # Work in progress... See Chapter 15 of TwD!
 @login_required
@@ -71,7 +77,7 @@ def userprofile(request, username):
             print(item)
         else:
             print(form.errors)
-
+    app_url = request.path
     response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user, 'userprofile': userprofile})
 
     return response
