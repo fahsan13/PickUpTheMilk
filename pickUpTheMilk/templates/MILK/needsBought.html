@@ -1,21 +1,21 @@
 {% extends 'MILK/base.html' %}
 {% load staticfiles %}
 
-{% block title_block %} Buy Item {% endblock %}
+{% block title_block %} Update shopping list {% endblock %}
 
 {% block body_block %}
-<h1>Record a purchase</h1>
+<h1>Update your shopping list</h1>
 
 
 
     {% if user.is_authenticated %} Welcome back, {{ user.username }} </br>
 
     <div>
-        <h6> Communal shopping List</h6>
+        <h6> This is where we test if we can set items to be needing bought</h6>
 
 
     <div>
-        <form id="BuyItem" method="post" action"."}>
+        <form id="needsBoughtForm" method="post" action"."}>
 
         {% csrf_token %}
 
@@ -29,7 +29,7 @@
           {{ field }}
         {% endfor %}
 
-        <input type="submit", name="submit", value="Buy an item">
+        <input type="submit", name="submit", value="Item needs replenished">
 
         {% if Items %}
 
@@ -46,7 +46,7 @@
             {% endfor %}
         </ul>
         {% else %}
-          Your shopping list is empty.
+          Everything needs bought. Go shopping!
         {% endif %}
 
 

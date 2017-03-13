@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.conf import settings
 
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
-from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, BuyItem
+from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, BuyItem, needsBoughtForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -218,3 +218,32 @@ def buyitem(request):
 
     response = render(request, 'MILK/buyitem.html', {'form':form})
     return response
+
+@login_required
+#Temporary page for modelling item needing bought logic
+def needsbought(request):
+
+    #Imports form used to display items which aren't currently marked as needing to be bought
+    form= needsBoughtForm()
+
+    if request.method == 'POST':
+        form = needsBoughtForm(request.POST)
+
+        if form.is_valid():
+            #needsBought=form.save(commit=False)
+
+            # Gets item to set as needing bought
+            item_needing_bought = form.cleaned_data['itemID']
+
+            # Sets items needs bought status to false, for item model
+            item_needing_bought.itemNeedsBought = True
+
+            # Saves change
+            item_needing_bought.save()
+
+        else:
+             print(form.errors)
+
+    response = render(request, 'MILK/needsBought.html', {'form':form})
+    return response
+

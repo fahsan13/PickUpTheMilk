@@ -74,3 +74,10 @@ class BuyItem(forms.ModelForm):
         fields = ('value',)
     # def clean_item(self):
         # id = Item.objects.get(id = self.item)
+
+class needsBoughtForm(forms.Form):
+    itemID = forms.ModelChoiceField(queryset=Item.objects.filter(itemNeedsBought = False))
+
+    # class Meta:
+    #     model = Item
+    #     fields = ('itemNeedsBought',)
