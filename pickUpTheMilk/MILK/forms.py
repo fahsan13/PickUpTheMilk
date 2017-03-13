@@ -53,23 +53,23 @@ class AddUser(forms.Form):
 
 # ... or remove a user from a group.
 class RemoveUser(forms.Form):
+    # Pass group into constructor as an argument, then filter user list
+    # based on their group.
     def __init__(self, group, *args, **kwargs):
         super(RemoveUser, self).__init__(*args, **kwargs)
         self.fields['user_to_remove'] = forms.ChoiceField(
-            choices=[(o.id, str(o)) for o in User.objects.filter(groups=group)]
+            choices=[(item.id, item) for item in User.objects.filter(groups=group)]
         )
 
 # Allows item to be bought
-class BuyItem(forms.Form):
-    id = forms.ModelChoiceField(queryset=Item.objects.all())
-    purchasePrice = forms.FloatField(required=True, min_value=0.01,
+class BuyItem(forms.ModelForm):
+    # itemID = forms.ModelChoiceField(queryset=Item.objects.all())
+    value = forms.DecimalField(required=True, min_value=0.01,
                                     help_text="Please enter price paid for item(s):")
-    numPurchased = forms.IntegerField(required=True, min_value=1,
-                                     help_text="Please enter price paid for item(s):")
-    purchaserID = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
+    # purchaserID = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
 
     class Meta:
         model = Transaction
-        fields = ('purchaserID', 'id', 'purchasePrice')
+        fields = ('value',)
     # def clean_item(self):
         # id = Item.objects.get(id = self.item)

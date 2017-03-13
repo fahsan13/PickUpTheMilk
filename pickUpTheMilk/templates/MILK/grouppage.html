@@ -14,27 +14,39 @@
   This is where we will display collective group info!</br></br>
 
   <div><b>Group Members</b>
-    {% for user in members %}
-      <ul><a href="{% url 'profile' user.username %}">{{ user.username }}</a></ul>
+    {% for profile in members %}
+      <ul><a href="{% url 'profile' profile.username %}">{{ profile.username }}</a></ul>
     {% endfor %}
   </div></br>
 
-    <div>
+  <div>
       {% if user == groupdetail.administrator %}
-      <b>You can see this because you're the group admin!</b></br></br>
-        NOTE: listing every user; try to filter this so it only returns users who have no group</br>
-        But will probably make it a search field later so admin can enter a username </br>
-        Would still have to handle case where user already has a group.</br>
+	      <b>You can see this because you're the group admin!</b></br></br>
 
-        <form id="EditUsers" method="post" action"." enctype="multipart/form-data">
+					Bit buggy as these require a refresh of page before updated member options reflected in drop-down lists.
+					Ajax???
+					</thead>
+					If we have time (lolololol) maybe replace with a search field later so admin can enter a username </br></br>
 
-        {% csrf_token %}
+				<!-- Form to add a user to a group - only visible to admin  -->
+	      <form id="AddUser" method="post" action".">
 
-        {{ addform.as_p }}
-				{{ removeform.as_p }}
+	        {% csrf_token %}
 
-      <!-- Button to click to submit the form -->
-      <input type="submit" name="submit" value="Add or remove a member from {{ currentgroup.name }}"
+	        {{ addform.as_p }}
 
-      {% endif %}
+	      <!-- Button to click to submit the form -->
+	      <input type="submit" name="adduserbutton" value="Add member to {{ currentgroup.name }}"></br></br>
+
+				<!-- Form to remove a user from a group - only visible to admin -->
+				<form id="RemoveUser" method="post" action".">
+
+				  {% csrf_token %}
+
+					{{ removeform.as_p }}
+
+			  <!-- Button to click to submit the form -->
+				<input type="submit" name="removeuserbutton" value="Remove member from {{ currentgroup.name }}">
+			{% endif %}
+	</div>
 {% endblock %}

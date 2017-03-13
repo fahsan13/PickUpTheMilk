@@ -86,7 +86,8 @@ def creategroup(request):
 def profilepage(request, username):
 
     try:
-        user = request.user
+        # May want to view another user's profile!
+        user = User.objects.get(username=username)
         # User should only functionally have one group. If
         # it exists, we select it. If it doesn't, form won't
         # be rendered anyway.
@@ -138,9 +139,13 @@ def grouppage(request, groupname):
     except Group.DoesNotExist:
         return redirect('home')
 
-    if request.method == 'POST':
+    # Not a POST, so just render empty form
+    add_form = AddUser()
+    remove_form= RemoveUser(groupname)
+
+    # If admin presses button to add user, do the following:
+    if request.method == 'POST' and 'adduserbutton' in request.POST:
         add_form = AddUser(request.POST)
-        remove_form = RemoveUser(groupname, request.POST)
 
         # Deal with add_form
         if add_form.is_valid():
@@ -150,37 +155,45 @@ def grouppage(request, groupname):
         else:
             print(add_form.errors)
 
+    # If admin presses button to remove user, instead do the following:
+    if request.method == 'POST' and 'removeuserbutton' in request.POST:
+        remove_form = RemoveUser(groupname, request.POST)
+
         # Deal with remove_form
         if remove_form.is_valid():
-            selecteduser = remove_form.cleaned_data['user_to_remove']
+            selecteduserID = remove_form.cleaned_data['user_to_remove']
+
+            # Filter user based on their ID
+            selecteduser = User.objects.get(id=selecteduserID)
+
+            print selecteduser
+
             selecteduser.groups.remove(groupname)
             print("User successfully removed!")
         else:
             print(remove_form.errors)
-    else:
-        # Not a POST, so just render empty form
-        add_form = AddUser()
-        remove_form= RemoveUser(groupname)
 
     response = render(request, 'MILK/grouppage.html',  {'currentgroup':groupname, 'groupdetail':groupdetail, 'user':user, 'addform':add_form, 'removeform':remove_form, 'members':groupmembers})
     return response
 
 @login_required
 def buyitem(request):
-   #get itemID
-   form=BuyItem
 
-   if request.method == 'POST':
-       form =BuyItem(request.POST)
+    form=BuyItem()
 
-       if form.is_valid():
-           currentitem= form.cleaned_data['id']
-           #print(itemID)
-           #item= Item.objects.get('id')
-           currentitem.itemNeedsBought = False
-           currentitem.save()
-       else:
-           print(form.errors)
+    if request.method == 'POST':
+        form = BuyItem(request.POST)
 
-   response = render(request, 'MILK/buyitem.html', {'form':form})
-   return response
+        if form.is_valid():
+            purchase=form.save(commit=True)
+
+        #     currentitem= form.cleaned_data['id']
+        # #    #print(itemID)
+        # #    #item= Item.objects.get('id')
+        #     currentitem.itemNeedsBought = False
+        #     currentitem.save()
+        else:
+             print(form.errors)
+
+    response = render(request, 'MILK/buyitem.html', {'form':form})
+    return response

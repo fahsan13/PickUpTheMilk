@@ -80,10 +80,12 @@
     </div>
 	{% else %}
 			<h5>Not a member of any groups :(</h5>
-			<div>
-				<a href="{% url 'create-group' %}">Create a Group</a>
-	    </div>
 
+			{% if selecteduser.username == user.username %}
+				<div>
+					<a href="{% url 'create-group' %}">Create a Group</a>
+		    </div>
+			{% endif %}
 			</br>
 			<h5>POSSIBLE TO-DO: GIVE THEM A WAY TO JOIN AN EXISTING GROUP?</h5>
 
