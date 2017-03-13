@@ -51,7 +51,7 @@ class Transaction(models.Model):
     #requestID = models.IntegerField(default = 0, unique = True)
     #requestorID = models.ForeignKey(Ite, related_name = 'requestorID')
     payeeID = models.ForeignKey(User, related_name = 'payeeID')
-    # itemID = models.ForeignKey(Item, Null = True, related_name = 'transactionItem')
+    itemID = models.ForeignKey(Item, related_name = 'transactionItem')
     # Can handle items costing up to 9999.99
     value = models.DecimalField(max_digits=6, decimal_places=2)
     # itemQuantity = models.IntegerField(default =1)

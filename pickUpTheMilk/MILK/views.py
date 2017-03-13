@@ -189,25 +189,30 @@ def buyitem(request):
             purchase=form.save(commit=False)
             # Get selected payee ID from drop down box
             payee=form.cleaned_data['payeeID']
+            # Gets item purchased
+            item_purchased = form.cleaned_data['itemID']
             # Get cost of transaction entered by user from form
             item_cost = form.cleaned_data['value']
             # Get this user's userprofile, where their balance is stored
             userprofile = UserProfile.objects.get_or_create(user=payee)[0]
+            # Gets item object to allow toggling of needsbought booleanfield - what is get or create?
+            toggle_item_bought = Item.objects.get(id=item_purchased.id)
+
             # Reflect this on user's balance
-
-            print(userprofile.balance)
             userprofile.balance += item_cost
-            print(userprofile.balance)
 
+            # Sets items needs bought status to false, for item model
+            toggle_item_bought.itemNeedsBought = False
+
+            # Updates the transaction model
             purchase.payeeID = payee
-            purchase.save()
-            userprofile.save()
+            purchase.itemID = item_purchased
 
-        #     currentitem= form.cleaned_data['id']
-        # #    #print(itemID)
-        # #    #item= Item.objects.get('id')
-        #     currentitem.itemNeedsBought = False
-        #     currentitem.save()
+            # Saves changes
+            userprofile.save()
+            toggle_item_bought.save()
+            purchase.save()
+
         else:
              print(form.errors)
 
