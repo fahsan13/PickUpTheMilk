@@ -50,7 +50,7 @@ class UserProfile(models.Model):
 class Transaction(models.Model):
     #requestID = models.IntegerField(default = 0, unique = True)
     #requestorID = models.ForeignKey(Ite, related_name = 'requestorID')
-    #payeeID = models.ForeignKey(User, related_name = 'payeeID')
+    payeeID = models.ForeignKey(User, related_name = 'payeeID')
     # itemID = models.ForeignKey(Item, Null = True, related_name = 'transactionItem')
     # Can handle items costing up to 9999.99
     value = models.DecimalField(max_digits=6, decimal_places=2)
@@ -58,7 +58,7 @@ class Transaction(models.Model):
     # purchaserID = models.ForeignKey(User, related_name = 'purchaserID')
 
     # Date is useful for checking which items have recently been purchased
-    DateandTime = models.DateTimeField(auto_now_add=True)
+    #DateandTime = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return '{}'.format(self.value)
     def __unicode__(self):

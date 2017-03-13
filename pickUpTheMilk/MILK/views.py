@@ -177,6 +177,7 @@ def grouppage(request, groupname):
     return response
 
 @login_required
+#Should be record purchase. Since we are recording a purchase.
 def buyitem(request):
 
     form=BuyItem()
@@ -185,7 +186,22 @@ def buyitem(request):
         form = BuyItem(request.POST)
 
         if form.is_valid():
-            purchase=form.save(commit=True)
+            purchase=form.save(commit=False)
+            # Get selected payee ID from drop down box
+            payee=form.cleaned_data['payeeID']
+            # Get cost of transaction entered by user from form
+            item_cost = form.cleaned_data['value']
+            # Get this user's userprofile, where their balance is stored
+            userprofile = UserProfile.objects.get_or_create(user=payee)[0]
+            # Reflect this on user's balance
+
+            print(userprofile.balance)
+            userprofile.balance += item_cost
+            print(userprofile.balance)
+
+            purchase.payeeID = payee
+            purchase.save()
+            userprofile.save()
 
         #     currentitem= form.cleaned_data['id']
         # #    #print(itemID)

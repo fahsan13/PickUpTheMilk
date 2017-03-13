@@ -61,11 +61,12 @@ class RemoveUser(forms.Form):
             choices=[(item.id, item) for item in User.objects.filter(groups=group)]
         )
 
-# Allows item to be bought
+# Allows users to track items purchased - form needs to be renamed to reflect this
 class BuyItem(forms.ModelForm):
     # itemID = forms.ModelChoiceField(queryset=Item.objects.all())
     value = forms.DecimalField(required=True, min_value=0.01,
                                     help_text="Please enter price paid for item(s):")
+    payeeID = forms.ModelChoiceField(queryset = User.objects.all())
     # purchaserID = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
 
     class Meta:
