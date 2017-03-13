@@ -5,44 +5,57 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- makes
     website available on all devices -->
-</head>
-<body style="background-image: url('{% static "images/bg-copy1.png"%}')";>
-
-
-<div>
-  <title>
-      Pick Up the Milk - {% block title %}The Flatshare Shopping List{% endblock %}
-  </title>
   <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}">
-</div>
+
+    <title>
+        Pick Up the Milk - {% block title %}The Flatshare Shopping List{% endblock %}
+    </title>
+</head>
+<!-- <body style="background-image: url('{% static "images/bg-copy1.png"%}')";> -->
+
+<body>
+
+  {% block navigation_block %}
+  <ul style="navbar">
+    <li><a href="{% url 'home' %}">Homepage</a> </li>
+    <li><a href="{% url 'about' %}">About</a>
+    <li><a href="{% url 'contact'%}">Contact Us</a>
+    <li><a href="{% url 'sitemap' %}">Site Map</a>
+       {% if user.is_authenticated %}
+        <li style="float:right"><a href="{% url 'auth_logout' %}">Logout</a>
+      {% else %}
+        <li style="float:right"><a href="{% url 'auth_login' %}">Log in</a>
+      {% endif %}
+  </ul>
+
+  {% endblock %}
+
+
+
+      {% block body_block %}
+       <div>
+         <h1> hello </h1>
+       </div>
+
+       {% endblock %}
+       {% block legs_block %}
+        {% endblock %}
+
 
 
 <!-- HEADER BAR -->
-<ul style="navbar">
-  
-  <li><a href="{% url 'home' %}">Homepage</a>
-  <li><a href="{% url 'about' %}">About</a>
-  <li><a href="{% url 'contact'%}">Contact Us</a>
-  <li><a href="{% url 'sitemap' %}">Site Map</a>
-     {% if user.is_authenticated %}
-      <li style="float:right"><a href="{% url 'auth_logout' %}">Logout</a>
-    {% else %}
-      <li style="float:right"><a href="{% url 'auth_login' %}">Log in</a>
-    {% endif %}
-</ul>
 
 <!--BODY OF THE TEXT-->
 
-        <div id="main">
-              {% block body_block %}{% endblock %}
-        </div>
-
-
  <!-- FOOTER -->
+ {% block footer %}
   <a href="{% url 'home' %}">Homepage</a>
   <a href="{% url 'about' %}">About/FAQ</a>
   <a href="{% url 'contact'%}">Contact Us</a>
   <a href="{% url 'sitemap' %}">Site Map</a>
+{% endblock %}
+
+
  <!--maxCDN -->
  <!-- Placed at the end of the document so the pages load faster -->
  <!-- Latest compiled and minified CSS -->
@@ -51,8 +64,6 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
  <!-- Latest compiled JavaScript -->
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
 
 </body>
 </html>
