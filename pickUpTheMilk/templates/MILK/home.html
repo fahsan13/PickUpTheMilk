@@ -13,16 +13,18 @@
     {% if user.is_authenticated %} Welcome back, {{ user.username }} </br></br>
 
     <div>
-        <h6>Communal shopping list:</h6>
+        <h6>Communal shopping list: (Need to handle a single group's empty list more gracefully!)</h6>
 
     </div>
     <div>
         {% if Items %}
         <ul>
             {% for item in Items %}
-            <li>
-                {{ item.itemName }}
-            </li>
+              {% if user.groups.all.0 == item.groupBuying %}
+                <li>
+                  {{ item.itemName }}
+                </li>
+              {% endif %}
             {% endfor %}
         </ul>
         {% else %}
@@ -34,14 +36,17 @@
           <h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>
           {% if Items %}
             {% for item in Items %}
-              {% if item.itemNeedsBought %}
-                <li>
-                  {{ item.itemName }}
-                </li>
+              {% if user.groups.all.0 == item.groupBuying %}
+                {% if item.itemNeedsBought %}
+                  <li>
+                    {{ item.itemName }}
+                  </li>
+                {% endif %}
               {% endif %}
             {% endfor %}
+          {% endif %}
       </div>
-    {% endif %}
+
     {% else %}
 
       Use our website and we will harvest your shopping data and use it to target ads at you!

@@ -17,20 +17,9 @@ class itemForm(forms.ModelForm):
     addedby = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
     groupBuying = forms.ModelChoiceField(queryset= Group.objects.all(), widget = forms.HiddenInput(), required = False)
 
-    def __init__(self, user, *args, **kwargs):
-        self.user = user
-        super(itemForm, self).__init__(*args, **kwargs)
-
-    # def clean_addedby(self):
-    #     user = User.objects.get(id = self.user.id)
-    #     return user
-    #
-    # def clean_groupBuying(self):
-    #     group = User.objects.get(groups = self.group)
-    #     return group
-
     class Meta:
         model = Item
+        # fields = ('itemName', 'addedby', 'groupBuying')
         fields = ('itemName', 'addedby', 'groupBuying')
 
 # Used when a new group is created
@@ -58,13 +47,19 @@ class groupForm(forms.ModelForm):
         model = GroupDetail
         fields = ('group', 'administrator')
 
-# Allows admin to add a user to a group
-# TO-DO - any way to filter so only shows users who have no
-# group?
+# Allows admin to add a user to a group...
 class AddUser(forms.Form):
-    user = forms.ModelChoiceField(queryset= User.objects.filter(groups=None))
+    user_to_add = forms.ModelChoiceField(queryset= User.objects.filter(groups=None))
 
-# allows item to be bought
+# ... or remove a user from a group.
+class RemoveUser(forms.Form):
+    def __init__(self, group, *args, **kwargs):
+        super(RemoveUser, self).__init__(*args, **kwargs)
+        self.fields['user_to_remove'] = forms.ChoiceField(
+            choices=[(o.id, str(o)) for o in User.objects.filter(groups=group)]
+        )
+
+# Allows item to be bought
 class BuyItem(forms.Form):
     id = forms.ModelChoiceField(queryset=Item.objects.all())
     purchasePrice = forms.FloatField(required=True, min_value=0.01,
@@ -77,4 +72,4 @@ class BuyItem(forms.Form):
         model = Transaction
         fields = ('purchaserID', 'id', 'purchasePrice')
     # def clean_item(self):
-    # id = Item.objects.get(id = self.item)
+        # id = Item.objects.get(id = self.item)

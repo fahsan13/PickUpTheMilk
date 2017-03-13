@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.conf import settings
 
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
-from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, BuyItem
+from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, BuyItem
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -28,7 +28,6 @@ def register_profile(request):
             print(form.errors)
 
     context_dict = {'form':form}
-
     return render(request, 'MILK/profile_registration.html', context_dict)
 
 # View for the home page of the site.
@@ -72,11 +71,11 @@ def creategroup(request):
             # Save the group
             group=form.save(commit=True)
             # Get group name from form; field within form containing name is 'group'!
-            user_group = form.cleaned_data['group']
+            groupname = form.cleaned_data['group']
             # Add the user to this newly created group
             user.groups.add(groupname)
             print(group)
-            return userprofile(request, user.username)
+            return profilepage(request, user.username)
         else:
             print(form.errors)
 
@@ -84,12 +83,16 @@ def creategroup(request):
     return response
 
 # View for a user's profile
-def userprofile(request, username):
+def profilepage(request, username):
 
     try:
-        user = User.objects.get(username=username)
-        # User should only functionally have one group
-        group = user.groups.all()
+        user = request.user
+        # User should only functionally have one group. If
+        # it exists, we select it. If it doesn't, form won't
+        # be rendered anyway.
+        if user.groups.all().first() != None:
+            group = user.groups.all()[0]
+
     except User.DoesNotExist:
         return redirect('home')
 
@@ -97,20 +100,19 @@ def userprofile(request, username):
     # We will then pass this to profile.html
     userprofile = UserProfile.objects.get_or_create(user=user)[0]
 
-    # probably need to pass group into here. groupbuying and addedby
-    # not actually being set.
-    form = itemForm(user)
     if request.method == 'POST':
-        form = itemForm(user, request.POST)
+        form = itemForm(request.POST)
         if form.is_valid():
             item=form.save(commit=False)
-            currentuser = form.cleaned_data['addedby']
-            currentgroup = form.cleaned_data['groupBuying']
-            item.groupBuying = currentgroup
-            item.addedby = currentuser
+            # Assign the user who added the item and the group it belongs to
+            item.addedby = user
+            item.groupBuying = group
             item.save()
         else:
             print(form.errors)
+    else:
+        # Not a post, so just render empty form
+        form = itemForm()
 
     # Get items so we can display on user's page
     item_list = Item.objects.order_by('id')
@@ -137,19 +139,30 @@ def grouppage(request, groupname):
         return redirect('home')
 
     if request.method == 'POST':
-        form = AddUser(request.POST)
+        add_form = AddUser(request.POST)
+        remove_form = RemoveUser(groupname, request.POST)
 
-        if form.is_valid():
-            selecteduser = form.cleaned_data['user']
+        # Deal with add_form
+        if add_form.is_valid():
+            selecteduser = add_form.cleaned_data['user_to_add']
             selecteduser.groups.add(groupname)
             print("User successfully added!")
         else:
-            print(form.errors)
+            print(add_form.errors)
+
+        # Deal with remove_form
+        if remove_form.is_valid():
+            selecteduser = remove_form.cleaned_data['user_to_remove']
+            selecteduser.groups.remove(groupname)
+            print("User successfully removed!")
+        else:
+            print(remove_form.errors)
     else:
         # Not a POST, so just render empty form
-        form = AddUser()
+        add_form = AddUser()
+        remove_form= RemoveUser(groupname)
 
-    response = render(request, 'MILK/grouppage.html',  {'currentgroup':groupname, 'groupdetail':groupdetail, 'user':user, 'form':form, 'members':groupmembers})
+    response = render(request, 'MILK/grouppage.html',  {'currentgroup':groupname, 'groupdetail':groupdetail, 'user':user, 'addform':add_form, 'removeform':remove_form, 'members':groupmembers})
     return response
 
 @login_required
