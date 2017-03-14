@@ -63,9 +63,12 @@
 
 	</div>
 <!-- View Group list -->
-         <div>
+         <b>Communal shopping list:</b>
+		<div>
+
+		<div class =scroll-list>
 			        {% if Items %}
-			        <ul> <b>Communal shopping list:</b>
+
 			            {% for item in Items %}
 									<!-- Only show the items belonging to this group! -->
 			            <li>{% if selecteduser.groups.all.0 == item.groupBuying %}
@@ -74,6 +77,7 @@
 			            </li>
 			            {% endfor %}
 			        </ul>
+		</div>
 			        {% else %}
 			          Your shopping list is empty.
 			        {% endif %}

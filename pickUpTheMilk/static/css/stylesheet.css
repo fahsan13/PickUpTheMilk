@@ -41,3 +41,10 @@ li a:hover {
 .active {
     background-color: #54f0dc;
 }
+
+.scroll-list
+{
+    max-height: 200px;
+    max-width: 250px;
+    overflow-y: scroll;
+}
