@@ -63,9 +63,13 @@ class RemoveUser(forms.Form):
 
 # Allows users to track items purchased - form needs to be renamed to reflect this
 class BuyItem(forms.ModelForm):
-    itemID = forms.ModelChoiceField(queryset=Item.objects.all())
+    # Filter items so can only see items that are on the too pick up list
+    itemID = forms.ModelChoiceField(queryset=Item.objects.filter(itemNeedsBought = True))
     value = forms.DecimalField(required=True, min_value=0.01,
                                     help_text="Please enter price paid for item(s):")
+
+    #should this be set to be the logged in user only?
+
     payeeID = forms.ModelChoiceField(queryset = User.objects.all())
     # purchaserID = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
 

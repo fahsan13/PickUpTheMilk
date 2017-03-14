@@ -32,7 +32,10 @@
         {% endif %}
       </br>
     </div>
+
+    <a href="{% url 'needsbought' %}">Update your pick up items (this is shit English, but it's a placeholder link so who cares)</a>
       <div>
+
           <h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>
           {% if Items %}
             {% for item in Items %}
@@ -45,9 +48,16 @@
               {% endif %}
             {% endfor %}
           {% endif %}
+         <!--Should this only appear if there are items in the to buy list
+         should we be able to add and record the purchase of items on the same page
+         For the case of someone realising then need something when they are in the shop-->
+          <a href="{% url 'buyitem' %}">Record Purchase</a>
+
+
       </div>
-<a href="{% url 'buyitem' %}">Record Purchase</a>
-<a href="{% url 'needsbought' %}">Update your pick up items (this is shit English, but it's a placeholder link so who cares)</a>
+
+
+
     {% else %}
 
       Use our website and we will harvest your shopping data and use it to target ads at you!
@@ -58,5 +68,11 @@
                 <p>
         </aside>
       {% endif %}
+
+
+
 </section>
+
+
+
 {% endblock %}
