@@ -6,108 +6,111 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- makes
     website available on all devices -->
-  <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}">
-  <link rel="stylesheet" href="{% static 'css/simplegrid.css' %}">
+    <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}">
+    <link rel="stylesheet" href="{% static 'css/simplegrid.css' %}">
     <title>
-        Pick Up the Milk - {% block title %}The Flatshare Shopping List{% endblock %}
+      Pick Up the Milk - {% block title %}The Flatshare Shopping List{% endblock %}
     </title>
-</head>
+  </head>
 
 
   <!-- NAVIGATION  BAR -->
   {% block navigation_block %}
-  <div class ="menu">
-    <ul style="navbar">
-      {% if app_url == '/' %}
-        <li><a class="active" href="{% url 'home' %}">Homepage</a>
-      {% else %}
-        <li><a href="{% url 'home' %}">Homepage</a>
-      {% endif %}
-    if {% if user.is_authenticated %}
-      <a class="nav-item nav-link" href="{% url 'profile' user.username %}">Profile</a>
-      <a class="nav-item nav-link" href="{% url 'auth_logout' %}?next=/">Logout</a>
-    {% else %}
-      <a class="nav-item nav-link" href="{% url 'auth_login' %}">Login</a>
-    {% endif %}
- </nav>
-<div class="container-fluid">
+  <nav>
+    <div class ="menu">
+      <ul style="navbar">
+        {% if app_url == '/' %}
+        <li><a class="active" href="{% url 'home' %}">Homepage</a></li>
+        {% else %}
+        <li><a href="{% url 'home' %}">Homepage</a></li>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'profile' user.username %}">Profile</a></li>
+        {% endif %}
+
+        {% if app_url == '/about/' %}
+        <li><a class="active" href="{% url 'about' %}">About</a></li>
+        {% else %}
+        <li><a href="{% url 'about' %}">About</a></li>
+        {% endif %}
+
+        {% if app_url == '/contact/' %}
+        <li><a class="active" href="{% url 'contact'%}">Contact Us</a></li>
+        {% else %}
+        <li><a href="{% url 'contact'%}">Contact Us</a></li>
+        {% endif %}
+
+        {% if app_url == '/sitemap/' %}
+        <li><a class="active" href="{% url 'sitemap' %}">Site Map</a></li>
+        {% else %}
+        <li><a href="{% url 'sitemap' %}">Site Map</a></li>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <li style="float:right"><a href="{% url 'auth_logout' %}">Logout</a></li>
+        {% else %}
+        <li style="float:right"><a href="{% url 'auth_login' %}">Log in</a></li>
+        {% endif %}
+      </ul>
+    </div>
+  </nav>
+
+
+  <div class="container-fluid">
     <div class="row">
 
-      {% if app_url == '/about/' %}
-        <li><a class="active" href="{% url 'about' %}">About</a>
-      {% else %}
-        <li><a href="{% url 'about' %}">About</a>
-      {% endif %}
 
-      {% if app_url == '/contact/' %}
-          <li><a class="active" href="{% url 'contact'%}">Contact Us</a>
-      {% else %}
-        <li><a href="{% url 'contact'%}">Contact Us</a>
-      {% endif %}
+      {% endblock %}
 
-      {% if app_url == '/sitemap/' %}
-          <li><a class="active" href="{% url 'sitemap' %}">Site Map</a>
-      {% else %}
-          <li><a href="{% url 'sitemap' %}">Site Map</a>
-      {% endif %}
+      <!--BODY OF THE TEXT-->
 
-         {% if user.is_authenticated %}
-          <li style="float:right"><a href="{% url 'auth_logout' %}">Logout</a>
-        {% else %}
-          <li style="float:right"><a href="{% url 'auth_login' %}">Log in</a>
+      {% if app_url == '/' %}
+      {% if not user.is_authenticated %}
+
+      <h1> HELLOOOO <h1>
         {% endif %}
-    </ul>
-  </div>
-  {% endblock %}
 
-<!--BODY OF THE TEXT-->
-
-  {% if app_url == '/' %}
-    {% if not user.is_authenticated %}
-
-    <h1> HELLOOOO <h1>
-    {% endif %}
-
-  {% else %}
-  <div class="grid grid-pad">
-      <div class="col-3-12">
-         <div class="content">
-           <div id="bgColour">
-           {% block side_block %}
-           {% endblock %}
-         </div>
-         </div>
+        {% else %}
+        <div class="grid grid-pad">
+          <div class="col-3-12">
+            <div class="content">
+              <div id="bgColour">
+                {% block side_block %}
+                {% endblock %}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-9-12">
+          <div class="content">
+            <div id="bgColour">
+              {% block body_block %}
+              {% endblock %}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-      <div class="col-9-12">
-         <div class="content">
-           <div id="bgColour">
-           {% block body_block %}
-           {% endblock %}
-           </div>
-         </div>
-      </div>
-  </div>
-  </div>
-  {% endif %}
+    {% endif %}
 
 
- <!-- FOOTER -->
- {% block footer %}
-  <a href="{% url 'home' %}">Homepage</a>
-  <a href="{% url 'about' %}">About/FAQ</a>
-  <a href="{% url 'contact'%}">Contact Us</a>
-  <a href="{% url 'sitemap' %}">Site Map</a>
-{% endblock %}
- <!--maxCDN -->
- <!-- Placed at the end of the document so the pages load faster -->
- <!-- Latest compiled and minified CSS -->
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
- <!-- jQuery library -->
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-   <script src="{% static 'js/pagescript.js' %}">
- <!-- Latest compiled JavaScript -->
-   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- FOOTER -->
+    {% block footer %}
+    <a href="{% url 'home' %}">Homepage</a>
+    <a href="{% url 'about' %}">About/FAQ</a>
+    <a href="{% url 'contact'%}">Contact Us</a>
+    <a href="{% url 'sitemap' %}">Site Map</a>
+    {% endblock %}
+    <!--maxCDN -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="{% static 'js/pagescript.js' %}">
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-</body>
-</html>
+  </body>
+  </html>
