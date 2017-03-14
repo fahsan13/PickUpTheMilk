@@ -1,43 +1,75 @@
-{% load staticfiles %}
+*{
+  margin: 0;
+  header: 0;
+  border: 0:
+}
 /*A wee bit of padding on the top*/
 body {
-  padding-top: 10px;
-  /*background-image: url(https://d30y9cdsu7xlg0.cloudfront.net/png/81327-200.png);*/
+  padding-top: 30px;
+  background-image: url(https://endpoint895270.azureedge.net/static/mediabank/milk-splash-blue.jpg);
+
+  /* Set a specific height */
+  height: 500px;
+
+  /* Create the parallax scrolling effect */
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
       }
 
 h1 {
   margin-bottom: 20px;
   padding-bottom: 9px;
-  border-bottom: 1px solid #eee;
     }
 
-/*Navigation Bar*/
+/*Navigation Bar maybe #3d4544?   #2999d0*/
 ul {
     list-style-type: none;
     margin: 0;
     padding: 0;
     overflow: hidden;
-    /*background-color: #3d4544;*/
+    background-color: #3d4544;
+    position: inherit;
 }
 
-/*li {
+li {
     float: left;
-}*/
+}
 
 li a {
     display: block;
     color: white;
     text-align: center;
     padding: 14px 16px;
-    text-decoration: none;
+     text-decoration: none;
 }
-
-/* Change the link color to #111 (black) on hover */
+/* Change the link color to white on hover */
 li a:hover {
     background-color: white;
     color: black;
+    text-decoration: none;
+}
+li a.active{
+  background-color: white;
+  color: black;
+  text-decoration: none;
+}
+#bgColour {
+ background: rgba(255, 255, 255, 0.87);
+ (61,69,68,0.8)
+
+ border-style: double;
 }
 
-.active {
-    background-color: #54f0dc;
+
+
+/* parralax */
+.parallax {
+    /* The image used */
+
 }
+/*@media only screen and (max-device-width: 1024px) {
+    .parallax {
+        background-attachment: scroll;
+    }*/
