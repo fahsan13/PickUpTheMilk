@@ -15,9 +15,6 @@ initial-scale=1, shrink-to-fit=no">
         Pick Up the Milk - {% block title %}The Flatshare Shopping List{% endblock %}
     </title>
     <!-- Bootstrap core CSS -->
-
-    <!-- <link rel="mapsstyle" href="{% static 'css/googlemapsstylesheet.css' %}" /> -->
-
     <link href="http://v4-alpha.getbootstrap.com/dist/css/bootstrap.min.css"
           rel="stylesheet">
     <!-- Custom styles for this template -->
@@ -58,10 +55,11 @@ initial-scale=1, shrink-to-fit=no">
 <div class="container-fluid">
     <div class="row">
 
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <!-- <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main"> -->
+
+        <div style="width: 100%">
             {% block body_block %}{% endblock %}
         </div>
-
     </div>
     <footer>
         <div>
