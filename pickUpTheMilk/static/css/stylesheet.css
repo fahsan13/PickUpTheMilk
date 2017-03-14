@@ -24,7 +24,14 @@ h1 {
     }
 
 /*Navigation Bar maybe #3d4544?   #2999d0*/
+.fixed {
+  position: fixed;
+  top: 0;
+  left:0;
+  right:0;
+}
 ul {
+    width:100%;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -42,7 +49,7 @@ li a {
     color: white;
     text-align: center;
     padding: 14px 16px;
-     text-decoration: none;
+    text-decoration: none;
 }
 /* Change the link color to white on hover */
 li a:hover {
