@@ -5,17 +5,108 @@
 {% load staticfiles %}
 
 <html lang="en">
-
   <head>
     {% block title_block %}
       Home
     {% endblock %}
   </head>
+
   <body>
 
     {% block body_block %}
-      <h1><img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" />Welcome to Passive Aggressive Cost-Sharing Application v. 0.1<img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" /></h1>
+
+    {% if user.is_authenticated %}
+      <h1> This will display if user is logged in <h1>
+      {% else %}
+      <h1> Noone is logged in </h1>
+    {% endif %}
+
+
+          <h1><img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" />Welcome to Passive Aggressive Cost-Sharing Application v. 0.1<img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" /></h1>
+          {% if user.is_authenticated %}
+            Welcome back, {{ user.username }} </br>
+            <a href="{% url 'auth_logout' %}">Logout</a> </br>
+            <a href="{% url 'profile' user.username %}">View your profile</a>
+
+        		<div>
+        		<h6> Communal shopping List</h6>
+        		</div>
+
+                <div>
+                {% if Items %}
+                <ul>
+        			<!-- Changing this to item in Items gives an error
+        			message about it not being iterable. Can't say I know how to fix it -->
+                    {% for item in Items %}
+                    <li>
+        				{{ item.itemName }}
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                    Your shopping list is empty.
+        		{% endif %}
+
+                </div>
+
+        		<div>
+        		<h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>
+        		{% if Items %}
+        			{% for item in Items %}
+        				{% if item.itemNeedsBought %}
+        				<li>
+        					{{ item.itemName }}
+        				</li>
+        				{% endif %}
+        			{% endfor %}
+        		</div>
+        		{% endif %}
+
+              {% else %}
+                <aside>
+              		<p>
+              			<a href="{% url 'auth_login' %}?/next=/">Login</a> or
+              			<a href="{% url 'registration_register' %}">Register</a>
+              		<p>
+              	</aside>
+              {% endif %}
+
+            <h1>HELOOOOOOOO</h1>
+              <h1>HELOOOOOOOO</h1>  <h1>HELOOOOOOOO</h1>  <h1>HELOOOOOOOO</h1>  <h1>HELOOOOOOOO</h1>
+                <h1>HELOOOOOOOO</h1>
+                  <h1>HELOOOOOOOO</h1>
+                    <h1>HELOOOOOOOO</h1>
+                      <h1>HELOOOOOOOO</h1>
+                        <h1>HELOOOOOOOO</h1>
+
+                          <h1>HELOOOOOOOO</h1>
+                            <h1>HELOOOOOOOO</h1>
+                              <h1>HELOOOOOOOO</h1>
+                                <h1>HELOOOOOOOO</h1>
+                                  <h1>HELOOOOOOOO</h1>
+
+                                    <h1>HELOOOOOOOO</h1>
+                                      <h1>HELOOOOOOOO</h1>
+                                        <h1>HELOOOOOOOO</h1>
+                                          <h1>HELOOOOOOOO</h1>
+                                            <h1>HELOOOOOOOO</h1>
+                                              <h1>HELOOOOOOOO</h1>
+                                                <h1>HELOOOOOOOO</h1>
+                                                  <h1>HELOOOOOOOO</h1>
+
+
+
+        {% endblock %}
+
+
+
+
+
+
+    {% block side_block %}
+      <h1> OH HELLO <h1>
     {% endblock %}
+
 
   </body>
 

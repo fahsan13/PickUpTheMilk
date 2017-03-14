@@ -1,59 +1,77 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- makes
     website available on all devices -->
   <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}">
-
+  <link rel="stylesheet" href="{% static 'css/simplegrid.css' %}">
     <title>
         Pick Up the Milk - {% block title %}The Flatshare Shopping List{% endblock %}
     </title>
 </head>
-  <body style="background-image: url('{% static "images/bg-copy1.png"%}')";>
+  <!-- <body style="background-image: url('{% static "images/bg-copy1.png"%}')";> -->
 
 
   <!-- HEADER BAR -->
   {% block navigation_block %}
-  <ul style="navbar">
-    {% if app_url == '/' %}
-      <li><a class="active" href="{% url 'home' %}">Homepage</a>
-    {% else %}
-      <li><a href="{% url 'home' %}">Homepage</a>
-    {% endif %}
-
-    {% if app_url == '/about/' %}
-      <li><a class="active" href="{% url 'about' %}">About</a>
-    {% else %}
-      <li><a href="{% url 'about' %}">About</a>
-    {% endif %}
-
-    {% if app_url == '/contact/' %}
-        <li><a class="active" href="{% url 'contact'%}">Contact Us</a>
-    {% else %}
-      <li><a href="{% url 'contact'%}">Contact Us</a>
-    {% endif %}
-
-    {% if app_url == '/sitemap/' %}
-        <li><a class="active" href="{% url 'sitemap' %}">Site Map</a>
-    {% else %}
-        <li><a href="{% url 'sitemap' %}">Site Map</a>
-    {% endif %}
-
-       {% if user.is_authenticated %}
-        <li style="float:right"><a href="{% url 'auth_logout' %}">Logout</a>
+    <ul style="navbar">
+      {% if app_url == '/' %}
+        <li><a class="active" href="{% url 'home' %}">Homepage</a>
       {% else %}
-
-        <li style="float:right"><a href="{% url 'auth_login' %}">Log in</a>
+        <li><a href="{% url 'home' %}">Homepage</a>
       {% endif %}
-  </ul>
-  {% endblock %}
 
-  {% block body_block %}
+      {% if app_url == '/about/' %}
+        <li><a class="active" href="{% url 'about' %}">About</a>
+      {% else %}
+        <li><a href="{% url 'about' %}">About</a>
+      {% endif %}
+
+      {% if app_url == '/contact/' %}
+          <li><a class="active" href="{% url 'contact'%}">Contact Us</a>
+      {% else %}
+        <li><a href="{% url 'contact'%}">Contact Us</a>
+      {% endif %}
+
+      {% if app_url == '/sitemap/' %}
+          <li><a class="active" href="{% url 'sitemap' %}">Site Map</a>
+      {% else %}
+          <li><a href="{% url 'sitemap' %}">Site Map</a>
+      {% endif %}
+
+         {% if user.is_authenticated %}
+          <li style="float:right"><a href="{% url 'auth_logout' %}">Logout</a>
+        {% else %}
+
+          <li style="float:right"><a href="{% url 'auth_login' %}">Log in</a>
+        {% endif %}
+    </ul>
   {% endblock %}
 
 <!--BODY OF THE TEXT-->
+
+<div class="grid grid-pad">
+    <div class="col-3-12">
+       <div class="content">
+         <div id="bgColour">
+         {% block side_block %}
+         {% endblock %}
+       </div>
+       </div>
+    </div>
+    <div class="col-9-12">
+       <div class="content">
+         <div id="bgColour">
+         {% block body_block %}
+         {% endblock %}
+         </div>
+       </div>
+    </div>
+</div>
+</div>
 
  <!-- FOOTER -->
  {% block footer %}
