@@ -1,12 +1,17 @@
 {% extends 'MILK/base.html' %}
 {% load staticfiles %}
 
-{% block title_block %} Home {% endblock %}
+{% block title_block %}
+  Home
+{% endblock %}
 
 {% block body_block %}
 <h1> <img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100"/>
   Welcome to Passive Aggressive Cost-Sharing Application v. 0.2
 </h1>
+
+<!-- Stylesheet for the Google Maps box  -->
+<link rel="stylesheet" href="{% static 'css/googlemapsstylesheet.css' %}" />
 
 <section>
 
@@ -53,10 +58,7 @@
          For the case of someone realising then need something when they are in the shop-->
           <a href="{% url 'buyitem' %}">Record Purchase</a>
 
-
       </div>
-
-
 
     {% else %}
 
@@ -69,10 +71,17 @@
         </aside>
       {% endif %}
 
+</section></br>
 
+<!-- Insert Google Maps box -->
 
+<section>
+      Search for your nearest store! - need to add geolocation
+      <div id="map" style="width: 600px; height: 600px;"></div>
+      <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+      <script src="{% static "js/maps.js" %}"></script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHUixbKEMTudErjgqYCYg4Ukil-5EuSFE&libraries=places&callback=initAutocomplete"
+           async defer></script>
+      </div>
 </section>
-
-
-
 {% endblock %}
