@@ -24,7 +24,19 @@ h1 {
     }
 
 /*Navigation Bar maybe #3d4544?   #2999d0*/
+.fixed {
+  position: fixed;
+  top: 0;
+  transform:translateY(-50px);
+  transition:all 1s ease;
+}
+.fixed-animation{
+  top:0;
+  transform:translateY(0px);
+  transition:all 1s ease;
+}
 ul {
+    width:100%;
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -42,7 +54,7 @@ li a {
     color: white;
     text-align: center;
     padding: 14px 16px;
-     text-decoration: none;
+    text-decoration: none;
 }
 /* Change the link color to white on hover */
 li a:hover {
@@ -61,15 +73,3 @@ li a.active{
 
  border-style: double;
 }
-
-
-
-/* parralax */
-.parallax {
-    /* The image used */
-
-}
-/*@media only screen and (max-device-width: 1024px) {
-    .parallax {
-        background-attachment: scroll;
-    }*/

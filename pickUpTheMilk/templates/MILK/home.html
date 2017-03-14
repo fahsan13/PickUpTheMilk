@@ -1,21 +1,32 @@
 {% extends 'MILK/base.html' %}
 {% load staticfiles %}
 
+<<<<<<< HEAD
 {% block title_block %} Home {% endblock %}
+=======
+<html lang="en">
+  <head>
+    {% block title_block %}
+      Home
+    {% endblock %}
+
+
+  </head>
+>>>>>>> remotes/origin/styleandmaster
 
 {% block body_block %}
 <h1> <img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100"/>
   Welcome to Passive Aggressive Cost-Sharing Application v. 0.2
 </h1>
 
-    {% if user.is_authenticated %}
+
       <h1> This will display if user is logged in <h1>
-      {% else %}
+
       <h1> Noone is logged in </h1>
-    {% endif %}
 
 
-          <h1><img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" />Welcome to Passive Aggressive Cost-Sharing Application v. 0.1<img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" /></h1>
+
+          <img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" />Welcome to Passive Aggressive Cost-Sharing Application v. 0.1<img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" />
           {% if user.is_authenticated %}
             Welcome back, {{ user.username }} </br>
             <a href="{% url 'auth_logout' %}">Logout</a> </br>
@@ -98,7 +109,6 @@
                                               <h1>HELOOOOOOOO</h1>
                                                 <h1>HELOOOOOOOO</h1>
                                                   <h1>HELOOOOOOOO</h1>
-
 
 
         {% endblock %}

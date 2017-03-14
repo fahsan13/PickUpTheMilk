@@ -16,7 +16,9 @@
 
 
   <!-- HEADER BAR -->
+
   {% block navigation_block %}
+  <div class ="menu">
     <ul style="navbar">
       {% if app_url == '/' %}
         <li><a class="active" href="{% url 'home' %}">Homepage</a>
@@ -58,6 +60,7 @@
           <li style="float:right"><a href="{% url 'auth_login' %}">Log in</a>
         {% endif %}
     </ul>
+  </div>
   {% endblock %}
 
 <!--BODY OF THE TEXT-->
@@ -95,6 +98,7 @@
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
  <!-- jQuery library -->
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+   <script src="{% static 'js/pagescript.js' %}">
  <!-- Latest compiled JavaScript -->
    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
