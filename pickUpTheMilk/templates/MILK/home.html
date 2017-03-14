@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block body_block %}
-<h1> <img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100"/>
-  Welcome to Passive Aggressive Cost-Sharing Application v. 0.2
+<h1> <img src="{%static "images/milklogo.png" %}" alt="Milk Carton Logo" height ="100"/>
+  Welcome to Passive Aggressive Cost-Sharing Application v. 3.14159265358979
 </h1>
 
 <!-- Stylesheet for the Google Maps box  -->
@@ -18,7 +18,7 @@
     {% if user.is_authenticated %} Welcome back, {{ user.username }} </br></br>
 
     <div>
-        <h6>Communal shopping list: (Need to handle a single group's empty list more gracefully!)</h6>
+        <h6>Communal shopping list: (Need to handle a single group's empty list more gracefully! Also lets make lists scrollable)</h6>
 
     </div>
     <div class="scroll-list">
@@ -60,7 +60,7 @@
       </div><!--Should this only appear if there are items in the to buy list
          should we be able to add and record the purchase of items on the same page
          For the case of someone realising then need something when they are in the shop-->
-     <a href="{% url 'buyitem' %}">Record Purchase</a>
+          <a href="{% url 'buyitem' %}">Record a purchase</a>
 
     {% else %}
         {% include 'MILK/notloggedin.html' %}
@@ -76,14 +76,18 @@
 </section></br>
 
 <!-- Insert Google Maps box -->
-
+<center>
 <section>
-      Search for your nearest store! - need to add geolocation
-      <div id="map" style="width: 600px; height: 600px;"></div>
-      <input id="pac-input" class="controls" type="text" placeholder="Search Box">
+      Search for your nearest store!</br>
+      Note: this can easily moved to another page. Could be cool to implement custom css so it stays at bottom of page as a footer. Can easily resize.
+      <!--Change size of width/height parameters for map display here.-->
+      <div id="map" style="width: 100%; height: 400px;"></div>
+
+      <input id="pac-input" class="controls" type="text" placeholder="Find your closest shop...">
+      <!--Load maps.js javascript file  -->
       <script src="{% static "js/maps.js" %}"></script>
-      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHUixbKEMTudErjgqYCYg4Ukil-5EuSFE&libraries=places&callback=initAutocomplete"
-           async defer></script>
+      <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCHUixbKEMTudErjgqYCYg4Ukil-5EuSFE&libraries=places&callback=initialise" async defer></script>
       </div>
 </section>
+</center>
 {% endblock %}
