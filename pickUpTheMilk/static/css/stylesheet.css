@@ -1,11 +1,12 @@
+/* Reset the sizing */
+
 *{
   margin: 0;
   header: 0;
   border: 0:
 }
-/*A wee bit of padding on the top*/
 body {
-  padding-top: 30px;
+  padding-top:  0px;
   background-image: url(https://endpoint895270.azureedge.net/static/mediabank/milk-splash-blue.jpg);
 
   /* Set a specific height */
@@ -23,7 +24,12 @@ h1 {
   padding-bottom: 9px;
     }
 
-/*Navigation Bar maybe #3d4544?   #2999d0*/
+.menu{
+  top: 0;
+ position: fixed;
+}
+/*Navigation Bar Area*/
+
 .fixed {
   position: fixed;
   top: 0;
@@ -35,6 +41,7 @@ h1 {
   transform:translateY(0px);
   transition:all 1s ease;
 }
+
 ul {
     width:100%;
     list-style-type: none;
@@ -67,9 +74,9 @@ li a.active{
   color: black;
   text-decoration: none;
 }
+
+/* Background on divs*/
 #bgColour {
  background: rgba(255, 255, 255, 0.87);
  (61,69,68,0.8)
-
- border-style: double;
 }

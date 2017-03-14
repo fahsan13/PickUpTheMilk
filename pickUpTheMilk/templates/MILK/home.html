@@ -13,102 +13,67 @@
 
   </head>
 
-  <body>
-
     {% block body_block %}
 
-
-      <h1> This will display if user is logged in <h1>
-
-      <h1> Noone is logged in </h1>
-
-
-
-          <img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" />Welcome to Passive Aggressive Cost-Sharing Application v. 0.1<img src="{%static "images/milklogo.png" %}" alt=""Milk Carton Logo" height ="100" />
-          {% if user.is_authenticated %}
-            Welcome back, {{ user.username }} </br>
-            <a href="{% url 'auth_logout' %}">Logout</a> </br>
-            <a href="{% url 'profile' user.username %}">View your profile</a>
-
-        		<div>
-        		<h6> Communal shopping List</h6>
-        		</div>
-
-                <div>
-                {% if Items %}
-                <ul>
-        			<!-- Changing this to item in Items gives an error
-        			message about it not being iterable. Can't say I know how to fix it -->
-                    {% for item in Items %}
+    <h1> <img src="{%static "images/milklogo.png" %}" alt= "Milk Carton Logo" height ="100"/>
+      Welcome to Passive Aggressive Cost-Sharing Application v. 0.2
+    </h1>
+        {% if user.is_authenticated %} Welcome back, {{ user.username }} </br></br>
+        <div>
+            <h6>Communal shopping list: (Need to handle a single group's empty list more gracefully!)</h6>
+        </div>
+        <div>
+            {% if Items %}
+            <ul>
+                {% for item in Items %}
+                  {% if user.groups.all.0 == item.groupBuying %}
                     <li>
-        				{{ item.itemName }}
+                      {{ item.itemName }}
                     </li>
-                    {% endfor %}
-                </ul>
-                {% else %}
-                    Your shopping list is empty.
-        		{% endif %}
-
-                </div>
-
-        		<div>
-        		<h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>
-        		{% if Items %}
-        			{% for item in Items %}
-        				{% if item.itemNeedsBought %}
-        				<li>
-        					{{ item.itemName }}
-        				</li>
-        				{% endif %}
-        			{% endfor %}
-        		</div>
-        		{% endif %}
-
-              {% else %}
-                <aside>
-              		<p>
-              			<a href="{% url 'auth_login' %}?/next=/">Login</a> or
-              			<a href="{% url 'registration_register' %}">Register</a>
-              		<p>
-              	</aside>
+                  {% endif %}
+                {% endfor %}
+            </ul>
+            {% else %}
+              Your shopping list is empty.
+            {% endif %}
+          </br>
+        </div>
+        <a href="{% url 'needsbought' %}">Update your pick up items (this is shit English, but it's a placeholder link so who cares)</a>
+          <div>
+              <h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>
+              {% if Items %}
+                {% for item in Items %}
+                  {% if user.groups.all.0 == item.groupBuying %}
+                    {% if item.itemNeedsBought %}
+                      <li>
+                        {{ item.itemName }}
+                      </li>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
               {% endif %}
-
-            <h1>HELOOOOOOOO</h1>
-              <h1>HELOOOOOOOO</h1>  <h1>HELOOOOOOOO</h1>  <h1>HELOOOOOOOO</h1>  <h1>HELOOOOOOOO</h1>
-                <h1>HELOOOOOOOO</h1>
-                  <h1>HELOOOOOOOO</h1>
-                    <h1>HELOOOOOOOO</h1>
-                      <h1>HELOOOOOOOO</h1>
-                        <h1>HELOOOOOOOO</h1>
-
-                          <h1>HELOOOOOOOO</h1>
-                            <h1>HELOOOOOOOO</h1>
-                              <h1>HELOOOOOOOO</h1>
-                                <h1>HELOOOOOOOO</h1>
-                                  <h1>HELOOOOOOOO</h1>
-
-                                    <h1>HELOOOOOOOO</h1>
-                                      <h1>HELOOOOOOOO</h1>
-                                        <h1>HELOOOOOOOO</h1>
-                                          <h1>HELOOOOOOOO</h1>
-                                            <h1>HELOOOOOOOO</h1>
-                                              <h1>HELOOOOOOOO</h1>
-                                                <h1>HELOOOOOOOO</h1>
-                                                  <h1>HELOOOOOOOO</h1>
-
-
-        {% endblock %}
+             <!--Should this only appear if there are items in the to buy list
+             should we be able to add and record the purchase of items on the same page
+             For the case of someone realising then need something when they are in the shop-->
+              <a href="{% url 'buyitem' %}">Record Purchase</a>
+          </div>
+        {% else %}
+          Use our website and we will harvest your shopping data and use it to target ads at you!
+            <aside>
+                <p>
+                    <a href="{% url 'auth_login' %}?/next=/">Login</a> or
+                    <a href="{% url 'registration_register' %}">Register</a>
+                    <p>
+            </aside>
+          {% endif %}
 
 
 
-
-
-
-    {% block side_block %}
-      <h1> OH HELLO <h1>
     {% endblock %}
 
+    {% block side_block %}
+      <h2> Hello </h2>
+    {% endblock %}
 
-  </body>
 
 </html>

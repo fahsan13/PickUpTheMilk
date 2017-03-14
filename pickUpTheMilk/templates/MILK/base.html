@@ -12,11 +12,9 @@
         Pick Up the Milk - {% block title %}The Flatshare Shopping List{% endblock %}
     </title>
 </head>
-  <!-- <body style="background-image: url('{% static "images/bg-copy1.png"%}')";> -->
 
 
-  <!-- HEADER BAR -->
-
+  <!-- NAVIGATION  BAR -->
   {% block navigation_block %}
   <div class ="menu">
     <ul style="navbar">
@@ -47,7 +45,6 @@
          {% if user.is_authenticated %}
           <li style="float:right"><a href="{% url 'auth_logout' %}">Logout</a>
         {% else %}
-
           <li style="float:right"><a href="{% url 'auth_login' %}">Log in</a>
         {% endif %}
     </ul>
@@ -56,25 +53,35 @@
 
 <!--BODY OF THE TEXT-->
 
-<div class="grid grid-pad">
-    <div class="col-3-12">
-       <div class="content">
-         <div id="bgColour">
-         {% block side_block %}
-         {% endblock %}
-       </div>
-       </div>
-    </div>
-    <div class="col-9-12">
-       <div class="content">
-         <div id="bgColour">
-         {% block body_block %}
-         {% endblock %}
+  {% if app_url == '/' %}
+    {% if not user.is_authenticated %}
+
+    <h1> HELLOOOO <h1>
+    {% endif %}
+
+  {% else %}
+  <div class="grid grid-pad">
+      <div class="col-3-12">
+         <div class="content">
+           <div id="bgColour">
+           {% block side_block %}
+           {% endblock %}
          </div>
-       </div>
+         </div>
+      </div>
     </div>
-</div>
-</div>
+      <div class="col-9-12">
+         <div class="content">
+           <div id="bgColour">
+           {% block body_block %}
+           {% endblock %}
+           </div>
+         </div>
+      </div>
+  </div>
+  </div>
+  {% endif %}
+
 
  <!-- FOOTER -->
  {% block footer %}
