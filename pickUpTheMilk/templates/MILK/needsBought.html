@@ -1,0 +1,60 @@
+{% extends 'MILK/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %} Update shopping list {% endblock %}
+
+{% block body_block %}
+<h1>Update your shopping list</h1>
+
+
+
+    {% if user.is_authenticated %} Welcome back, {{ user.username }} </br>
+
+    <div>
+        <h6> This is where we test if we can set items to be needing bought</h6>
+
+
+    <div>
+        <form id="needsBoughtForm" method="post" action"."}>
+
+        {% csrf_token %}
+
+        {% for hidden in form.hidden_fields %}
+          {{ hidden }}
+        {% endfor %}
+
+        {% for field in form.visible_fields %}
+          {{ field.errors }}
+          {{ field.help_text }}
+          {{ field }}
+        {% endfor %}
+
+        <input type="submit", name="submit", value="Item needs replenished">
+
+        {% if Items %}
+
+
+        <ul>
+            {% for item in Items %}
+
+                {{ item.itemName }}
+
+
+
+            </li>
+
+            {% endfor %}
+        </ul>
+        {% else %}
+          Everything needs bought. Go shopping!
+        {% endif %}
+
+
+
+    </div>
+
+
+
+      {% endif %}
+
+{% endblock %}

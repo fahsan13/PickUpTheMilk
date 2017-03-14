@@ -6,7 +6,8 @@ __pycache__/
 # C extensions
 *.so
 *.pyc
-db.sqlite3
+
+pickUpTheMilk/db.sqlite3
 
 # Distribution / packaging
 .Python
@@ -90,4 +91,6 @@ ENV/
 # Rope project settings
 .ropeproject
 
+#local files
 .idea
+.db

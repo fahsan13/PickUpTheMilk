@@ -7,10 +7,9 @@ urlpatterns = [
     url(r'^contact/$', views.contact, name= 'contact'),
     url(r'^about/$', views.about, name= 'about'),
     url(r'^create-group/$', views.creategroup, name= 'create-group'),
-    url(r'^profile/(?P<username>[\w\-]+)/$', views.userprofile, name= 'profile'),
+    url(r'^profile/(?P<username>[\w\-]+)/$', views.profilepage, name= 'profile'),
     url(r'^register_profile/$', views.register_profile, name='register_profile'),
-
-    # Work in progress
-    # url(r'^profileID=(?P<userID>[\w\-]+)/', views.userprofile, name= 'profile'),
-    # url(r'^profileID=(?P<userID>^\d*[1-9]\d*$)/', views.userprofile, name= 'profile'),
+    url(r'^group/(?P<groupname>[\w\-]+)/$', views.grouppage, name= 'group'),
+    url(r'^buyitem/$', views.buyitem, name= 'buyitem'),
+    url(r'^needsbought/$', views.needsbought, name= 'needsbought'),
 ]

@@ -23,6 +23,15 @@
       {% else %}
         <li><a href="{% url 'home' %}">Homepage</a>
       {% endif %}
+    if {% if user.is_authenticated %}
+      <a class="nav-item nav-link" href="{% url 'profile' user.username %}">Profile</a>
+      <a class="nav-item nav-link" href="{% url 'auth_logout' %}?next=/">Logout</a>
+    {% else %}
+      <a class="nav-item nav-link" href="{% url 'auth_login' %}">Login</a>
+    {% endif %}
+ </nav>
+<div class="container-fluid">
+    <div class="row">
 
       {% if app_url == '/about/' %}
         <li><a class="active" href="{% url 'about' %}">About</a>

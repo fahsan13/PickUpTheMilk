@@ -1,0 +1,52 @@
+{% extends 'MILK/base.html' %}
+
+{% load staticfiles %}
+
+{% block title_block %}
+		Group Page
+{% endblock %}
+
+{% block body_block %}
+  <div>
+  <h3>Group page for {{ currentgroup.name }}</h3>
+  <h4>Your group admin is <a href="{% url 'profile' groupdetail.administrator %}">{{ groupdetail.administrator }}</a></h4>
+
+  This is where we will display collective group info!</br></br>
+
+  <div><b>Group Members</b>
+    {% for profile in members %}
+      <ul><a href="{% url 'profile' profile.username %}">{{ profile.username }}</a></ul>
+    {% endfor %}
+  </div></br>
+
+  <div>
+      {% if user == groupdetail.administrator %}
+	      <b>You can see this because you're the group admin!</b></br></br>
+
+					Bit buggy as these require a refresh of page before updated member options reflected in drop-down lists.
+					Ajax???
+					</thead>
+					If we have time (lolololol) maybe replace with a search field later so admin can enter a username </br></br>
+
+				<!-- Form to add a user to a group - only visible to admin  -->
+	      <form id="AddUser" method="post" action".">
+
+	        {% csrf_token %}
+
+	        {{ addform.as_p }}
+
+	      <!-- Button to click to submit the form -->
+	      <input type="submit" name="adduserbutton" value="Add member to {{ currentgroup.name }}"></br></br>
+
+				<!-- Form to remove a user from a group - only visible to admin -->
+				<form id="RemoveUser" method="post" action".">
+
+				  {% csrf_token %}
+
+					{{ removeform.as_p }}
+
+			  <!-- Button to click to submit the form -->
+				<input type="submit" name="removeuserbutton" value="Remove member from {{ currentgroup.name }}">
+			{% endif %}
+	</div>
+{% endblock %}
