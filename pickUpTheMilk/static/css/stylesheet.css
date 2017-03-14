@@ -27,8 +27,13 @@ h1 {
 .fixed {
   position: fixed;
   top: 0;
-  left:0;
-  right:0;
+  transform:translateY(-50px);
+  transition:all 1s ease;
+}
+.fixed-animation{
+  top:0;
+  transform:translateY(0px);
+  transition:all 1s ease;
 }
 ul {
     width:100%;
@@ -68,15 +73,3 @@ li a.active{
 
  border-style: double;
 }
-
-
-
-/* parralax */
-.parallax {
-    /* The image used */
-
-}
-/*@media only screen and (max-device-width: 1024px) {
-    .parallax {
-        background-attachment: scroll;
-    }*/
