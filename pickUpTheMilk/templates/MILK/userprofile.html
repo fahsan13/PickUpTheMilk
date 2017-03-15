@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body_block %}
-  <div>
+
   <h3>{{ selecteduser.username }}'s profile</h3>
 
 	{% if userprofile.picture %}
@@ -31,14 +31,17 @@
 
 	<div>
 	{% if selecteduser.groups.all.0 %}
+
 		<h5>
 			Member of group: {{ selecteduser.groups.all.0 }}</br>
 			<a href="{% url 'group' user.groups.all.0 %}">Visit your group page</a>
-	     </h5>
-    <div>
+	  </h5>
+
+		<div>
 		{% if selecteduser.username == user.username %}
 			<b>Add item</b>
-				<form id="itemForm" method="post" action".">
+
+			<form id="itemForm" method="post" action".">
 
 				{% csrf_token %}
 
@@ -55,48 +58,44 @@
 			<!-- Button to click to submit the form -->
 			<input type="submit" name="submit" value="Add Item" onClick="myAlert()"/>
 			</form>
-				<script>
-					function myAlert() {
-						alert("Item successfully added")}
-				</script>
+
+			<!-- Shouldn't popup if there was an error with adding item -->
+			<script>
+				function myAlert() {
+					alert("Item successfully added")}
+			</script>
+
+			<!-- View Group list -->
+			<b>Communal shopping list:</b>
+
+			<div>
+				<div class=scroll-list>
+						{% if Items %}
+							{% for item in Items %}
+								<!-- Only show the items belonging to this group! -->
+								{% if selecteduser.groups.all.0 == item.groupBuying %}
+									<li>{{ item.itemName }}</li>
+								{% endif %}
+							{% endfor %}
+						{% else %}
+							Your shopping list is empty.
+						{% endif %}
+				</div>
 		{% endif %}
 
-	</div>
-<!-- View Group list -->
-         <b>Communal shopping list:</b>
-		<div>
-
-		<div class =scroll-list>
-			        {% if Items %}
-
-			            {% for item in Items %}
-									<!-- Only show the items belonging to this group! -->
-			            	{% if selecteduser.groups.all.0 == item.groupBuying %}
-			                <li>{{ item.itemName }}</li>
-											{% endif %}
-
-			            {% endfor %}
-			        </ul>
-		</div>
-			        {% else %}
-			          Your shopping list is empty.
-			        {% endif %}
-    </div>
 	{% else %}
-			<h5>Not a member of any groups :(</h5>
+		<!--Selected User does not have a group-->
+		<h5>Not a member of any groups :(</h5>
 
-			{% if selecteduser.username == user.username %}
-				<div>
-					<a href="{% url 'create-group' %}">Create a Group</a>
-		    </div>
-			{% endif %}
-			</br>
-			<h5>POSSIBLE TO-DO: GIVE THEM A WAY TO JOIN AN EXISTING GROUP?</h5>
+		{% if selecteduser.username == user.username %}
+			<div>
+				<a href="{% url 'create-group' %}">Create a Group</a>
+			</div>
+		{% endif %}</br>
+
+		<h5>POSSIBLE TO-DO: GIVE THEM A WAY TO JOIN AN EXISTING GROUP?</h5>
 
 	{% endif %}
 	</div>
-	</br>
 
-
-  <div>
 {% endblock %}
