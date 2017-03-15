@@ -55,18 +55,16 @@
 
 
 
-      </div><!--Should this only appear if there are items in the to buy list
-         should we be able to add and record the purchase of items on the same page
-         For the case of someone realising then need something when they are in the shop-->
-          <a href="{% url 'buyitem' %}">Record a purchase</a>
-    </section>
-    </br>
 
-    <a href="{% url 'settle-up' user.groups.all.0 %}">Settle Up the Balance</a>
+
+    </section>
       <!--Should this only appear if there are items in the to buy list
            should we be able to add and record the purchase of items on the same page
            For the case of someone realising then need something when they are in the shop-->
       <a href="{% url 'recordpurchase' %}">Record a purchase</a>
+    </br>
+    <!--Link to the page to resolve kitty/settle up balance-->
+    <a href="{% url 'settle-up' user.groups.all.0 %}">Settle Up the Balance</a>
 
     {% else %}
     <!-- User not authenticated -->
