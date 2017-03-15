@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
+from django.db.models import Sum
 
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
 from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, BuyItem, needsBoughtForm
@@ -247,3 +248,11 @@ def needsbought(request):
     response = render(request, 'MILK/needsBought.html', {'form':form})
     return response
 
+#Settle up page, resolve balances
+@login_required
+def settleup(request,groupname):
+    # Get all members of the group
+    groupmembers = User.objects.filter(groups__name=groupname)
+
+    response = render(request, 'MILK/settle-up.html',{'members':groupmembers,})
+    return response

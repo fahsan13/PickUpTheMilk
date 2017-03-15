@@ -61,8 +61,14 @@
          should we be able to add and record the purchase of items on the same page
          For the case of someone realising then need something when they are in the shop-->
           <a href="{% url 'buyitem' %}">Record a purchase</a>
+    </section>
+    </br>
+
+    <a href="{% url 'settle-up' user.groups.all.0 %}">Settle Up the Balance</a>
 
     {% else %}
+
+      Use our website and we will harvest your shopping data and use it to target ads at you! <--- We are not this clever
         {% include 'MILK/notloggedin.html' %}
       Use our website and we will harvest your shopping data and use it to target ads at you!
         <aside>

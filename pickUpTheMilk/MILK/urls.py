@@ -12,4 +12,5 @@ urlpatterns = [
     url(r'^group/(?P<groupname>[\w\-]+)/$', views.grouppage, name= 'group'),
     url(r'^buyitem/$', views.buyitem, name= 'buyitem'),
     url(r'^needsbought/$', views.needsbought, name= 'needsbought'),
+    url(r'^settle-up/(?P<groupname>[\w\-]+)/$', views.settleup, name= 'settle-up'),
 ]
