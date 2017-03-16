@@ -12,96 +12,85 @@
       Pick Up the Milk - {% block title %}The Flatshare Shopping List{% endblock %}
     </title>
   </head>
+  <body>
+
+    <!-- NAVIGATION  BAR -->
+    {% block navigation_block %}
+    <nav>
+      <!--<div class ="menu">-->
+
+        <img src="{%static "images/milklogo.png" %}" alt= "Milk Carton Logo" height ="100"/>
+
+        <ul>
+
+          {% if app_url == '/' %}
+          <li><a class="active" href="{% url 'home' %}">Homepage</a></li>
+          {% else %}
+          <li><a href="{% url 'home' %}">Homepage</a></li>
+          {% endif %}
+
+          {% if user.is_authenticated %}
+          <li><a href="{% url 'profile' user.username %}">Profile</a></li>
+          {% endif %}
+
+          {% if app_url == '/about/' %}
+          <li><a class="active" href="{% url 'about' %}">About</a></li>
+          {% else %}
+          <li><a href="{% url 'about' %}">About</a></li>
+          {% endif %}
+
+          {% if app_url == '/contact/' %}
+          <li><a class="active" href="{% url 'contact'%}">Contact Us</a></li>
+          {% else %}
+          <li><a href="{% url 'contact'%}">Contact Us</a></li>
+          {% endif %}
+
+          {% if app_url == '/sitemap/' %}
+          <li><a class="active" href="{% url 'sitemap' %}">Site Map</a></li>
+          {% else %}
+          <li><a href="{% url 'sitemap' %}">Site Map</a></li>
+          {% endif %}
+
+          {% if user.is_authenticated %}
+          <li style="float:right"><a href="{% url 'auth_logout' %}">Logout</a></li>
+          {% else %}
+          <li style="float:right"><a href="{% url 'auth_login' %}">Log in</a></li>
+          {% endif %}
+        </ul>
+      <!--</div>-->
+    </nav>
+
+    {% endblock %}
 
 
-  <!-- NAVIGATION  BAR -->
-  {% block navigation_block %}
-  <nav>
-    <div class ="menu">
-      <ul style="navbar">
-        {% if app_url == '/' %}
-        <li><a class="active" href="{% url 'home' %}">Homepage</a></li>
-        {% else %}
-        <li><a href="{% url 'home' %}">Homepage</a></li>
-        {% endif %}
 
-        {% if user.is_authenticated %}
-        <li><a href="{% url 'profile' user.username %}">Profile</a></li>
-        {% endif %}
-
-        {% if app_url == '/about/' %}
-        <li><a class="active" href="{% url 'about' %}">About</a></li>
-        {% else %}
-        <li><a href="{% url 'about' %}">About</a></li>
-        {% endif %}
-
-        {% if app_url == '/contact/' %}
-        <li><a class="active" href="{% url 'contact'%}">Contact Us</a></li>
-        {% else %}
-        <li><a href="{% url 'contact'%}">Contact Us</a></li>
-        {% endif %}
-
-        {% if app_url == '/sitemap/' %}
-        <li><a class="active" href="{% url 'sitemap' %}">Site Map</a></li>
-        {% else %}
-        <li><a href="{% url 'sitemap' %}">Site Map</a></li>
-        {% endif %}
-
-        {% if user.is_authenticated %}
-        <li style="float:right"><a href="{% url 'auth_logout' %}">Logout</a></li>
-        {% else %}
-        <li style="float:right"><a href="{% url 'auth_login' %}">Log in</a></li>
-        {% endif %}
-      </ul>
-    </div>
-  </nav>
-
-
-  <div class="container-fluid">
-    <div class="row">
-
-
-      {% endblock %}
-
-      <!--BODY OF THE TEXT-->
-
-      {% if app_url == '/' %}
-      {% if not user.is_authenticated %}
-
-      <h1> HELLOOOO <h1>
-        {% endif %}
-
-        {% else %}
-        <div class="grid grid-pad">
-          <div class="col-3-12">
-            <div class="content">
-              <div id="bgColour">
-                {% block side_block %}
-                {% endblock %}
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-9-12">
-          <div class="content">
-            <div id="bgColour">
-              {% block body_block %}
-              {% endblock %}
-            </div>
-          </div>
-        </div>
+    <!--BODY OF THE TEXT-->
+    <div class="col-md-3 main_content">
+      <div id="bgColour">
+        {% block side_block %}
+        {% endblock %}
       </div>
     </div>
-    {% endif %}
+
+    <div class="col-md-8 main_content">
+      <div id="bgColour">
+        {% block body_block %}
+        {% endblock %}
+      </div>
+    </div>
 
 
     <!-- FOOTER -->
-    {% block footer %}
-    <a href="{% url 'home' %}">Homepage</a>
-    <a href="{% url 'about' %}">About/FAQ</a>
-    <a href="{% url 'contact'%}">Contact Us</a>
-    <a href="{% url 'sitemap' %}">Site Map</a>
-    {% endblock %}
+    <footer class="footer">
+      <div class="position">
+      {% block footer %}
+      <a href="{% url 'home' %}">Homepage</a>
+      <a href="{% url 'about' %}">About/FAQ</a>
+      <a href="{% url 'contact'%}">Contact Us</a>
+      <a href="{% url 'sitemap' %}">Site Map</a>
+      {% endblock %}
+    </div>
+  </footer>
     <!--maxCDN -->
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- Latest compiled and minified CSS -->
