@@ -266,6 +266,7 @@ def settleup(request,groupname):
 @login_required
 def resolveBalances(request, groupname):
     current_group = User.objects.filter(groups__name=groupname)
+    print "Do I get reached?"
     for each in current_group.objects.all():
         print "Am I looping?"
         userTo0 = current_group.object.username
