@@ -9,45 +9,29 @@
 
     NOTE: the form still works but have to disable styles to get it to show. Modal form doesn't pop up.
 
-<div>
-    <!--Sets modal button type-->
-    <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#myModal">Record Purchase</button>
+    <div>
+  <!--Sets modal button type-->
+    <button type="button" >Record Purchase</button>
 
     <div>
-        <!-- Modal -->
-        <div id="myModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Enter Purchase Details</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div>
-                            <form id="BuyItem" method="post" action="." }>
+                            <form id="RecordPurchase" method="post" action="." }>
 
                                 {% csrf_token %}
 
-                                {% for hidden in form.hidden_fields %}
-                                  {{ hidden }}
+                                {% for hidden in needsboughtform.hidden_fields %}
+                                {{ hidden }}
                                 {% endfor %}
 
                                 {% for field in form.visible_fields %}
-                                  {{ field.errors }}
-                                  {{ field.help_text }}
-                                  {{ field }}
+                                {{ field.errors }}
+                                {{ field.help_text }}
+                                {{ field }}
                                 {% endfor %}
 
+
                               <input type="submit" , name="submit" , value="Record a purchase">
-                        </div>
-                        {% endif %}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
+
         </div>
+        {% endif %}
 {% endblock %}
