@@ -58,9 +58,9 @@ nav ul {
 
 nav img {
   position: absolute;
-  top: -27px;
-  /*width: 30px;
-  height: 30px;*/
+  top: -30px;
+  width: 110px;
+  height: 110px;
 }
 
 .navbar {
