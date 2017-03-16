@@ -1,0 +1,33 @@
+<div class="sidebar">
+<h3>{{ selecteduser.username }}'s profile</h3>
+
+	{% if userprofile.picture %}
+		<img src="{{ MEDIA_URL }}{{ userprofile.picture }}"
+     	width="64"
+     	height="64"
+     	alt="{{selecteduser.username}}" />
+			<br/>
+	{% else %}
+		<img width="64" height="64" src="http://lorempixel.com/64/64/people/"/>
+		{% if selecteduser.username == user.username %}
+			Why not upload your own profile picture?
+		{% else %}
+			{{ selecteduser.username }} hasn't uploaded a profile picture.
+		{% endif %}
+	{% endif %}
+
+	<!-- These might not all be necessary but we can see how to get this info  -->
+	<h5>{{ selecteduser.username }}'s current balance: {{ userprofile.balance }}</h5>
+	<!-- Think this will only display first group properly, BUT they should only have one in the simplest case -->
+
+	<div>
+	{% if selecteduser.groups.all.0 %}
+
+		<h5>
+			Member of group: {{ selecteduser.groups.all.0 }}</br>
+			<a href="{% url 'group' user.groups.all.0 %}">Visit your group page</a>
+	  </h5>
+
+      {% endif %}
+
+    </div>

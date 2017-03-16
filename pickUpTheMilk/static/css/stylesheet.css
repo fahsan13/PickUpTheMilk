@@ -136,3 +136,9 @@ li a.active{
     max-width: 250px;
     overflow-y: scroll;
 }
+
+.sidebar
+{
+   max-width: 250px;
+   overflow-wrap: normal;
+}
