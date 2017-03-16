@@ -9,10 +9,26 @@
 
   <div>
     <p>For enquiries or any general feedback, please fill in the form below and
-      we'll get back to you as soon as we can!
+      we'll get back to you as soon as we can.
     </p>
 
-    (This is where we put a form)
+    <form method="post" action="{% url 'home' %}">
+
+		{% csrf_token %}
+
+		{{ form.as_p }}
+
+
+      <!-- Button to click to submit the form -->
+      <input type="submit" name="Submit" value="Submit" onClick="myAlert()"/>
+
+      <!--TODO- put into seperate file-->
+
+      <script>
+				function myAlert() {
+					alert("Thank you for your feedback!");
+                }
+      </script>
   </div>
 
 {% endblock %}

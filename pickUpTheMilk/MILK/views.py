@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db.models import Sum
 
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
-from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm
+from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm, ContactForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -48,7 +48,10 @@ def sitemap(request):
 def contact(request):
 
     app_url = request.path
-    return render(request, 'MILK/contact.html', {'app_url': app_url})
+
+    form = ContactForm()
+
+    return render(request, 'MILK/contact.html', {'app_url': app_url, 'form':form})
 
 def about(request):
     app_url = request.path
