@@ -62,7 +62,7 @@ class RemoveUser(forms.Form):
         )
 
 # Allows users to track items purchased - form needs to be renamed to reflect this
-class BuyItem(forms.ModelForm):
+class RecordPurchase(forms.ModelForm):
     # Filter items so can only see items that are on the too pick up list
     itemID = forms.ModelChoiceField(queryset=Item.objects.filter(itemNeedsBought = True))
     value = forms.DecimalField(required=True, min_value=0.01,

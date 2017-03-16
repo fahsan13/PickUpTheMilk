@@ -1,0 +1,20 @@
+{% extends 'MILK/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+  Settle Up
+{% endblock %}
+
+{% block body_block %}
+<p>Settle up the balances</p>
+
+
+  <div><b>Group Members</b>
+
+      {% for profile in members %}
+      <ul><a href="{% url 'profile' profile.username %}">{{ profile.username }} has a balance of: {{ profile.userprofile.balance }} </a></ul>
+    {% endfor %}
+
+  </div></br>
+
+{% endblock %}

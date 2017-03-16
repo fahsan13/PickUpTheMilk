@@ -7,46 +7,59 @@
 {% endblock %}
 
 {% block body_block %}
-  <div>
-  <h3>Group page for {{ currentgroup.name }}</h3>
-  <h4>Your group admin is <a href="{% url 'profile' groupdetail.administrator %}">{{ groupdetail.administrator }}</a></h4>
+	<!--Code to make sure that you can't view someone else's group-->
+	<!--Can/should probably be refactored to be done in the view!-->
+	{% for profile in members %}
+		<!--Check to see if user is a member of group-->
+		<!--Will only render once as they can only be a member once -->
+		{% if profile == user %}
 
-  This is where we will display collective group info!</br></br>
+			<div>
+		  <h3>Group page for {{ currentgroup.name }}</h3>
+		  <h4>The group admin is <a href="{% url 'profile' groupdetail.administrator %}">{{ groupdetail.administrator }}</a></h4>
 
-  <div><b>Group Members</b>
-    {% for profile in members %}
-      <ul><a href="{% url 'profile' profile.username %}">{{ profile.username }}</a></ul>
-    {% endfor %}
-  </div></br>
+		  This is where we will display collective group info!</br></br>
 
-  <div>
-      {% if user == groupdetail.administrator %}
-	      <b>You can see this because you're the group admin!</b></br></br>
+		  <div><b>Group Members</b>
+		    {% for profile in members %}
+		      <ul><a href="{% url 'profile' profile.username %}">{{ profile.username }}</a></ul>
+		    {% endfor %}
+		  </div></br>
 
-					Bit buggy as these require a refresh of page before updated member options reflected in drop-down lists.
-					Ajax???
-					</thead>
-					If we have time (lolololol) maybe replace with a search field later so admin can enter a username </br></br>
+		  <div>
+		      {% if user == groupdetail.administrator %}
+			      <b>You can see this because you're the group admin!</b></br></br>
 
-				<!-- Form to add a user to a group - only visible to admin  -->
-	      <form id="AddUser" method="post" action".">
+							Bit buggy as these require a refresh of page before updated member options reflected in drop-down lists.
+							Ajax???
+							</thead>
+							If we have time (lolololol) maybe replace with a search field later so admin can enter a username </br></br>
 
-	        {% csrf_token %}
+						<!-- Form to add a user to a group - only visible to admin  -->
+			      <form id="AddUser" method="post" action".">
 
-	        {{ addform.as_p }}
+			        {% csrf_token %}
 
-	      <!-- Button to click to submit the form -->
-	      <input type="submit" name="adduserbutton" value="Add member to {{ currentgroup.name }}"></br></br>
+			        {{ addform.as_p }}
 
-				<!-- Form to remove a user from a group - only visible to admin -->
-				<form id="RemoveUser" method="post" action".">
+			      <!-- Button to click to submit the form -->
+			      <input type="submit" name="adduserbutton" value="Add member to {{ currentgroup.name }}"></br></br>
 
-				  {% csrf_token %}
+						<!-- Form to remove a user from a group - only visible to admin -->
+						<form id="RemoveUser" method="post" action".">
 
-					{{ removeform.as_p }}
+						  {% csrf_token %}
 
-			  <!-- Button to click to submit the form -->
-				<input type="submit" name="removeuserbutton" value="Remove member from {{ currentgroup.name }}">
-			{% endif %}
-	</div>
+							{{ removeform.as_p }}
+
+					  <!-- Button to click to submit the form -->
+						<input type="submit" name="removeuserbutton" value="Remove member from {{ currentgroup.name }}">
+					{% endif %}
+			</div>
+		{% endif %}
+	{% endfor %}
+
+	</br>
+	Trouble with viewing group information? Perhaps you're not a member of {{ currentgroup.name }}...
+
 {% endblock %}

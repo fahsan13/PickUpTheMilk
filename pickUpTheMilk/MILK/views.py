@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
+from django.db.models import Sum
 
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
-from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, BuyItem, needsBoughtForm
+from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -81,7 +82,9 @@ def creategroup(request):
             # Add the user to this newly created group
             user.groups.add(groupname)
             print(group)
-            return profilepage(request, user.username)
+
+            # Redirect user to their profile if group succcessfully created
+            return redirect('profile', user.username)
         else:
             print(form.errors)
 
@@ -170,12 +173,8 @@ def grouppage(request, groupname):
         # Deal with remove_form
         if remove_form.is_valid():
             selecteduserID = remove_form.cleaned_data['user_to_remove']
-
             # Filter user based on their ID
             selecteduser = User.objects.get(id=selecteduserID)
-
-            print selecteduser
-
             selecteduser.groups.remove(groupname)
             print("User successfully removed!")
         else:
@@ -186,12 +185,12 @@ def grouppage(request, groupname):
 
 @login_required
 #Should be record purchase. Since we are recording a purchase.
-def buyitem(request):
+def record_purchase(request):
 
-    form=BuyItem()
+    form=RecordPurchase()
 
     if request.method == 'POST':
-        form = BuyItem(request.POST)
+        form = RecordPurchase(request.POST)
 
         if form.is_valid():
             purchase=form.save(commit=False)
@@ -224,7 +223,7 @@ def buyitem(request):
         else:
              print(form.errors)
 
-    response = render(request, 'MILK/buyitem.html', {'form':form})
+    response = render(request, 'MILK/transaction.html', {'form':form})
     return response
 
 @login_required
@@ -255,3 +254,11 @@ def needsbought(request):
     response = render(request, 'MILK/needsBought.html', {'form':form})
     return response
 
+#Settle up page, resolve balances
+@login_required
+def settleup(request,groupname):
+    # Get all members of the group
+    groupmembers = User.objects.filter(groups__name=groupname)
+
+    response = render(request, 'MILK/settle-up.html',{'members':groupmembers,})
+    return response
