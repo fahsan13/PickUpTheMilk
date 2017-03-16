@@ -11,10 +11,23 @@
 
   <div><b>Group Members</b>
 
-      {% for profile in members %}
-      <ul><a href="{% url 'profile' profile.username %}">{{ profile.username }} has a balance of: {{ profile.userprofile.balance }} </a></ul>
-    {% endfor %}
+    {% for profile in members %}
+      <ul><a href="{% url 'profile' profile.username %}">{{ profile.username }} has a 
 
+balance of: {{ profile.userprofile.balance }} </a></ul>
+    {% endfor %}
   </div></br>
 
+ <div>
+	<button id = "Settle_balance" groupname="{{ user.groups.all.0 }}"
+		class="btn btn-primary btn-sm" type="button"> 
+		Settle like Bekah is settling for me
+	</button>	
+  </div>
 {% endblock %}
+
+
+
+<!-- Need to set it up so the button passes the entire group to the view, which can 
+
+then 0 the balances -->
