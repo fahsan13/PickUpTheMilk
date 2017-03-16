@@ -262,3 +262,20 @@ def settleup(request,groupname):
 
     response = render(request, 'MILK/settle-up.html',{'members':groupmembers,})
     return response
+
+@login_required
+def resolveBalances(request, groupname):
+    current_group = User.objects.filter(groups__name=groupname)
+    for each in current_group.objects.all():
+        print "Am I looping?"
+        userTo0 = current_group.object.username
+        clearUserBalance(userTo0)
+    return HttpResponse(something)
+
+
+# Helper method to clear balance of an individual user
+def clearUserBalance(username):
+    userprofile = UserProfile.objects.get_or_create(user=username)[0]
+    userprofile.balance = 0
+    userprofile.save()
+    return response
