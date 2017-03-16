@@ -35,10 +35,50 @@ def home(request):
     # Placed here assuming we're keeping lists on home page? if I'm wrong, easy to change
     item_list = Item.objects.order_by('id')
     app_url = request.path
+    form = RecordPurchase()
 
-    context_dict = {'Items': item_list, 'app_url': app_url }
+
+
+    if request.method == 'POST':
+        form = RecordPurchase(request.POST)
+
+        if form.is_valid():
+            purchase=form.save(commit=False)
+            # Get selected payee ID from drop down box
+            payee=form.cleaned_data['payeeID']
+            # Gets item purchased
+            item_purchased = form.cleaned_data['itemID']
+            # Get cost of transaction entered by user from form
+            item_cost = form.cleaned_data['value']
+            # Get this user's userprofile, where their balance is stored
+            userprofile = UserProfile.objects.get_or_create(user=payee)[0]
+            # Gets item object to allow toggling of needsbought booleanfield - what is get or create?
+            toggle_item_bought = Item.objects.get(id=item_purchased.id)
+
+            # Reflect this on user's balance
+            userprofile.balance += item_cost
+
+            # Sets items needs bought status to false, for item model
+            toggle_item_bought.itemNeedsBought = False
+
+            # Updates the transaction model
+            purchase.payeeID = payee
+            purchase.itemID = item_purchased
+
+            # Saves changes
+            userprofile.save()
+            toggle_item_bought.save()
+            purchase.save()
+            form = RecordPurchase()
+
+        else:
+             print(form.errors)
+
+
+    context_dict = {'Items': item_list, 'app_url': app_url, 'form':form}
     response = render(request, 'MILK/home.html', context_dict)
     return response
+
 
 def sitemap(request):
     app_url = request.path

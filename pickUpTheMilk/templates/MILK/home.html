@@ -57,10 +57,49 @@
 
     </section>
 
+         <!--Sets modal button type-->
+    <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#myModal">Record Purchase</button>
+
+    <div>
+        <!-- Modal -->
+        <div id="myModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Enter Purchase Details</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <form id="RecordPurchase" method="post" action="." }>
+
+                                {% csrf_token %}
+
+                                {% for hidden in form.hidden_fields %}
+                                {{ hidden }}
+                                {% endfor %}
+
+                                {% for field in form.visible_fields %}
+                                {{ field.errors }}
+                                {{ field.help_text }}
+                                {{ field }}
+                                {% endfor %}
+
+
+                              <input type="submit" , name="submit" , value="Record a purchase">
+
+        </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         <!--Should this only appear if there are items in the to buy list
              should we be able to add and record the purchase of items on the same page
              For the case of someone realising then need something when they are in the shop-->
-        <a href="{% url 'recordpurchase' %}">Record a purchase.</a></br>
+        <!--<a href="{% url 'recordpurchase' %}">Record a purchase.</a></br>-->
         <!--Link to the page to resolve kitty/settle up balance-->
         <a href="{% url 'settle-up' user.groups.all.0 %}">Settle up all balances.</a>
         {% endif %}

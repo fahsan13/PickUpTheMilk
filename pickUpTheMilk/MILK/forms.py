@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, Group
 from MILK.models import Item, UserProfile, GroupDetail, Transaction
 
@@ -76,6 +77,8 @@ class RecordPurchase(forms.ModelForm):
     class Meta:
         model = Transaction
         fields = ('value',)
+        #this label thing doesn't work yet
+        labels = { 'value': _('Fanny'),}
     # def clean_item(self):
         # id = Item.objects.get(id = self.item)
 
