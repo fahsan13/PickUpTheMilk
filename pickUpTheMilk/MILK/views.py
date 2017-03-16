@@ -264,19 +264,24 @@ def settleup(request,groupname):
     return response
 
 @login_required
-def resolveBalances(request, groupname):
-    current_group = User.objects.filter(groups__name=groupname)
-    print "Do I get reached?"
-    for each in current_group.objects.all():
-        print "Am I looping?"
-        userTo0 = current_group.object.username
-        clearUserBalance(userTo0)
-    return HttpResponse(something)
+def resolvebalances(request):
+    group_name = 'Cuntflaps'
+    print "PISS"
+    #groupname = User.objects.get(groups__name=groupname)
+    print "HGCJKVCJKVGCJKLHCJHLVC"
+    if request.method == 'GET':
+        print "HELLO POPPET"
+        groupname = request.GET[group_name]
+        print groupname
+        balance = 0
+        if current_group:
+            print("is current group?")
+            allingroup = current_group.objects.all()
+            for User in allingroup:
+                print "Am I looping?"
+                userto0 = current_group.object.username
+                userprofile = UserProfile.objects.get_or_create(user=userto0)[0]
+                userprofile.balance = balance
+                userprofile.save()
+    return HttpResponse(groupname)
 
-
-# Helper method to clear balance of an individual user
-def clearUserBalance(username):
-    userprofile = UserProfile.objects.get_or_create(user=username)[0]
-    userprofile.balance = 0
-    userprofile.save()
-    return response

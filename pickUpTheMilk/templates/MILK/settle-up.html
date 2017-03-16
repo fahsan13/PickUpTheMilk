@@ -10,16 +10,15 @@
 
 
   <div><b>Group Members</b>
-
+	<id="balances">
     {% for profile in members %}
       <ul><a href="{% url 'profile' profile.username %}">{{ profile.username }} has a 
-
 balance of: {{ profile.userprofile.balance }} </a></ul>
     {% endfor %}
   </div></br>
 
  <div>
-	<button id = "Settle_balance" groupname="{{ user.groups.all.0 }}"
+	<button id = "settle_balance" data-groupname="{{ user.groups.all.0 }}"
 		class="btn btn-primary btn-sm" type="button"> 
 		Settle balances
 	</button>	
