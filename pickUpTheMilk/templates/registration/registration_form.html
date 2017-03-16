@@ -3,13 +3,18 @@
 {% block body_block %}
   <h3> Register here!</h3>
 
-    <form method="post" action="." enctype="multipart/form-data">
+	{% if user.is_authenticated %}
+		You are already registered you silly sausage!
+	{% else %}
+		<!-- User is not authenticated, so will need to create one/log in -->
+		<form method="post" action="." enctype="multipart/form-data">
 
-    {% csrf_token %}
+		{% csrf_token %}
+		
+		{{ form.as_p }}
 
-    {{ form.as_p }}
-
-    <!-- Button to click to submit the form -->
-    <input type="submit" name="Submit" value="Register"/>
-  </form>
+		<!-- Button to click to submit the form -->
+		<input type="submit" name="Submit" value="Register"/>
+	  </form>
+  {% endif %}
 {% endblock %}
