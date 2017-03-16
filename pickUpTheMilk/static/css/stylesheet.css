@@ -135,6 +135,18 @@ li a.active{
   text-decoration: none;
 }
 
+/* Added these 2 so that input fields will outlined */
+input {
+    border: 2px solid #dadada;
+    border-radius: 3px;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 10px #9ecaed;
+}
+
 /* Background on divs*/
 #bgColour {
  background: rgba(255, 255, 255, 0.80);
@@ -161,4 +173,10 @@ li a.active{
 
 textarea {
     vertical-align: top;
+    border: 2px solid #dadada;
+    border-radius: 3px;
+    resize:none;
+    rows: 6;
+    cols: 200;
 }​
+

@@ -92,8 +92,7 @@ class ContactForm(forms.Form):
     comment = forms.CharField(widget=forms.Textarea)
 
     widgets = {'comment': forms.Textarea(attrs={'rows': 6,
-                                               'cols': 100,
-                                               'style': 'resize:none; '}),
+                                               'cols': 100}),
                }
     class Meta:
         fields = ('name', 'email', 'comment')
