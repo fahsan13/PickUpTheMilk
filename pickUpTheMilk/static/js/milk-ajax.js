@@ -4,10 +4,9 @@
 // $('#list').
 
 $('#settle_balance').click(function(){
-	var thisGroup;
-	alert= "fun"
-	thisGroup = $(this).attr("data-groupname");
-	$.get('/resolvebalances/', {group_name: thisGroup}, function(data){
+	var groupname;
+	groupname = $(this).attr("data-groupname");
+	$.get('/resolvebalances/', {group_name: groupname}, function(data){
 		$('#balances').html(data);
 			$('#settle_balance').hide();
 	});

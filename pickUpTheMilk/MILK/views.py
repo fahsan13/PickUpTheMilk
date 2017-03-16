@@ -265,18 +265,20 @@ def settleup(request,groupname):
 
 @login_required
 def resolvebalances(request):
-    group_name = 'Cuntflaps'
+    gr_name = None
+    allingroup = None
     print "PISS"
     #groupname = User.objects.get(groups__name=groupname)
-    print "HGCJKVCJKVGCJKLHCJHLVC"
     if request.method == 'GET':
         print "HELLO POPPET"
-        groupname = request.GET[group_name]
-        print groupname
+        gr_name = request.GET['group_name']
+        print "ELIZA!"
         balance = 0
-        if current_group:
+        if gr_name:
+            print gr_name
             print("is current group?")
-            allingroup = current_group.objects.all()
+            allingroup = User.objects.filter(groups__name=gr_name)
+            print "Current group is!"
             for User in allingroup:
                 print "Am I looping?"
                 userto0 = current_group.object.username
