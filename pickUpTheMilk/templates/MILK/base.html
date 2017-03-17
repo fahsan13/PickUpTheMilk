@@ -17,6 +17,7 @@
   </head>
   <body>
 
+
     <!-- NAVIGATION  BAR -->
     <div class="padding">
     </div>
@@ -74,6 +75,10 @@
     <div class="col-md-3 main_content">
       <div id="bgColour">
         {% block side_block %}
+        {% if user.is_authenticated %}
+        {% include 'MILK/profilesidebar.html' %}
+        {% endif %}
+
         {% endblock %}
       </div>
     </div>

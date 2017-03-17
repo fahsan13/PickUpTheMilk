@@ -2,9 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
 from django.db.models import Sum
-
+import json
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
-from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm
+from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm, ContactForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -36,7 +36,7 @@ def home(request):
     item_list = Item.objects.order_by('id')
     app_url = request.path
     form = RecordPurchase()
-
+    selecteduser = request.user
 
 
     if request.method == 'POST':
@@ -88,7 +88,10 @@ def sitemap(request):
 def contact(request):
 
     app_url = request.path
-    return render(request, 'MILK/contact.html', {'app_url': app_url})
+
+    form = ContactForm()
+
+    return render(request, 'MILK/contact.html', {'app_url': app_url, 'form':form})
 
 def about(request):
     app_url = request.path
@@ -298,14 +301,33 @@ def needsbought(request):
 @login_required
 def settleup(request,groupname):
     # Get all members of the group
+    resolve = {}
     groupmembers = User.objects.filter(groups__name=groupname)
+    average = averagebalance(groupname)
 
-    response = render(request, 'MILK/settle-up.html',{'members':groupmembers,})
+    #gets user name = v in groupmembers
+    for v in groupmembers:
+        user_profile = UserProfile.objects.get(user=v)
+        money = user_profile.balance
+        floatmoney = float(money)
+        updateBalance = floatmoney -average
+        balanceowed ={v:updateBalance}
+
+
+        resolve[v]=balanceowed
+    print resolve
+    print 'dict entry 0 =  '
+    print resolve.viewitems()
+    # for member in groupmembers:
+    #     balances = UserProfile.objects.all(user=groupmembers).values('user', 'balance')
+    #     print balances
+    response = render(request, 'MILK/settle-up.html',{'members':groupmembers, 'average':average, 'resolve':resolve })
     return response
 
 @login_required
 def resolveBalances(request, groupname):
     current_group = User.objects.filter(groups__name=groupname)
+    print "Do I get reached?"
     for each in current_group.objects.all():
         print "Am I looping?"
         userTo0 = current_group.object.username
@@ -319,3 +341,26 @@ def clearUserBalance(username):
     userprofile.balance = 0
     userprofile.save()
     return response
+
+# helper methdd to determine the average of the balances of the group
+def averagebalance(groupname):
+
+    groupmembers = User.objects.filter(groups__name=groupname)
+    total = 0
+    nummembers = 0
+    print groupmembers
+    # gets user name = v in groupmembers
+    for v in groupmembers:
+        user_profile = UserProfile.objects.get(user=v)
+
+        money = user_profile.balance
+        money = round(money, 2)
+
+        # sums total
+        total = total + money
+        # tracks number of users
+        nummembers = nummembers + 1
+
+    average = total / nummembers
+    average = round(average,2)
+    return (average)

@@ -5,8 +5,8 @@
 
     {% block body_block %}
     <h1> <img src="{%static "images/milklogo.png" %}" alt= "Milk Carton Logo" height ="100"/>
-      Passive Aggressive Cost-Sharing App. v. 0.4.5
-    </h1>
+        Pick Up The Milk! <subheading>- The Passive Aggressive Cost Sharing App&#8482;</subheading> </h1>
+
 
     {% if user.is_authenticated %}
         <h2> Welcome back, {{ user.username }}! </h2>
@@ -58,10 +58,8 @@
     </section>
 
          <!--Sets modal button type-->
-    <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#myModal" onclick="myAlert()">Record Purchase</button>
-    <scipt>
-        function myAlert(){
-            e.preventDefault();});</scipt>
+    <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#myModal" >Record Purchase</button>
+
     <div>
         <!-- Modal -->
         <div id="myModal" class="modal fade" role="dialog">
@@ -141,23 +139,26 @@
     <h2> Hello Friend! </h2>
 
     {% if user.is_authenticated %}
-    <!--{% include 'MILK/profilesidebar.html' %}-->
-        <p> This is a side bar where the user profile (or maybe lists of some kind?) would be displayed. Example of list:</p></br>
 
-        Items to buy:</br>
-        <div class=scroll-list>
-                {% if Items %}
-                    {% for item in Items %}
-                        {% if user.groups.all.0 == item.groupBuying %}
-                            {% if item.itemNeedsBought %}
-                                <li>
-                                    {{ item.itemName }}
-                                </li>
-                            {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                {% endif %}
-        </div>
+        {% include 'MILK/profilesidebar.html' %}
+        <!--<p> This is a side bar where the user profile (or maybe lists of some kind?) would be displayed. Example of list:</p></br>-->
+
+        <!--Items to buy:</br>-->
+        <!--<div class=scroll-list>-->
+                <!--{% if Items %}-->
+                    <!--{% for item in Items %}-->
+                        <!--{% if user.groups.all.0 == item.groupBuying %}-->
+                            <!--{% if item.itemNeedsBought %}-->
+                                <!--<li>-->
+                                    <!--{{ item.itemName }}-->
+                                <!--</li>-->
+                            <!--{% endif %}-->
+                        <!--{% endif %}-->
+                    <!--{% endfor %}-->
+                <!--{% endif %}-->
+        <!--</div>-->
+        <!--</div>-->
+
     {% else %}
         SIGN UP</br>
         (superliminal messaging)

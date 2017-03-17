@@ -88,3 +88,14 @@ class needsBoughtForm(forms.Form):
     # class Meta:
     #     model = Item
     #     fields = ('itemNeedsBought',)
+
+class ContactForm(forms.Form):
+    name = forms.CharField(max_length=128)
+    email = forms.CharField(max_length=128)
+    comment = forms.CharField(widget=forms.Textarea)
+
+    widgets = {'comment': forms.Textarea(attrs={'rows': 6,
+                                               'cols': 100}),
+               }
+    class Meta:
+        fields = ('name', 'email', 'comment')

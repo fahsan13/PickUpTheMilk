@@ -5,6 +5,7 @@
   header: 0;
   border: 0;
 }
+
 body {
   background-color: #CAE4DB ;
 }
@@ -18,13 +19,14 @@ h1 {
     margin: 0 0 43px 0;
     color:  #0a1429 !important;
     text-transform: capitalize !important;
-     text-shadow: 1px 1px gray;
-
+     /*text-shadow: 1px 1px gray;*/
     }
+
+
 h2 {
     font-family: 'Roboto Condensed', sans-serif  !important;
     font-weight: normal;
-    font-size: 21px;
+    font-size: 24px;
     line-height: 23px;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -32,6 +34,38 @@ h2 {
     color: #DCAE1D !important;
      text-shadow: 2px 2px gray;
     }
+
+h3 {
+    font-family: 'Roboto Condensed', sans-serif  !important;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 23px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 23px 0;
+    color: #DCAE1D !important;
+     text-shadow: 2px 2px gray;
+    }
+
+h4 {
+	font-family: 'Roboto', sans-serif  !important;
+    font-size: 18px;
+	font-weight: bold;
+    line-height: 23px;
+    margin: 0 0 23px 0;
+    color: #003003F !important;
+    }
+
+
+h5 {
+	font-family: 'Roboto', sans-serif  !important;
+    font-size: 16px;
+	font-weight: medium;
+    line-height: 23px;
+    margin: 0 0 23px 0;
+    color: #003003F !important;
+    }
+
 p {
     font-family: 'Roboto', sans-serif  !important;
     font-size: 15px;
@@ -39,6 +73,34 @@ p {
     margin: 0 0 23px 0;
     color: #003003F !important;
     }
+
+
+
+subheading {
+    font-family: 'Lobster' !important;
+    font-weight: bold;
+    line-height: 14px;
+    font-size: 14px;
+    /*margin: 0 0 43px 0;*/
+    color:  #0a1429 !important;
+    text-transform: capitalize !important;
+    }
+
+namefont {
+    font-family: 'Lobster' !important;
+    font-weight: bold;
+    line-height: 18px;
+    font-size: 18px;
+    color:  #0a1429 !important;
+    text-transform: capitalize !important;
+     /*text-shadow: 1px 1px gray;*/
+    }
+
+.main_content {
+  margin-top: 100px;
+}
+
+/*Navigation Bar Area*/
 
 nav{
   top: 0;
@@ -51,11 +113,6 @@ nav{
   margin-top: 20px;
 }
 
-.main_content {
-  margin-top: 100px;
-}
-
-/*Navigation Bar Area*/
 
 .fixed {
   position: fixed;
@@ -113,6 +170,18 @@ li a.active{
   text-decoration: none;
 }
 
+/* Added these 2 so that input fields will outlined */
+input {
+    border: 2px solid #dadada;
+    border-radius: 3px;
+}
+
+.input:focus {
+    outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 10px #9ecaed;
+}
+
 /* Background on divs*/
 #bgColour {
  background: rgba(255, 255, 255, 0.80);
@@ -130,6 +199,8 @@ li a.active{
   float: left;
 }
 
+
+
 .scroll-list
 {
     max-height: 200px;
@@ -137,8 +208,19 @@ li a.active{
     overflow-y: scroll;
 }
 
-.sidebar
-{
-   max-width: 250px;
-   overflow-wrap: normal;
-}
+textarea {
+    vertical-align: top;
+    border: 2px solid #dadada;
+    border-radius: 3px;
+    resize:none;
+    rows: 6;
+    cols: 200;
+}​
+
+ .sidebar {
+    margin: 0 auto;
+    max-width: 150px;
+    border: solid #999999;
+    border-width: 0px 1px 0px 1px;
+
+ }

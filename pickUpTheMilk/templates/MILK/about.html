@@ -1,4 +1,5 @@
 {% extends 'MILK/base.html' %}
+{% load staticfiles %}
 
 {% block title_block %}
 		About
@@ -16,22 +17,26 @@
 
     <p>
       We can't help with that last one, but if you answered yes to the first two
-      then Pick Up The Milk! is for you!
+      then <namefont> Pick Up The Milk! </namefont> is for you!
     </p>
 
     <p>
       Our platform gives your household a shared shopping list accessable from
-      ANYWHERE in the world <small><small><small>where you have internet access</small></small></small>. We can simplify
+      anywhere you have internet access. We can simplify
       tracking of purchases and help you record money owed between users.
-      <a href="{% url 'registration_register' %}">Sign up</a> today!
+      <a href="{% url 'registration_register' %}">Sign up today!</a>
     </p>
   </div>
 
   <h3>Frequently Asked Questions</h3>
   <div>
     <li><b>Why should I use your service?</b><br>
-        This is where we sell it to them...
-    <li><b>Is this a question?</b><br>
-      No.
+        Using our site will simplify your life by helping you track communal spending as well as serving as internet-accessible shopping list.
+    <li><b>I'm not into either of those...</b></li>
+        We also have a pretty cool map (well, it's Google's but we're borrowing it) that you can use to get directions...
+    <li><b>Hmmm... I do like maps. So, many groups can I make?</b><br>
+        Currently our users are only able to be part of one group at a time. We hope to implement multiple groups soon!
+    <li><b>I heard you guys were supposed to have a super-neat feature allowing users to opt-out of communal purchases?</b><br>
+      No, who told you that?
   <div>
 {% endblock %}
