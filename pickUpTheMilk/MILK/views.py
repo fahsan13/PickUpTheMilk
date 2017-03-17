@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
 from django.db.models import Sum
+from django.forms.models import model_to_dict
 
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
 from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm
@@ -259,7 +260,6 @@ def needsbought(request):
 def settleup(request,groupname):
     # Get all members of the group
     groupmembers = User.objects.filter(groups__name=groupname)
-
     response = render(request, 'MILK/settle-up.html',{'members':groupmembers,})
     return response
 
@@ -267,26 +267,40 @@ def settleup(request,groupname):
 def resolvebalances(request):
     gr_name = None
     #groupname = User.objects.get(groups__name=groupname)
-    if request.method == 'GET':
-        gr_name = request.GET['group_name']
+    if request.method == 'POST':
+        thisgroup = request.GET['group_name']
+        print thisgroup
         balance = 0
-        if gr_name:
-            print gr_name
+        if thisgroup:
+            print thisgroup
             #Gives group object from group name, not sure what use this will be
             current_group = Group.objects.get(name= gr_name)
+
+            # current Group is a group object, jolly good
+            print "Hello Poppet!"
+
+            #group_detail = Group.objects.get(group = current_group)
+            print "group_detail"
+            #print group_detail
             # Can't place multiple users in allmembers object due to following error;
             # UnboundLocalError: local variable 'User' referenced before assignment
-            #allmembers = User.objects.filter(groups__name=groupname)
-            detailgroup = GroupDetail.objects.get(group= gr_name)
-            print current_group.GroupDetail
-            group_list = current_group.objects.order_by('name')
-            print "please"
+            #print (User.objects.filter(groups__name=gr_name))
+            #groupmembers = UserProfile.objects.filter(groups__name=group_detail)
+
+            #detailgroup = GroupDetail.objects.get(group= gr_name)
+            #print "detailgroup"
+            iterablegroup = model_to_dict(current_group)
+            print iterablegroup
+            #group_list = current_group.objects.order_by('name')
+            # print "please"
             #Tried instead iterating through group, not an iterable object
-            for User in current_group:
-                print "Am I looping?"
-                userto0 = current_group.object.username
-                userprofile = UserProfile.objects.get_or_create(user=userto0)[0]
-                userprofile.balance = balance
-                userprofile.save()
-    return HttpResponse(current_group)
+            i = 0
+            for k in iterablegroup.id():
+                print (k)
+                #userto0 = UserProfile
+                #print userto0
+                #userprofile = UserProfile.objects.get_or_create(user=userto0)[0]
+                #userto0.balance = balance
+                #userprofile.save()
+    return HttpResponse(iterablegroup)
 

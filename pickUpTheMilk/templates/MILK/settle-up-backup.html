@@ -18,11 +18,9 @@ balance of: {{ profile.userprofile.balance }} </a></ul>
   </div></br>
 
  <div>
-	{% for profile in members %}
-	<button class = "settle_balance" data-groupname={{ profile.userprofile.balance }}
-		class="btn btn-primary btn-sm" type="button"> <span class="glyphicon glyphicon-envelope"></span>
-		Settle {{ profile.username }}'s balances
-	</button>
-	{% endfor %}	
+	<button id = "settle_balance" data-groupname={{ user.groups.all.0 }}
+		class="btn btn-primary btn-sm" type="button"> 
+		Settle balances
+	</button>	
   </div>
 {% endblock %}
