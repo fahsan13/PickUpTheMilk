@@ -1,12 +1,3 @@
-{% extends 'MILK/base.html' %}
-{% load staticfiles %}
-
-{% block title_block %} Buy Item {% endblock %}
-
-{% block body_block %}
-  <h1>Record a communal purchase</h1>
-  {% if user.is_authenticated %} Let people know what you've picked up, {{ user.username }} </br>
-
 <div>
     <!--Sets modal button type-->
     <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#myModal">Record Purchase</button>
@@ -40,7 +31,7 @@
 
                               <input type="submit" , name="submit" , value="Record a purchase">
                         </div>
-                        {% endif %}
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -48,4 +39,3 @@
                 </div>
             </div>
         </div>
-{% endblock %}

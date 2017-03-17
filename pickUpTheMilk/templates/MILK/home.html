@@ -1,71 +1,75 @@
 {% extends 'MILK/base.html' %}
 {% load staticfiles %}
 
-{% block title_block %}
-  Home
-{% endblock %}
+{% block title_block %} Home {% endblock %}
 
-{% block body_block %}
-<h1> <img src="{% static "images/milklogo.png" %}" alt="Milk Carton Logo" height ="100"/>
-  Welcome to Passive Aggressive Cost-Sharing Application v. 3.14159265358979
-</h1>
+    {% block body_block %}
+    <h1> <img src="{%static "images/milklogo.png" %}" alt= "Milk Carton Logo" height ="100"/>
+        Pick Up The Milk! <subheading>- The Passive Aggressive Cost Sharing App&#8482;</subheading> </h1>
 
-
-<section>
 
     {% if user.is_authenticated %}
-      Welcome back, {{ user.username }} </br>
+        <h2> Welcome back, {{ user.username }}! </h2>
+    {% else %}
+        <h2> Welcome! </h2>
+    {% endif %}
+
+
+    <section>
+    {% if user.is_authenticated %}
       </br>
 
       <div>
-          <h6>Communal shopping list: (Need to handle a single group's empty list more gracefully! Also lets make lists scrollable)</h6>
+          <h6>Communal shopping list: (Need to handle a single group's empty list more gracefully! Scrollable lists not working anymore :(</h6>
       </div>
 
-      <div class="scroll-list">
-          {% if Items %}
-            {% for item in Items %}
-              {% if user.groups.all.0 == item.groupBuying %}
+        {% if user.groups.all.0 %}
+
+            <div class="scroll-list">
+                {% if Items %}
+                {% for item in Items %}
+                {% if user.groups.all.0 == item.groupBuying %}
                 <li>
                     {{ item.itemName }}
                 </li>
-              {% endif %}
-            {% endfor %}
-          {% else %} Your shopping list is empty. {% endif %}
-          </br>
-      </div>
-
-      <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a>
-      <h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>
-
-      <div class=scroll-list>
-          {% if Items %}
-            {% for item in Items %}
-              {% if user.groups.all.0 == item.groupBuying %}
-                {% if item.itemNeedsBought %}
-                  <li>
-                      {{ item.itemName }}
-                  </li>
                 {% endif %}
-              {% endif %}
-            {% endfor %}
-          {% endif %}
-      </div>
+                {% endfor %}
+                {% else %} Your shopping list is empty. {% endif %}
+                </br>
+            </div>
+
+            <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a>
+            <!--<h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>-->
+
+            <!--<div class=scroll-list>-->
+                <!--{% if Items %}-->
+                    <!--{% for item in Items %}-->
+                        <!--{% if user.groups.all.0 == item.groupBuying %}-->
+                            <!--{% if item.itemNeedsBought %}-->
+                                <!--<li>-->
+                                    <!--{{ item.itemName }}-->
+                                <!--</li>-->
+                            <!--{% endif %}-->
+                         <!--{% endif %}-->
+                    <!--{% endfor %}-->
+                <!--{% endif %}-->
+            <!--</div>-->
 
     </section>
-      <!--Should this only appear if there are items in the to buy list
-           should we be able to add and record the purchase of items on the same page
-           For the case of someone realising then need something when they are in the shop-->
-      <a href="{% url 'recordpurchase' %}">Record a purchase</a>
-    </br>
-    <!--Link to the page to resolve kitty/settle up balance-->
-    <a href="{% url 'settle-up' user.groups.all.0 %}">Settle Up the Balance</a>
 
+        <!--Should this only appear if there are items in the to buy list
+             should we be able to add and record the purchase of items on the same page
+             For the case of someone realising then need something when they are in the shop-->
+        <a href="{% url 'recordpurchase' %}">Record a purchase.</a></br>
+        <!--Link to the page to resolve kitty/settle up balance-->
+        <a href="{% url 'settle-up' user.groups.all.0 %}">Settle up all balances.</a>
+        {% endif %}
     {% else %}
-    <!-- User not authenticated -->
+        <!-- User not authenticated -->
         <!-- Line below demonstrates how we would include another template -->
         <!-- {% include 'MILK/notloggedin.html' %} -->
 
-        Use our website and we will harvest your shopping data and use it to target ads at you!
+        Use our website and we definitely won't harvest your shopping data and use it to target ads at you.
 
       <aside>
           <p>
@@ -73,14 +77,46 @@
               <a href="{% url 'registration_register' %}">Register</a>
               <p>
       </aside>
-
     {% endif %}
-</section>
 
+
+</section>
 
 <!--Include the Google Maps widget-->
 <section>
+    Search for your nearest store:
     {% include 'MILK/maps.html' %}
 </section>
 
 {% endblock %}
+
+{% block side_block %}
+
+    <h2> Hello Friend! </h2>
+
+    {% if user.is_authenticated %}
+        <p> This is a side bar where the user profile (or maybe lists of some kind?) would be displayed. Example of list:</p></br>
+
+        Items to buy:</br>
+        <div class=scroll-list>
+                {% if Items %}
+                    {% for item in Items %}
+                        {% if user.groups.all.0 == item.groupBuying %}
+                            {% if item.itemNeedsBought %}
+                                <li>
+                                    {{ item.itemName }}
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+        </div>
+    {% else %}
+        SIGN UP</br>
+        (superliminal messaging)
+    {% endif %}
+
+{% endblock %}
+
+</body>
+</html>

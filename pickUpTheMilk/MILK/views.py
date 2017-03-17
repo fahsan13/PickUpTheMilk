@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db.models import Sum
 
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
-from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm
+from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm, ContactForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -27,7 +27,6 @@ def register_profile(request):
             return redirect('home')
         else:
             print(form.errors)
-
     context_dict = {'form':form}
     return render(request, 'MILK/profile_registration.html', context_dict)
 
@@ -35,20 +34,30 @@ def register_profile(request):
 def home(request):
     # Placed here assuming we're keeping lists on home page? if I'm wrong, easy to change
     item_list = Item.objects.order_by('id')
-    context_dict = {'Items': item_list}
+    app_url = request.path
 
+    context_dict = {'Items': item_list, 'app_url': app_url }
     response = render(request, 'MILK/home.html', context_dict)
     return response
 
 def sitemap(request):
-    response = render(request, 'MILK/sitemap.html', {})
+    app_url = request.path
+    response = render(request, 'MILK/sitemap.html', {'app_url': app_url})
     return response
 
 def contact(request):
-    return render(request, 'MILK/contact.html', {})
+
+    app_url = request.path
+
+    form = ContactForm()
+
+    return render(request, 'MILK/contact.html', {'app_url': app_url, 'form':form})
 
 def about(request):
-    return render(request, 'MILK/about.html', {})
+    app_url = request.path
+    return render(request, 'MILK/about.html', {'app_url': app_url})
+
+
 
 # View for create-group.html.
 # Need to implement error handling for when
@@ -121,6 +130,8 @@ def profilepage(request, username):
     # Get items so we can display on user's page
     item_list = Item.objects.order_by('id')
     context_dict = {'Items': item_list, 'form':form, 'selecteduser':user, 'userprofile': userprofile,}
+    app_url = request.path
+    response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user, 'userprofile': userprofile})
 
     response = render(request, 'MILK/userprofile.html', context_dict)
     return response
@@ -215,7 +226,7 @@ def record_purchase(request):
         else:
              print(form.errors)
 
-    response = render(request, 'MILK/buyitem.html', {'form':form})
+    response = render(request, 'MILK/transaction.html', {'form':form})
     return response
 
 @login_required
@@ -253,4 +264,22 @@ def settleup(request,groupname):
     groupmembers = User.objects.filter(groups__name=groupname)
 
     response = render(request, 'MILK/settle-up.html',{'members':groupmembers,})
+    return response
+
+@login_required
+def resolveBalances(request, groupname):
+    current_group = User.objects.filter(groups__name=groupname)
+    print "Do I get reached?"
+    for each in current_group.objects.all():
+        print "Am I looping?"
+        userTo0 = current_group.object.username
+        clearUserBalance(userTo0)
+    return HttpResponse(something)
+
+
+# Helper method to clear balance of an individual user
+def clearUserBalance(username):
+    userprofile = UserProfile.objects.get_or_create(user=username)[0]
+    userprofile.balance = 0
+    userprofile.save()
     return response

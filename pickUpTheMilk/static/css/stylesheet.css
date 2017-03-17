@@ -1,46 +1,205 @@
-{% load staticfiles %}
-/*A wee bit of padding on the top*/
+/* Reset the sizing */
+
+*{
+  margin: 0;
+  header: 0;
+  border: 0;
+}
+
 body {
-  padding-top: 10px;
-  /*background-image: url(https://d30y9cdsu7xlg0.cloudfront.net/png/81327-200.png);*/
-      }
+  background-color: #CAE4DB ;
+}
+
 
 h1 {
-  margin-bottom: 20px;
-  padding-bottom: 9px;
-  border-bottom: 1px solid #eee;
+    font-family: 'Lobster' !important;
+    font-weight: bold;
+    line-height: 46px;
+    font-size: 46px;
+    margin: 0 0 43px 0;
+    color:  #0a1429 !important;
+    text-transform: capitalize !important;
+     /*text-shadow: 1px 1px gray;*/
     }
 
-/*Navigation Bar*/
-ul {
+
+h2 {
+    font-family: 'Roboto Condensed', sans-serif  !important;
+    font-weight: normal;
+    font-size: 24px;
+    line-height: 23px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 23px 0;
+    color: #DCAE1D !important;
+     text-shadow: 2px 2px gray;
+    }
+	
+h3 {
+    font-family: 'Roboto Condensed', sans-serif  !important;
+    font-weight: normal;
+    font-size: 19px;
+    line-height: 23px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin: 0 0 23px 0;
+    color: #DCAE1D !important;
+     text-shadow: 2px 2px gray;
+    } 
+
+h4 {
+	font-family: 'Roboto', sans-serif  !important;
+    font-size: 18px;
+	font-weight: bold;
+    line-height: 23px;
+    margin: 0 0 23px 0;
+    color: #003003F !important;
+    } 
+
+	
+h5 {
+	font-family: 'Roboto', sans-serif  !important;
+    font-size: 16px;
+	font-weight: medium;
+    line-height: 23px;
+    margin: 0 0 23px 0;
+    color: #003003F !important;
+    } 
+	
+p {
+    font-family: 'Roboto', sans-serif  !important;
+    font-size: 15px;
+    line-height: 23px;
+    margin: 0 0 23px 0;
+    color: #003003F !important;
+    }
+
+
+
+subheading {
+    font-family: 'Lobster' !important;
+    font-weight: bold;
+    line-height: 14px;
+    font-size: 14px;
+    /*margin: 0 0 43px 0;*/
+    color:  #0a1429 !important;
+    text-transform: capitalize !important;
+    }
+
+namefont {
+    font-family: 'Lobster' !important;
+    font-weight: bold;
+    line-height: 18px;
+    font-size: 18px;
+    color:  #0a1429 !important;
+    text-transform: capitalize !important;
+     /*text-shadow: 1px 1px gray;*/
+    }
+
+.main_content {
+  margin-top: 100px;
+}
+
+/*Navigation Bar Area*/
+
+nav{
+  top: 0;
+  bottom: 0;
+  position: fixed;
+  background-color: #67aeca;
+  width: 100%;
+  height: 45px;
+  z-index: 1000;
+  margin-top: 20px;
+}
+
+
+.fixed {
+  position: fixed;
+  top: 0;
+  transform:translateY(-50px);
+  transition:all 1s ease;
+
+}
+
+nav ul {
+    width:100%;
     list-style-type: none;
     margin: 0;
     padding: 0;
+    padding-left: 100px;
     overflow: hidden;
-    /*background-color: #3d4544;*/
+
+    position: inherit;
 }
 
-/*li {
-    float: left;
-}*/
+nav img {
+  position: absolute;
+  top: -30px;
+  width: 110px;
+  height: 110px;
+}
 
-li a {
+
+nav ul li {
+    float: left;
+}
+
+nav ul li a {
+  font-family: 'Roboto', sans-serif  !important;
+  font-size: 15px;
+  line-height: 23px;
+  margin: 0 0 23px 0;
     display: block;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
 }
-
-/* Change the link color to #111 (black) on hover */
+/* Change the link color to white on hover */
 li a:hover {
-    background-color: white;
+    background-color: #f9e03e;
     color: black;
+    text-decoration: none;
+    height: 45px;
+}
+li a.active{
+  background-color: white;
+  color: black;
+  height: 45px;
+  text-decoration: none;
 }
 
-.active {
-    background-color: #54f0dc;
+/* Added these 2 so that input fields will outlined */
+input {
+    border: 2px solid #dadada;
+    border-radius: 3px;
 }
+
+.input:focus {
+    outline: none;
+    border-color: #9ecaed;
+    box-shadow: 0 0 10px #9ecaed;
+}
+
+/* Background on divs*/
+#bgColour {
+ background: rgba(255, 255, 255, 0.80);
+}
+.padding {
+    position: fixed;
+    top: -30px;
+    width: 100%;
+    height: 110px;
+    background-color: rgba(255, 255, 255, 0.80);
+    z-index: 999;
+}
+
+.position{
+  float: left;
+}
+
+
 
 .scroll-list
 {
@@ -48,3 +207,13 @@ li a:hover {
     max-width: 250px;
     overflow-y: scroll;
 }
+
+textarea {
+    vertical-align: top;
+    border: 2px solid #dadada;
+    border-radius: 3px;
+    resize:none;
+    rows: 6;
+    cols: 200;
+}​
+

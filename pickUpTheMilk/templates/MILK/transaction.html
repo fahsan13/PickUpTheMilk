@@ -1,0 +1,37 @@
+{% extends 'MILK/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %} Buy Item {% endblock %}
+
+{% block body_block %}
+  <h1>Record a communal purchase</h1>
+  {% if user.is_authenticated %} Let people know what you've picked up, {{ user.username }} </br>
+
+    NOTE: the form still works but have to disable styles to get it to show. Modal form doesn't pop up.
+
+    <div>
+  <!--Sets modal button type-->
+    <button type="button" >Record Purchase</button>
+
+    <div>
+
+                            <form id="RecordPurchase" method="post" action="." }>
+
+                                {% csrf_token %}
+
+                                {% for hidden in needsboughtform.hidden_fields %}
+                                {{ hidden }}
+                                {% endfor %}
+
+                                {% for field in form.visible_fields %}
+                                {{ field.errors }}
+                                {{ field.help_text }}
+                                {{ field }}
+                                {% endfor %}
+
+
+                              <input type="submit" , name="submit" , value="Record a purchase">
+
+        </div>
+        {% endif %}
+{% endblock %}

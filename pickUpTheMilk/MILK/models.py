@@ -7,7 +7,7 @@ class Item(models.Model):
 
     itemName = models.CharField(max_length = 128, unique = True)
     groupBuying = models.ForeignKey(Group, null = True)
-    itemNeedsBought = models.BooleanField(default = True)
+    itemNeedsBought = models.BooleanField(default = False)
     addedby = models.ForeignKey(User, null = True)
     def __str__(self):
         return self.itemName
