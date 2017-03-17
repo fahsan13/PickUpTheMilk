@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
 from django.db.models import Sum
-
+import json
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
 from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm, ContactForm
 from django.contrib.auth import authenticate, login, logout
@@ -35,10 +35,50 @@ def home(request):
     # Placed here assuming we're keeping lists on home page? if I'm wrong, easy to change
     item_list = Item.objects.order_by('id')
     app_url = request.path
+    form = RecordPurchase()
+    selecteduser = request.user
 
-    context_dict = {'Items': item_list, 'app_url': app_url }
+
+    if request.method == 'POST':
+        form = RecordPurchase(request.POST)
+
+        if form.is_valid():
+            purchase=form.save(commit=False)
+            # Get selected payee ID from drop down box
+            payee=form.cleaned_data['payeeID']
+            # Gets item purchased
+            item_purchased = form.cleaned_data['itemID']
+            # Get cost of transaction entered by user from form
+            item_cost = form.cleaned_data['value']
+            # Get this user's userprofile, where their balance is stored
+            userprofile = UserProfile.objects.get_or_create(user=payee)[0]
+            # Gets item object to allow toggling of needsbought booleanfield - what is get or create?
+            toggle_item_bought = Item.objects.get(id=item_purchased.id)
+
+            # Reflect this on user's balance
+            userprofile.balance += item_cost
+
+            # Sets items needs bought status to false, for item model
+            toggle_item_bought.itemNeedsBought = False
+
+            # Updates the transaction model
+            purchase.payeeID = payee
+            purchase.itemID = item_purchased
+
+            # Saves changes
+            userprofile.save()
+            toggle_item_bought.save()
+            purchase.save()
+            form = RecordPurchase()
+
+        else:
+             print(form.errors)
+
+
+    context_dict = {'Items': item_list, 'app_url': app_url, 'form':form}
     response = render(request, 'MILK/home.html', context_dict)
     return response
+
 
 def sitemap(request):
     app_url = request.path
@@ -265,9 +305,27 @@ def needsbought(request):
 @login_required
 def settleup(request,groupname):
     # Get all members of the group
+    resolve = {}
     groupmembers = User.objects.filter(groups__name=groupname)
+    average = averagebalance(groupname)
 
-    response = render(request, 'MILK/settle-up.html',{'members':groupmembers,})
+    #gets user name = v in groupmembers
+    for v in groupmembers:
+        user_profile = UserProfile.objects.get(user=v)
+        money = user_profile.balance
+        floatmoney = float(money)
+        updateBalance = floatmoney -average
+        balanceowed ={v:updateBalance}
+
+
+        resolve[v]=balanceowed
+    print resolve
+    print 'dict entry 0 =  '
+    print resolve.viewitems()
+    # for member in groupmembers:
+    #     balances = UserProfile.objects.all(user=groupmembers).values('user', 'balance')
+    #     print balances
+    response = render(request, 'MILK/settle-up.html',{'members':groupmembers, 'average':average, 'resolve':resolve })
     return response
 
 @login_required
@@ -287,3 +345,29 @@ def clearUserBalance(username):
     userprofile.balance = 0
     userprofile.save()
     return response
+<<<<<<< HEAD
+
+# helper methdd to determine the average of the balances of the group
+def averagebalance(groupname):
+
+    groupmembers = User.objects.filter(groups__name=groupname)
+    total = 0
+    nummembers = 0
+    print groupmembers
+    # gets user name = v in groupmembers
+    for v in groupmembers:
+        user_profile = UserProfile.objects.get(user=v)
+
+        money = user_profile.balance
+        money = round(money, 2)
+
+        # sums total
+        total = total + money
+        # tracks number of users
+        nummembers = nummembers + 1
+
+    average = total / nummembers
+    average = round(average,2)
+    return (average)
+=======
+>>>>>>> de063255067d32fda58e3a018ca5190787936e2f
