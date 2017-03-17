@@ -345,7 +345,6 @@ def clearUserBalance(username):
     userprofile.balance = 0
     userprofile.save()
     return response
-<<<<<<< HEAD
 
 # helper methdd to determine the average of the balances of the group
 def averagebalance(groupname):
@@ -369,5 +368,4 @@ def averagebalance(groupname):
     average = total / nummembers
     average = round(average,2)
     return (average)
-=======
->>>>>>> de063255067d32fda58e3a018ca5190787936e2f
+
