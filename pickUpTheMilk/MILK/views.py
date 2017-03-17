@@ -57,6 +57,10 @@ def about(request):
     app_url = request.path
     return render(request, 'MILK/about.html', {'app_url': app_url})
 
+def parralax(request):
+    app_url = request.path
+    return render(request, 'MILK/parralax.html', {'app_url': app_url})
+
 
 
 # View for create-group.html.
