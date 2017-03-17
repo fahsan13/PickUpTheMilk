@@ -266,24 +266,27 @@ def settleup(request,groupname):
 @login_required
 def resolvebalances(request):
     gr_name = None
-    allingroup = None
-    print "PISS"
     #groupname = User.objects.get(groups__name=groupname)
     if request.method == 'GET':
-        print "HELLO POPPET"
         gr_name = request.GET['group_name']
-        print "ELIZA!"
         balance = 0
         if gr_name:
             print gr_name
-            print("is current group?")
-            allingroup = User.objects.filter(groups__name=gr_name)
-            print "Current group is!"
-            for User in allingroup:
+            #Gives group object from group name, not sure what use this will be
+            current_group = Group.objects.get(name= gr_name)
+            # Can't place multiple users in allmembers object due to following error;
+            # UnboundLocalError: local variable 'User' referenced before assignment
+            #allmembers = User.objects.filter(groups__name=groupname)
+            detailgroup = GroupDetail.objects.get(group= gr_name)
+            print current_group.GroupDetail
+            group_list = current_group.objects.order_by('name')
+            print "please"
+            #Tried instead iterating through group, not an iterable object
+            for User in current_group:
                 print "Am I looping?"
                 userto0 = current_group.object.username
                 userprofile = UserProfile.objects.get_or_create(user=userto0)[0]
                 userprofile.balance = balance
                 userprofile.save()
-    return HttpResponse(groupname)
+    return HttpResponse(current_group)
 
