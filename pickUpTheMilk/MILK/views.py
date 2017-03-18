@@ -38,6 +38,9 @@ def home(request):
 
     item_list = Item.objects.order_by('id')
     app_url = request.path
+
+    # String to encode path to correct response template
+    rsp_template = ''
     # set which form to submit
     # if request.method == 'POST' and 'pickUpButton' in request.POST:
     #     update_form = updateListHelper(request)
@@ -45,8 +48,16 @@ def home(request):
     # if request.method == 'POST' and 'purchaseButton' in request.POST:
     #     purchase_form = recPurchHelper(request)
 
+
+    if request.user.is_authenticated():
+        rsp_template = 'MILK/home.html'
+
+    else:
+        # User not authenticated; show them parallax version
+        rsp_template = 'MILK/parallax.html'
+
     context_dict = {'Items': item_list, 'app_url': app_url, 'purchaseform':purchase_form, 'updateform':update_form}
-    response = render(request, 'MILK/home.html', context_dict)
+    response = render(request, rsp_template, context_dict)
     return response
 
 # handles recording purchase form process
@@ -129,9 +140,9 @@ def about(request):
     app_url = request.path
     return render(request, 'MILK/about.html', {'app_url': app_url})
 
-def parralax(request):
-    app_url = request.path
-    return render(request, 'MILK/parralax.html', {'app_url': app_url})
+# def parralax(request):
+#     app_url = request.path
+#     return render(request, 'MILK/parralax.html', {'app_url': app_url})
 
 
 

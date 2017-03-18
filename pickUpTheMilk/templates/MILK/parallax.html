@@ -19,6 +19,9 @@ to this page only -->
   <body>
     <h1>  <img src="{%static "images/milklogo.png" %}" alt= "Milk Carton Logo" height ="100"/>
 Pick Up The Milk! <subheading>- The Passive Aggressive Cost Sharing App&#8482;</subheading></h1>
+
+<h2><a href="{% url 'registration_register'%}">SIGN UP</a> OR <a href="{% url 'auth_login' %}">LOG IN</a></h2>
+
     <div class="bgimg" >
       <div class="logo">
 
@@ -42,7 +45,7 @@ Pick Up The Milk! <subheading>- The Passive Aggressive Cost Sharing App&#8482;</
     </div>
 
       <div class="div1">
-        <h2>DON'T WAIT! SIGN UP OR LOG IN</h2>
+        <h2>DON'T WAIT! <a href="{% url 'registration_register'%}">SIGN UP</a> OR <a href="{% url 'auth_login' %}">LOG IN</a></h2>
 
         <p>Registration is quick, easy, and (best of all) FREE!
       </div>

@@ -3,10 +3,7 @@
 
 {% block title_block %} Home {% endblock %}
 
-
-
 {% block body_block %}
-{% if user.is_authenticated %}
 
     <h1> <img src="{% static "images/milklogo.png" %}" alt= "Milk Carton Logo" height ="100"/>
         Pick Up The Milk! <subheading>- The Passive Aggressive Cost Sharing App&#8482;</subheading> </h1>
@@ -17,8 +14,6 @@
     {% else %}
         <h2> Welcome! </h2>
     {% endif %}
-
-
 
     <section>
     {% if user.is_authenticated %}
@@ -128,9 +123,6 @@
             </div>
         </div>
 
-
-
-
         <!--Should this only appear if there are items in the to buy list
              should we be able to add and record the purchase of items on the same page
              For the case of someone realising then need something when they are in the shop-->
@@ -152,11 +144,6 @@
               <p>
       </aside>
     {% endif %}
-
-{% else %}
-  <!-- No logged in user on homepage so we show them the parallax version -->
-  {% include 'MILK/parallax.html' %}
-{% endif %}
 
 </section>
 
