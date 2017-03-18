@@ -4,50 +4,49 @@
   border: 0;
 }
 
+/*FONTS */
 h1 {
-    font-family: 'Lobster' !important;
-    font-weight: bold;
-    line-height: 50px;
-    font-size: 70px;
-    margin: 0 0 43px 0;
-    color:  #0a1429 !important;
-    text-transform: capitalize !important;
-     /*text-shadow: 1px 1px gray;*/
-    }
+  font-family: 'Lobster' !important;
+  font-weight: bold;
+  line-height: 50px;
+  font-size: 70px;
+  margin: 0 0 43px 0;
+  color:  #0a1429 !important;
+  text-transform: capitalize !important;
 
-    subheading {
-      font-family: 'Lobster' !important;
-      font-weight: bold;
-      line-height: 14px;
-      font-size: 30px;
-      /*margin: 0 0 43px 0;*/
-      color:  #0a1429 !important;
-      text-transform: capitalize !important;
-    }
+}
 
-
+subheading {
+  font-family: 'Lobster' !important;
+  font-weight: bold;
+  line-height: 14px;
+  font-size: 30px;
+  color:  #0a1429 !important;
+  text-transform: capitalize !important;
+}
 
 h2 {
-    font-family: 'Roboto Condensed', sans-serif  !important;
-    font-weight: normal;
-    font-size: 27 px;
-    line-height: 23px;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    margin: 0 0 23px 0;
-    color: #DCAE1D !important;
-     text-shadow: 2px 2px gray;
-    }
+  font-family: 'Roboto Condensed', sans-serif  !important;
+  font-weight: normal;
+  text-align: center;
+  font-size: 27 px;
+  line-height: 23px;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 23px 0;
+  color: #DCAE1D !important;
+  text-shadow: 2px 2px gray;
+}
 
+p {
+  font-family: 'Roboto', sans-serif  !important;
+  font-size: 20px;
+  line-height: 23px;
+  margin: 0 0 23px 0;
+  color: #gray !important;
+}
 
-  p {
-        font-family: 'Roboto', sans-serif  !important;
-        font-size: 20px;
-        line-height: 23px;
-        margin: 0 0 23px 0;
-        color: #gray !important;
-        }
-
+/*BACKGROUND*/
 .bgimg{
   background-image: url("http://all4desktop.com/data_images/original/4242896-milk.jpg");
   min-height: 600px;
@@ -55,36 +54,6 @@ h2 {
   background-position: center;
   background-repeat: no-repeat;
   background-size: auto;
-
-
-}
-
-.logo {
-  position: absolute;
-  left: 0;
-  top:30%;
-  width: 100%;
-  text-align: center;
-}
-
-
-.logo2{
-  position: absolute;
-  left: 0;
-  top:90%;
-  width: 100%;
-  text-align: center;
-
-}
-
-.div1{
-  background-color:white;
-  text-align:center;
-  padding-top: 10px;
-  padding-left: 90px;
-  padding-right: 80px;
-  padding-bottom: 10px;
-  text-align: justify;
 }
 
 .bgimg1{
@@ -108,7 +77,6 @@ h2 {
 }
 
 
-
 .bgimg3{
   background-image: url("http://www.whodrankmymilk.com/wp-uploads/2015/05/flatmate-angry-mask.jpg");
   opacity: 50%;
@@ -117,6 +85,25 @@ h2 {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+}
 
+/*MAIN LOGO*/
+.logo {
+  position: absolute;
+  left: 0;
+  top:30%;
+  width: 100%;
+  text-align: center;
+}
 
+/*DIV STYLING*/
+
+.div1{
+  background-color:white;
+  text-align:center;
+  padding-top: 15px;
+  padding-left: 90px;
+  padding-right: 80px;
+  padding-bottom: 10px;
+  text-align: justify;
 }

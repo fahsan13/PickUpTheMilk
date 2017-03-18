@@ -8,11 +8,7 @@
     website available on all devices -->
     <link rel="stylesheet" href="{% static 'css/stylesheet.css' %}">
 
-    <link rel="stylesheet" href="{% static 'css/simplegrid.css' %}">
-
-
     <!-- fonts -->
-
     <link href="http://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed|Alegreya:700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet"  type="text/css">
     <title>
@@ -28,8 +24,6 @@
 
     {% block navigation_block %}
     <nav>
-      <!--<div class ="menu">-->
-
         <img src="{%static "images/milklogo - white.png" %}" alt= "Milk Carton Logo"/>
 
         <ul>
@@ -65,10 +59,9 @@
           {% if user.is_authenticated %}
           <li style="float:right"><a href="{% url 'auth_logout' %}">Logout</a></li>
           {% else %}
-          <li style="float:right"><a href="{% url 'auth_login' %}">Log in</a></li>
+          <li style="float:right"><a href="{% url 'auth_login' %}">Log in/Register</a></li>
           {% endif %}
         </ul>
-      <!--</div>-->
     </nav>
 
     {% endblock %}
@@ -76,17 +69,21 @@
 
 
     <!--BODY OF THE TEXT-->
+
+    <!--SIDE BAR-->
     <div class="col-md-3 main_content">
       <div id="bgColour">
         {% block side_block %}
-        {% if user.is_authenticated %}
-        {% include 'MILK/profilesidebar.html' %}
+
+          {% if user.is_authenticated %}
+          {% include 'MILK/profilesidebar.html' %}
         {% endif %}
 
         {% endblock %}
       </div>
     </div>
 
+    <!-- Main section-->
     <div class="col-md-8 main_content">
       <div id="bgColour">
         {% block body_block %}
@@ -106,6 +103,7 @@
       {% endblock %}
     </div>
   </footer>
+
     <!--maxCDN -->
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- Latest compiled and minified CSS -->
