@@ -70,15 +70,15 @@ class RecordPurchase(forms.ModelForm):
                                     help_text="Please enter price paid for item(s):")
 
     #should this be set to be the logged in user only?
-
-    payeeID = forms.ModelChoiceField(queryset = User.objects.all())
+    payeeID = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
+    # payeeID = forms.ModelChoiceField(queryset = User.objects.all())
     # purchaserID = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
 
     class Meta:
         model = Transaction
         fields = ('value',)
         #this label thing doesn't work yet
-        labels = { 'value': _('Fanny'),}
+        labels = { 'value': _('Test'),}
     # def clean_item(self):
         # id = Item.objects.get(id = self.item)
 
