@@ -220,8 +220,18 @@ textarea {
 
  .sidebar {
     margin: 0 auto;
-    max-width: 150px;
+    max-width: 125px;
     border: solid #999999;
     border-width: 0px 1px 0px 1px;
+    position: absolute;
+    float: left;
 
  }
+
+#footer {
+    height: 50px;
+    position:fixed;
+    bottom:0px;
+    width:100%;
+    z-index:100;
+}
