@@ -1,4 +1,5 @@
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, Group
 from MILK.models import Item, UserProfile, GroupDetail, Transaction
 
@@ -69,13 +70,15 @@ class RecordPurchase(forms.ModelForm):
                                     help_text="Please enter price paid for item(s):")
 
     #should this be set to be the logged in user only?
-
-    payeeID = forms.ModelChoiceField(queryset = User.objects.all())
+    payeeID = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
+    # payeeID = forms.ModelChoiceField(queryset = User.objects.all())
     # purchaserID = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
 
     class Meta:
         model = Transaction
         fields = ('value',)
+        #this label thing doesn't work yet
+        labels = { 'value': _('Test'),}
     # def clean_item(self):
         # id = Item.objects.get(id = self.item)
 

@@ -1,0 +1,38 @@
+
+
+<h3>{{ request.user.username }}'s profile</h3>
+{{ request.user.username}}
+
+	{% if userprofile.picture %}
+		<img src="{{ MEDIA_URL }}{{ userprofile.picture }}"
+     	width="64"
+     	height="64"
+     	alt="{{request.user.username}}" />
+			<br/>
+	{% else %}
+		<img width="64" height="64" src="http://lorempixel.com/64/64/people/"/>
+		{% if request.user.username == user.username %}
+	<p>
+			Why not upload your own profile picture?
+	</p>
+		{% else %}
+			{{ request.user.username }} hasn't uploaded a profile picture.
+		{% endif %}
+	{% endif %}
+<div>
+	<!-- These might not all be necessary but we can see how to get this info  -->
+	<h5>{{ request.user.username }}'s current balance: {{ userprofile.balance }}</h5>
+	<!-- Think this will only display first group properly, BUT they should only have one in the simplest case -->
+</div>
+	<div>
+	{% if request.user.groups.all.0 %}
+
+		<h5>
+			Member of group: {{ request.user.groups.all.0 }}</br>
+			<a href="{% url 'group' user.groups.all.0 %}">Visit your group page</a>
+	  </h5>
+
+      {% endif %}
+
+    </div>
+	</div>

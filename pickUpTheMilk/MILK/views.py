@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.conf import settings
 from django.db.models import Sum
-
+import json
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
 from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm, ContactForm
 from django.contrib.auth import authenticate, login, logout
@@ -33,12 +33,84 @@ def register_profile(request):
 # View for the home page of the site.
 def home(request):
     # Placed here assuming we're keeping lists on home page? if I'm wrong, easy to change
+    purchase_form = recPurchHelper(request)
+    update_form = updateListHelper(request)
+
     item_list = Item.objects.order_by('id')
     app_url = request.path
+    # set which form to submit
+    # if request.method == 'POST' and 'pickUpButton' in request.POST:
+    #     update_form = updateListHelper(request)
+    #
+    # if request.method == 'POST' and 'purchaseButton' in request.POST:
+    #     purchase_form = recPurchHelper(request)
 
-    context_dict = {'Items': item_list, 'app_url': app_url }
+    context_dict = {'Items': item_list, 'app_url': app_url, 'purchaseform':purchase_form, 'updateform':update_form}
     response = render(request, 'MILK/home.html', context_dict)
     return response
+
+# handles recording purchase form process
+def recPurchHelper(request):
+    form = RecordPurchase()
+    # selecteduser = request.user
+
+    if request.method == 'POST' and 'purchaseButton' in request.POST:
+        form = RecordPurchase(request.POST)
+
+        if form.is_valid():
+            purchase = form.save(commit=False)
+            # # Get selected payee ID from drop down box
+            # payee = form.cleaned_data['payeeID']
+            # Gets item purchased
+            item_purchased = form.cleaned_data['itemID']
+            # Get cost of transaction entered by user from form
+            item_cost = form.cleaned_data['value']
+            # Get this user's userprofile, where their balance is stored
+            userprofile = UserProfile.objects.get_or_create(user=request.user)[0]
+            # Gets item object to allow toggling of needsbought booleanfield - what is get or create?
+            toggle_item_bought = Item.objects.get(id=item_purchased.id)
+
+            # Reflect this on user's balance
+            userprofile.balance += item_cost
+
+            # Sets items needs bought status to false, for item model
+            toggle_item_bought.itemNeedsBought = False
+
+            # Updates the transaction model
+            purchase.payeeID = request.user
+            purchase.itemID = item_purchased
+
+            # Saves changes
+            userprofile.save()
+            toggle_item_bought.save()
+            purchase.save()
+            form = RecordPurchase()
+
+        else:
+            print(form.errors)
+    return form
+
+def updateListHelper(request):
+    #Imports form used to display items which aren't currently marked as needing to be bought
+    form= needsBoughtForm()
+
+    if request.method == 'POST' and "pickUpButton" in request.POST:
+        form = needsBoughtForm(request.POST)
+
+        if form.is_valid():
+
+            # Gets item to set as needing bought
+            item_needing_bought = form.cleaned_data['itemID']
+
+            # Sets items needs bought status to false, for item model
+            item_needing_bought.itemNeedsBought = True
+
+            # Saves change
+            item_needing_bought.save()
+
+        else:
+             print(form.errors)
+    return form
 
 def sitemap(request):
     app_url = request.path
@@ -190,48 +262,49 @@ def grouppage(request, groupname):
     response = render(request, 'MILK/grouppage.html',  {'currentgroup':groupname, 'groupdetail':groupdetail, 'user':user, 'addform':add_form, 'removeform':remove_form, 'members':groupmembers})
     return response
 
-@login_required
-#Should be record purchase. Since we are recording a purchase.
-def record_purchase(request):
-
-    form=RecordPurchase()
-
-    if request.method == 'POST':
-        form = RecordPurchase(request.POST)
-
-        if form.is_valid():
-            purchase=form.save(commit=False)
-            # Get selected payee ID from drop down box
-            payee=form.cleaned_data['payeeID']
-            # Gets item purchased
-            item_purchased = form.cleaned_data['itemID']
-            # Get cost of transaction entered by user from form
-            item_cost = form.cleaned_data['value']
-            # Get this user's userprofile, where their balance is stored
-            userprofile = UserProfile.objects.get_or_create(user=payee)[0]
-            # Gets item object to allow toggling of needsbought booleanfield - what is get or create?
-            toggle_item_bought = Item.objects.get(id=item_purchased.id)
-
-            # Reflect this on user's balance
-            userprofile.balance += item_cost
-
-            # Sets items needs bought status to false, for item model
-            toggle_item_bought.itemNeedsBought = False
-
-            # Updates the transaction model
-            purchase.payeeID = payee
-            purchase.itemID = item_purchased
-
-            # Saves changes
-            userprofile.save()
-            toggle_item_bought.save()
-            purchase.save()
-
-        else:
-             print(form.errors)
-
-    response = render(request, 'MILK/transaction.html', {'form':form})
-    return response
+# moved to home page and split into a helper method
+# @login_required
+# #Should be record purchase. Since we are recording a purchase.
+# def record_purchase(request):
+#
+#     form=RecordPurchase()
+#
+#     if request.method == 'POST':
+#         form = RecordPurchase(request.POST)
+#
+#         if form.is_valid():
+#             purchase=form.save(commit=False)
+#             # Get selected payee ID from drop down box
+#             payee=form.cleaned_data['payeeID']
+#             # Gets item purchased
+#             item_purchased = form.cleaned_data['itemID']
+#             # Get cost of transaction entered by user from form
+#             item_cost = form.cleaned_data['value']
+#             # Get this user's userprofile, where their balance is stored
+#             userprofile = UserProfile.objects.get_or_create(user=payee)[0]
+#             # Gets item object to allow toggling of needsbought booleanfield - what is get or create?
+#             toggle_item_bought = Item.objects.get(id=item_purchased.id)
+#
+#             # Reflect this on user's balance
+#             userprofile.balance += item_cost
+#
+#             # Sets items needs bought status to false, for item model
+#             toggle_item_bought.itemNeedsBought = False
+#
+#             # Updates the transaction model
+#             purchase.payeeID = payee
+#             purchase.itemID = item_purchased
+#
+#             # Saves changes
+#             userprofile.save()
+#             toggle_item_bought.save()
+#             purchase.save()
+#
+#         else:
+#              print(form.errors)
+#
+#     response = render(request, 'MILK/transaction.html', {'form':form})
+#     return response
 
 @login_required
 #Temporary page for modelling item needing bought logic
@@ -265,9 +338,29 @@ def needsbought(request):
 @login_required
 def settleup(request,groupname):
     # Get all members of the group
+    resolve = {}
     groupmembers = User.objects.filter(groups__name=groupname)
+    average = averagebalance(groupname)
+    balanceowed = {}
+    #gets user name = v in groupmembers
+    for v in groupmembers:
+        user_profile = UserProfile.objects.get(user=v)
+        money = user_profile.balance
 
-    response = render(request, 'MILK/settle-up.html',{'members':groupmembers,})
+        floatmoney = float(money)
+        updateBalance = floatmoney -average
+
+        # converts details into strings to make json file
+        stringbal= str(updateBalance)
+        userstring =str(v)
+        print updateBalance
+        # adds to dictonary
+        balanceowed[userstring]=stringbal
+        resolve[v]=balanceowed
+    print balanceowed
+    json_balances =jsonmaker(balanceowed)
+    print json_balances
+    response = render(request, 'MILK/settle-up.html',{'members':groupmembers, 'average':average, 'resolve':resolve, 'json_balances':json_balances})
     return response
 
 @login_required
@@ -287,3 +380,31 @@ def clearUserBalance(username):
     userprofile.balance = 0
     userprofile.save()
     return response
+
+# helper methdd to determine the average of the balances of the group
+def averagebalance(groupname):
+
+    groupmembers = User.objects.filter(groups__name=groupname)
+    total = 0
+    nummembers = 0
+
+    # gets user name = v in groupmembers
+    for v in groupmembers:
+        user_profile = UserProfile.objects.get(user=v)
+
+        money = user_profile.balance
+        money = round(money, 2)
+
+        # sums total
+        total = total + money
+        # tracks number of users
+        nummembers = nummembers + 1
+
+    average = total / nummembers
+    average = round(average,2)
+    return (average)
+
+# helper method for making a json file
+def jsonmaker(data):
+    json_data = json.dumps(data)
+    return json_data

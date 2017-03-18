@@ -12,11 +12,14 @@
   <div><b>Group Members</b>
 
     {% for profile in members %}
-      <ul><a href="{% url 'profile' profile.username %}">{{ profile.username }} has a 
-
-balance of: {{ profile.userprofile.balance }} </a></ul>
+      <ul><a href="{% url 'profile' profile.username %}" >{{ profile.username }} has a
+        balance of: {{ profile.userprofile.balance }} </a></ul>
     {% endfor %}
   </div></br>
+ <div>
+     the each user owes £{{ average }}
+ </div>
+
 
  <div>
 	<button id = "Settle_balance" groupname="{{ user.groups.all.0 }}"
@@ -24,8 +27,20 @@ balance of: {{ profile.userprofile.balance }} </a></ul>
 		Settle balances
 	</button>	
   </div>
-{% endblock %}
 
+<div>
+    {% for value in resolve.values %}
+
+    <ul>{{ resolve. }} owes: {{ value }} </a></ul>
+
+    {% endfor %}
+</div>
+ <div>
+<!--I'm sure we can do ajax stuff here -->
+     {{ json_balances }}
+ </div>
+
+{% endblock %}
 
 
 <!-- Need to set it up so the button passes the entire group to the view, which can 

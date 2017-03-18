@@ -216,3 +216,12 @@ textarea {
     rows: 6;
     cols: 200;
 }​
+
+
+ .sidebar {
+    margin: 0 auto;
+    max-width: 150px;
+    border: solid #999999;
+    border-width: 0px 1px 0px 1px;
+
+ }
