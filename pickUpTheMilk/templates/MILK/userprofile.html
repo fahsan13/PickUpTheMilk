@@ -99,3 +99,11 @@
 	</div>
 
 {% endblock %}
+
+{% block side_block %}
+
+	{% if user.is_authenticated %}
+		<!-- Silly to sidebar profile here as well, can override it with something else -->
+	{% endif %}
+
+{% endblock %}

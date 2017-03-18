@@ -3,8 +3,12 @@
 
 {% block title_block %} Home {% endblock %}
 
-    {% block body_block %}
-    <h1> <img src="{%static "images/milklogo.png" %}" alt= "Milk Carton Logo" height ="100"/>
+
+
+{% block body_block %}
+{% if user.is_authenticated %}
+
+    <h1> <img src="{% static "images/milklogo.png" %}" alt= "Milk Carton Logo" height ="100"/>
         Pick Up The Milk! <subheading>- The Passive Aggressive Cost Sharing App&#8482;</subheading> </h1>
 
 
@@ -13,6 +17,7 @@
     {% else %}
         <h2> Welcome! </h2>
     {% endif %}
+
 
 
     <section>
@@ -148,6 +153,10 @@
       </aside>
     {% endif %}
 
+{% else %}
+  <!-- No logged in user on homepage so we show them the parallax version -->
+  {% include 'MILK/parallax.html' %}
+{% endif %}
 
 </section>
 

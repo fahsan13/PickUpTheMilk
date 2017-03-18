@@ -1,3 +1,5 @@
+{% load staticfiles %}
+
 *{
   margin: 0;
   header: 0;
@@ -48,6 +50,7 @@ p {
 
 /*BACKGROUND*/
 .bgimg{
+  /* Possible to make these links to image in the static folder? */
   background-image: url("http://all4desktop.com/data_images/original/4242896-milk.jpg");
   min-height: 600px;
   background-attachment: fixed;

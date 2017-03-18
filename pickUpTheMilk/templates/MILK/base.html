@@ -57,7 +57,7 @@
           {% endif %}
 
           {% if user.is_authenticated %}
-          <li style="float:right"><a href="{% url 'auth_logout' %}">Logout</a></li>
+          <li style="float:right"><a href="{% url 'auth_logout' %}?next=/">Logout</a></li>
           {% else %}
           <li style="float:right"><a href="{% url 'auth_login' %}">Log in/Register</a></li>
           {% endif %}
@@ -70,14 +70,14 @@
 
     <!--BODY OF THE TEXT-->
 
-    <!--SIDE BAR-->
+    <!--SIDE BAR - COMMENTED OUT AS SHOWS UP ON PROFILE PAGE AS WELL. THINK IT'S BETTER TO DO ON PAGE-BY-PAGE BASIS.-->
     <div class="col-md-3 main_content">
       <div id="bgColour">
         {% block side_block %}
 
           {% if user.is_authenticated %}
-          {% include 'MILK/profilesidebar.html' %}
-        {% endif %}
+            {% include 'MILK/profilesidebar.html' %}
+          {% endif %}
 
         {% endblock %}
       </div>
