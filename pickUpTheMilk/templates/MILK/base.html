@@ -109,11 +109,10 @@
       {% block footer %}
 	  
 	  <!-- Attempting to add in some AJAX -->
-		<div>		
+				
 			<input class="input-medium search-query" type="text"
 				name="suggestion" value="" id="suggestion" />
-		</div>
-			
+		
 			<div id="Items">
 			<ul class= "nav nav-list">
 					<li class="nav-header">Add a pre-existing item to your list!</li>
@@ -124,7 +123,9 @@
 					</form>
 				</ul>
 				<hr>
-		</div>
+			</div>
+		
+		<!-- End of Ajax -->
 	  
       <a href="{% url 'home' %}">Homepage</a>
       <a href="{% url 'about' %}">About/FAQ</a>

@@ -280,11 +280,12 @@ def suggest_item(request):
     if request.method == 'GET':
         starts_with = request.GET['suggestion']
     item_list = get_item_list(8, starts_with)
-
+    print "-------------------"
+    print item_list
     '''Not 100% on how to pass items through to base to display
     in auto-complete form. Made Items.html as a placeholder
     to follow Tango with Django book. Not a robust solution, though'''
-    return render(request, 'milk/Items.html', {'Items': item_list})
+    return render(request, 'milk/items.html', {'Items': item_list})
 
 
 #Settle up page, resolve balances
