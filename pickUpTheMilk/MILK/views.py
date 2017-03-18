@@ -261,6 +261,32 @@ def needsbought(request):
     response = render(request, 'MILK/needsBought.html', {'form':form})
     return response
 
+
+def get_item_list(max_results=0, starts_with=''):
+    item_list = []
+    if starts_with:
+        item_list = Item.objects.filter(itemName__istartswith=starts_with)
+
+    if max_results > 0:
+        if len(item_list) > max_results:
+            item_list = item_list[:max_results]
+    print item_list
+    return item_list
+
+def suggest_item(request):
+    item_list = []
+    starts_with = ''
+
+    if request.method == 'GET':
+        starts_with = request.GET['suggestion']
+    item_list = get_item_list(8, starts_with)
+
+    '''Not 100% on how to pass items through to base to display
+    in auto-complete form. Made Items.html as a placeholder
+    to follow Tango with Django book. Not a robust solution, though'''
+    return render(request, 'milk/Items.html', {'Items': item_list})
+
+
 #Settle up page, resolve balances
 @login_required
 def settleup(request,groupname):
@@ -270,6 +296,7 @@ def settleup(request,groupname):
     response = render(request, 'MILK/settle-up.html',{'members':groupmembers,})
     return response
 
+#From early attempt to integrate AJAX for resolving balances, may scrap it
 @login_required
 def resolveBalances(request, groupname):
     current_group = User.objects.filter(groups__name=groupname)
@@ -282,8 +309,10 @@ def resolveBalances(request, groupname):
 
 
 # Helper method to clear balance of an individual user
+#From early attempt to integrate AJAX for resolving balances, may scrap it
 def clearUserBalance(username):
     userprofile = UserProfile.objects.get_or_create(user=username)[0]
     userprofile.balance = 0
     userprofile.save()
     return response
+

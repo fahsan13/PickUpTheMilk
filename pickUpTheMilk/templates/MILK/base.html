@@ -80,6 +80,24 @@
     <div class="col-md-8 main_content">
       <div id="bgColour">
         {% block body_block %}
+		<!-- Attempting to add in some AJAX -->
+		<div>		
+			<input class="input-medium search-query" type="text"
+				name="suggestion" value="" id="suggestion" />
+				
+				<ul class= "nav nav-list">
+					<li class="nav-header">Add a pre-existing item to your list!</li>
+					<form>
+					<li><input class="search-query form-control" type="text"
+						name="suggestion" value="" id="suggestion" />
+					</li>
+					</form>
+				</ul>
+				<hr>
+			</div>
+			
+			<div id="Items">
+		</div>
         {% endblock %}
       </div>
     </div>
@@ -89,6 +107,25 @@
     <footer class="footer">
       <div class="position">
       {% block footer %}
+	  
+	  <!-- Attempting to add in some AJAX -->
+		<div>		
+			<input class="input-medium search-query" type="text"
+				name="suggestion" value="" id="suggestion" />
+		</div>
+			
+			<div id="Items">
+			<ul class= "nav nav-list">
+					<li class="nav-header">Add a pre-existing item to your list!</li>
+					<form>
+					<li><input class="search-query form-control" type="text"
+						name="suggestion" value="" id="suggestion" />
+					</li>
+					</form>
+				</ul>
+				<hr>
+		</div>
+	  
       <a href="{% url 'home' %}">Homepage</a>
       <a href="{% url 'about' %}">About/FAQ</a>
       <a href="{% url 'contact'%}">Contact Us</a>
@@ -100,7 +137,10 @@
     <!-- Placed at the end of the document so the pages load faster -->
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- jQuery library -->
+    <!-- jQuery library  -->
+	<script src="{% static "js/jquery.min.js" %}"></script>
+	<script src="{% static "js/milk-ajax.js" %}"></script>
+	
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="{% static 'js/pagescript.js' %}">
     <!-- Latest compiled JavaScript -->
