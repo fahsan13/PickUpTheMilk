@@ -22,6 +22,17 @@ class itemForm(forms.ModelForm):
         # fields = ('itemName', 'addedby', 'groupBuying')
         fields = ('itemName', 'addedby', 'groupBuying')
 
+class autoItemForm(forms.ModelForm):
+    itemName = forms.CharField(max_length=128, help_text="Please enter the item name:")
+    addedby = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.HiddenInput(), required=False)
+    groupBuying = forms.ModelChoiceField(queryset=Group.objects.all(), widget=forms.HiddenInput(), required=False)
+
+
+    class Meta:
+        model = Item
+        # fields = ('itemName', 'addedby', 'groupBuying')
+        fields = ('itemName', 'addedby', 'groupBuying')
+
 # Used when a new group is created
 class groupForm(forms.ModelForm):
     group = forms.CharField(max_length=128, help_text="Please enter the new group's name:")

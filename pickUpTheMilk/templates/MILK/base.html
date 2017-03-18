@@ -81,25 +81,6 @@
       <div id="bgColour">
         {% block body_block %}
 		
-		<!-- Attempting to add in some AJAX -->
-		<div>		
-			<input class="input-medium search-query" type="text"
-				name="suggestion" value="" id="suggestion" />
-				
-				<ul class= "nav nav-list">
-					<li class="nav-header">Add a pre-existing item to your list!</li>
-					<form>
-					<li><input class="search-query form-control" type="text"
-						name="suggestion" value="" id="suggestion" />
-					</li>
-					</form>
-				</ul>
-				<hr>
-				<div id="Items">
-				</div>
-				
-		<!-- Eng AJAX stuff -->
-		
         {% endblock %}
       </div>
     </div>
@@ -110,25 +91,7 @@
       <div class="position">
       {% block footer %}
 	  
-	  <!-- Attempting to add in some AJAX -->
-				
-			<input class="input-medium search-query" type="text"
-				name="suggestion" value="" id="suggestion" />
-		
-			
-			<ul class= "nav nav-list">
-				<li class="nav-header">Add a pre-existing item to your list!</li>
-				<form>
-				<li><input class="search-query form-control" type="text"
-					name="suggestion" value="" id="suggestion" />
-				</li>
-				</form>
-			</ul>
-			<hr>
-			<div id="Items">
-			</div>
-		
-		<!-- End of Ajax -->
+	  
 	  
       <a href="{% url 'home' %}">Homepage</a>
       <a href="{% url 'about' %}">About/FAQ</a>

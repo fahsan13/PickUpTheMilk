@@ -10,3 +10,12 @@ $('#suggestion').keyup(function(){
 		$('#Items').html(data);
 	});
 });
+
+
+$('#needsBoughtSuggestion').keyup(function(){
+	var query;
+	query = $(this).val();
+	$.get('/suggest_add_item/', {suggestion: query}, function(data){
+		$('#Items').html(data);
+	});
+});

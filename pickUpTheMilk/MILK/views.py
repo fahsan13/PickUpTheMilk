@@ -262,16 +262,6 @@ def needsbought(request):
     return response
 
 
-def get_item_list(max_results=0, starts_with=''):
-    item_list = []
-    if starts_with:
-        item_list = Item.objects.filter(itemName__istartswith=starts_with)
-
-    if max_results > 0:
-        if len(item_list) > max_results:
-            item_list = item_list[:max_results]
-    print item_list
-    return item_list
 
 def suggest_item(request):
     item_list = []
@@ -282,10 +272,58 @@ def suggest_item(request):
     item_list = get_item_list(8, starts_with)
     print "-------------------"
     print item_list
-    '''Not 100% on how to pass items through to base to display
-    in auto-complete form. Made Items.html as a placeholder
-    to follow Tango with Django book. Not a robust solution, though'''
+
     return render(request, 'milk/items.html', {'Items': item_list})
+
+
+def get_item_list(max_results=0, starts_with=''):
+    item_list = []
+    if starts_with:
+
+        # Need to get the user group in here
+        # so I can filter it to only show items not already in the group list
+
+        # May also use a set to do this, to eliminate duplicates
+
+        item_list = Item.objects.filter(itemName__istartswith=starts_with)
+
+    if max_results > 0:
+        if len(item_list) > max_results:
+            item_list = item_list[:max_results]
+    print item_list
+    return item_list
+
+
+def suggest_add_item(request):
+    item_list = []
+    starts_with = ''
+    if request.method == 'GET':
+        starts_with = request.GET['suggestion']
+        print starts_with
+    item_list = get_add_item_list(8, starts_with)
+
+    print item_list
+
+    return render(request, 'milk/add_items.html', {'Items': item_list})
+
+
+def get_add_item_list(max_results=0, starts_with=''):
+    item_list = []
+    if starts_with:
+        # Need to get the user's group in here to filter by this and only show items
+        # from their shopping list
+        item_list = Item.objects.filter(itemName__istartswith=starts_with, itemNeedsBought = False)
+
+
+    if max_results > 0:
+        if len(item_list) > max_results:
+            item_list = item_list[:max_results]
+    print item_list
+    return item_list
+
+
+
+
 
 
 #Settle up page, resolve balances

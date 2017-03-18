@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^needsbought/$', views.needsbought, name= 'needsbought'),
     url(r'^settle-up/(?P<groupname>[\w\-]+)/$', views.settleup, name= 'settle-up'),
     url(r'^suggest_item/$', views.suggest_item, name='suggest_item'),
+    url(r'^suggest_add_item/$', views.suggest_add_item, name='suggest_item'),
 ]

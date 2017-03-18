@@ -19,6 +19,27 @@
     {% if user.is_authenticated %}
       </br>
 
+	  <!-- Attempting to add in some AJAX -->
+				
+		<div>		
+			<input class="input-medium search-query" type="text"
+				name="suggestion" value="" id="suggestion" />
+				
+				<ul class= "nav nav-list">
+					<li class="nav-header">Add stuff!</li>
+					<form>
+					<li><input class="search-query form-control" type="text"
+						name="suggestion" value="" id="suggestion" />
+					</li>
+				</form>
+			</ul>
+				<hr /> 
+				<div id="Items">
+				</div>
+		
+		<!-- End of Ajax -->
+	  
+	  
       <div>
           <h6>Communal shopping list: (Need to handle a single group's empty list more gracefully! Scrollable lists not working anymore :(</h6>
       </div>
@@ -97,6 +118,7 @@
     {% if user.is_authenticated %}
         <p> This is a side bar where the user profile (or maybe lists of some kind?) would be displayed. Example of list:</p></br>
 
+		
         Items to buy:</br>
         <div class=scroll-list>
                 {% if Items %}
@@ -115,8 +137,10 @@
         SIGN UP</br>
         (superliminal messaging)
     {% endif %}
-
+	
 {% endblock %}
+
+
 
 </body>
 </html>

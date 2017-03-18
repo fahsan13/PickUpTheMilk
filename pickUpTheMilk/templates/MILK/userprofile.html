@@ -36,10 +36,30 @@
 			Member of group: {{ selecteduser.groups.all.0 }}</br>
 			<a href="{% url 'group' user.groups.all.0 %}">Visit your group page</a>
 	  </h5>
+	  
+	  <!-- AJAX for adding items to needs bought list -->
+				
+		<div>		
+			<input class="input-medium search-query" type="text"
+				name="needsBoughtSuggestion" value="" id="needsBoughtSuggestion" />
+				
+				<ul class= "nav nav-list">
+					<li class="nav-header"><b>Type in the name of the item which need to be replenished...</b></li>
+					<form>
+					<li><input class="search-query form-control" type="text"
+						name="needsBoughtSuggestion" value="" id="needsBoughtSuggestion" />
+					</li>
+				</form>
+			</ul>
+				<hr /> 
+				<div id="Items">
+				</div>
+		
+		<!-- End of Ajax -->
 
 		<div>
 		{% if selecteduser.username == user.username %}
-			<b>Add item</b>
+			<b>...or select it from the drop-down list! </b>
 			
 			<form id="itemForm" method="post" action".">					
 				
