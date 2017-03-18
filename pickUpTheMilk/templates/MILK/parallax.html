@@ -1,0 +1,50 @@
+
+<!-- As this is a very different website to our core design, this website does not
+extend the base. This site also has its own css to enable a wider mix of styles particular
+to this page only -->
+
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'css/parallax.css' %}">
+    <!-- FONTS -->
+    <link href="http://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed|Alegreya:700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet"  type="text/css">
+
+  </head>
+  <body>
+    <h1>  <img src="{%static "images/milklogo.png" %}" alt= "Milk Carton Logo" height ="100"/>
+Pick Up The Milk! <subheading>- The Passive Aggressive Cost Sharing App&#8482;</subheading></h1>
+    <div class="bgimg" >
+      <div class="logo">
+
+      </div>
+    </div>
+
+    <div class="bgimg1">
+      <div class="div1">
+        <h2>Welcome!</h2>
+        <p> Have you ever woke up, gone to the fridge and discovered that your beloved flatmates forgot to
+          <namefont> Pick Up The Milk </namefont> after using it up?
+          Don't worry, it's happened to us too.  So we decided to do something about it!
+      </div>
+    </div>
+
+    <div class="bgimg2">
+      <div class="div1">
+        <h2 >So.... How does it work? </h2>
+        <p> Our website acts as a collaborative shopping list which simplifies your shared finances. We built it with communal living in mind – if a shared item is running low, add it to your list and notify ALL your flatmates that it needs to be replenished. On top of this, our budget tracking feature means that you can keep a running record of purchases. When you decide it's time to settle up, click a button and our state-of-the-art algorithm will figure out everything out for you!
+      </div>
+    </div>
+
+      <div class="div1">
+        <h2>DON'T WAIT! SIGN UP OR LOG IN</h2>
+
+        <p>Registration is quick, easy, and (best of all) FREE!
+      </div>
+  </body>
+</html>
