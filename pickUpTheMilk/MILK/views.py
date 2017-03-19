@@ -300,7 +300,7 @@ def suggest_add_item(request):
     if request.method == 'GET':
         starts_with = request.GET['suggestion']
         print starts_with
-    item_list = get_add_item_list(8, starts_with)
+    item_list = get_add_item_list(1, starts_with)
 
     print item_list
 

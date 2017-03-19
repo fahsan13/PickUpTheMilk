@@ -26,6 +26,7 @@ $(document).on("click", '#add_to_list', function(){
 	alert(this_item + " has been added to your shopping list!");
 	$.get('/item_needs_bought/', {item_adding: this_item}, function(data){
 		$('#something').html(data);
+		$('#add_to_list').hide();
 	});
 });
 
