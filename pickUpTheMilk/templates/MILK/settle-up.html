@@ -11,34 +11,35 @@
 
   <div><b>Group Members</b>
 
+<div id="initial">
+<ul class="nav nav-pills flex-column">
+	{% if settled_balances %}
+	Since the last time the house settled up</br>
+		{% for UserProfile in settled_balances %}
+			{{ UserProfile }} has spent: {{ UserProfile.userprofile.balance }}
+
+			</br>
+		{% endfor %}
+	{% endif %}
+</ul>
+</div>
+
+
+	<!-- Non-dynamic display
     {% for profile in members %}
       <ul><a href="{% url 'profile' profile.username %}" >{{ profile.username }} has a
         balance of: {{ profile.userprofile.balance }} </a></ul>
     {% endfor %}
   </div></br>
- <div>
-     the each user owes £{{ average }}
- </div>
-
-
- <div>
-	<button id = "Settle_balance" groupname="{{ user.groups.all.0 }}"
+	-->
+	<div id ="settled_balances">
+	<div>
+	<button id = "settle_balance" data-groupname="{{ user.groups.all.0 }}"
 		class="btn btn-primary btn-sm" type="button"> 
 		Settle balances
 	</button>	
   </div>
 
-<div>
-    {% for value in resolve.values %}
-
-    <ul>{{ resolve. }} owes: {{ value }} </a></ul>
-
-    {% endfor %}
-</div>
- <div>
-<!--I'm sure we can do ajax stuff here -->
-     {{ json_balances }}
- </div>
 
 {% endblock %}
 

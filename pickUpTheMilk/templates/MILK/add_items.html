@@ -1,0 +1,11 @@
+<ul class="nav nav-pills flex-column">
+	{% if Items %}
+		{% for item in Items %}
+			<button id="add_to_list" data-itemtoadd="{{item.itemName}}"
+			class="btn btn-primary btn-sm" type="button">
+			{{ item }} needs bought
+			</button>
+			
+		{% endfor %}		
+	{% endif %}	
+</ul>

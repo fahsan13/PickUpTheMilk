@@ -1,0 +1,13 @@
+<ul class="nav nav-pills flex-column">
+	{% if members %}
+	Since the last time the house settled up</br>
+		{% for UserProfile in members %}
+			{{ UserProfile }} has spent: {{ UserProfile.userprofile.balance }}
+			
+			</br>
+		{% endfor %}		
+	{% endif %}	
+</ul>
+
+
+<!-- {{ UserProfile.user.username }} balance: {{ UserProfile.balance }} -->

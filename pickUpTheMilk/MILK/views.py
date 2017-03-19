@@ -345,51 +345,111 @@ def needsbought(request):
     response = render(request, 'MILK/needsBought.html', {'form':form})
     return response
 
+
+
+def suggest_item(request):
+    item_list = []
+    starts_with = ''
+
+    if request.method == 'GET':
+        starts_with = request.GET['suggestion']
+    item_list = get_item_list(8, starts_with)
+    print "-------------------"
+    print item_list
+
+    return render(request, 'milk/items.html', {'Items': item_list})
+
+
+def get_item_list(max_results=0, starts_with=''):
+    item_list = []
+    if starts_with:
+
+        # Need to get the user group in here
+        # so I can filter it to only show items not already in the group list
+
+        # May also use a set to do this, to eliminate duplicates
+
+        item_list = Item.objects.filter(itemName__istartswith=starts_with)
+
+    if max_results > 0:
+        if len(item_list) > max_results:
+            item_list = item_list[:max_results]
+    print item_list
+    return item_list
+
+
+def suggest_add_item(request):
+    item_list = []
+    starts_with = ''
+    if request.method == 'GET':
+        starts_with = request.GET['suggestion']
+        print starts_with
+    item_list = get_add_item_list(1, starts_with)
+
+    print item_list
+
+    return render(request, 'milk/add_items.html', {'Items': item_list})
+
+
+def get_add_item_list(max_results=0, starts_with=''):
+    item_list = []
+    if starts_with:
+        # Need to get the user's group in here to filter by this and only show items
+        # from their shopping list
+        item_list = Item.objects.filter(itemName__istartswith=starts_with, itemNeedsBought = False)
+
+    if max_results > 0:
+        if len(item_list) > max_results:
+            item_list = item_list[:max_results]
+    print item_list
+    return item_list
+
+
+
+
+def item_needs_bought(request):
+    item_id = None
+    if request.method == 'GET':
+        item_id = request.GET['item_adding']
+        print item_id
+        print "----------------"
+        item_to_add = Item.objects.get(itemName=item_id)
+        if item_to_add:
+            print item_to_add
+            item_to_add.itemNeedsBought = True
+            item_to_add.save()
+    return HttpResponse(True)
+
+
 #Settle up page, resolve balances
 @login_required
-def settleup(request,groupname):
+def settleup(request, groupname):
     # Get all members of the group
-    resolve = {}
-    groupmembers = User.objects.filter(groups__name=groupname)
-    average = averagebalance(groupname)
-    balanceowed = {}
-    #gets user name = v in groupmembers
-    for v in groupmembers:
-        user_profile = UserProfile.objects.get(user=v)
-        money = user_profile.balance
+    group_members = User.objects.filter(groups__name=groupname)
 
-        floatmoney = float(money)
-        updateBalance = floatmoney -average
-
-        # converts details into strings to make json file
-        stringbal= str(updateBalance)
-        userstring =str(v)
-        print updateBalance
-        # adds to dictonary
-        balanceowed[userstring]=stringbal
-        resolve[v]=balanceowed
-    print balanceowed
-    json_balances =jsonmaker(balanceowed)
-    print json_balances
-    response = render(request, 'MILK/settle-up.html',{'members':groupmembers, 'average':average, 'resolve':resolve, 'json_balances':json_balances})
+    response = render(request, 'MILK/settle-up.html',{'settled_balances':group_members,})
     return response
 
+
+#From early attempt to integrate AJAX for resolving balances, may scrap it
 @login_required
-def resolveBalances(request, groupname):
-    current_group = User.objects.filter(groups__name=groupname)
+def resolve_balances(request):
+    current_group = request.GET['current_group']
+    print current_group
+    group_members = User.objects.filter(groups__name=current_group)
     print "Do I get reached?"
-    for each in current_group.objects.all():
+    zero_balance = 0
+    print group_members
+    for v in group_members:
         print "Am I looping?"
-        userTo0 = current_group.object.username
-        clearUserBalance(userTo0)
-    return HttpResponse(something)
-
-
-# Helper method to clear balance of an individual user
-def clearUserBalance(username):
-    userprofile = UserProfile.objects.get_or_create(user=username)[0]
-    userprofile.balance = 0
-    userprofile.save()
+        userTo0 = v
+        userprofileto0 = UserProfile.objects.get(user=userTo0)
+        print userTo0
+        print userprofileto0.balance
+        userprofileto0.balance = zero_balance
+        print userprofileto0.balance
+        userprofileto0.save()
+        response = render(request, 'MILK/settled_balances.html', {'members': group_members,})
     return response
 
 # helper methdd to determine the average of the balances of the group

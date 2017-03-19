@@ -15,3 +15,4 @@ $('#settle_balance').click(function(){
 			$('#likes').hide();
 	});
 });
+

@@ -15,9 +15,28 @@
         <h2> Welcome! </h2>
     {% endif %}
 
+
     <section>
     {% if user.is_authenticated %}
       </br>
+
+	  <!-- Attempting to add in some AJAX -->
+
+		<div>
+			<input class="input-medium search-query" type="text"
+				name="suggestion" value="" id="suggestion" />
+
+				<ul class= "nav nav-list">
+					<li class="nav-header">Add stuff!</li>
+
+				</form>
+			</ul>
+				<hr />
+				<div id="Items">
+				</div>
+
+		<!-- End of Ajax -->
+
 
       <div>
           <h6>Communal shopping list: (Need to handle a single group's empty list more gracefully! Scrollable lists not working anymore :(</h6>
@@ -145,6 +164,7 @@
       </aside>
     {% endif %}
 
+
 </section>
 
 <!--Include the Google Maps widget-->
@@ -186,6 +206,8 @@
     {% endif %}
 
 {% endblock %}
+
+
 
 </body>
 </html>
