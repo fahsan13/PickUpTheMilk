@@ -314,7 +314,6 @@ def get_add_item_list(max_results=0, starts_with=''):
         # from their shopping list
         item_list = Item.objects.filter(itemName__istartswith=starts_with, itemNeedsBought = False)
 
-
     if max_results > 0:
         if len(item_list) > max_results:
             item_list = item_list[:max_results]
@@ -338,35 +337,39 @@ def item_needs_bought(request):
     return HttpResponse(True)
 
 
-
-
-
 #Settle up page, resolve balances
 @login_required
-def settleup(request,groupname):
+def settleup(request, groupname):
     # Get all members of the group
-    groupmembers = User.objects.filter(groups__name=groupname)
+    group_members = User.objects.filter(groups__name=groupname)
 
-    response = render(request, 'MILK/settle-up.html',{'members':groupmembers,})
+    response = render(request, 'MILK/settle-up.html',{'settled_balances':group_members,})
     return response
+
 
 #From early attempt to integrate AJAX for resolving balances, may scrap it
 @login_required
-def resolveBalances(request, groupname):
-    current_group = User.objects.filter(groups__name=groupname)
+def resolve_balances(request):
+    current_group = request.GET['current_group']
+    print current_group
+    group_members = User.objects.filter(groups__name=current_group)
     print "Do I get reached?"
-    for each in current_group.objects.all():
+    zero_balance = 0
+    print group_members
+    for v in group_members:
         print "Am I looping?"
-        userTo0 = current_group.object.username
-        clearUserBalance(userTo0)
-    return HttpResponse(something)
+        userTo0 = v
+        userprofileto0 = UserProfile.objects.get(user=userTo0)
+        print userTo0
+        print userprofileto0.balance
+        userprofileto0.balance = zero_balance
+        print userprofileto0.balance
+        userprofileto0.save()
+        response = render(request, 'MILK/settled_balances.html', {'members': group_members,})
+    return response
 
 
 # Helper method to clear balance of an individual user
 #From early attempt to integrate AJAX for resolving balances, may scrap it
-def clearUserBalance(username):
-    userprofile = UserProfile.objects.get_or_create(user=username)[0]
-    userprofile.balance = 0
-    userprofile.save()
-    return response
+
 
