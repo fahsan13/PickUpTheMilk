@@ -324,6 +324,21 @@ def get_add_item_list(max_results=0, starts_with=''):
 
 
 
+def item_needs_bought(request):
+    item_id = None
+    if request.method == 'GET':
+        item_id = request.GET['item_adding']
+        print item_id
+        print "----------------"
+        item_to_add = Item.objects.get(itemName=item_id)
+        if item_to_add:
+            print item_to_add
+            item_to_add.itemNeedsBought = True
+            item_to_add.save()
+    return HttpResponse(True)
+
+
+
 
 
 #Settle up page, resolve balances

@@ -1,15 +1,13 @@
 <ul class="nav nav-pills flex-column">
 	{% if Items %}
 		{% for item in Items %}
-			<button id="Add to list" data-item="{{item}}"
+			<button id="add_to_list" data-itemtoadd="{{item.itemName}}"
 			class="btn btn-primary btn-sm" type="button">
 			{{ item }} needs bought
-			
+			</button>
 			<!-- still needs work, but should be easy to map buttons to
 			a view which updates models -->
-			
 			</br>
-			</br>
-		{% endfor %}
-	{% endif %}
+		{% endfor %}		
+	{% endif %}	
 </ul>

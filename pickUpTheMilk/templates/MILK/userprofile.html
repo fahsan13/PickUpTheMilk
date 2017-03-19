@@ -39,27 +39,13 @@
 	  
 	  <!-- AJAX for adding items to needs bought list -->
 				
-		<div>		
-			<input class="input-medium search-query" type="text"
-				name="needsBoughtSuggestion" value="" id="needsBoughtSuggestion" />
-				
-				<ul class= "nav nav-list">
-					<li class="nav-header"><b>Type in the name of the item which need to be replenished...</b></li>
-					<form>
-					<li><input class="search-query form-control" type="text"
-						name="needsBoughtSuggestion" value="" id="needsBoughtSuggestion" />
-					</li>
-				</form>
-			</ul>
-				<hr /> 
-				<div id="Items">
-				</div>
+		
 		
 		<!-- End of Ajax -->
 
 		<div>
 		{% if selecteduser.username == user.username %}
-			<b>...or select it from the drop-down list! </b>
+			<b>Add stuff </b>
 			
 			<form id="itemForm" method="post" action".">					
 				
