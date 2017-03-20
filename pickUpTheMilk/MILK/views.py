@@ -383,20 +383,22 @@ def suggest_add_item(request):
     starts_with = ''
     if request.method == 'GET':
         starts_with = request.GET['suggestion']
-        print starts_with
-    item_list = get_add_item_list(1, starts_with)
+        user = request.user
+        usergroup = user.groups.all().first()
 
+        print starts_with
+    item_list = get_add_item_list(usergroup ,1, starts_with)
     print item_list
 
     return render(request, 'milk/add_items.html', {'Items': item_list})
 
 
-def get_add_item_list(max_results=0, starts_with=''):
+def get_add_item_list(usergroup, max_results=0, starts_with=''):
     item_list = []
     if starts_with:
         # Need to get the user's group in here to filter by this and only show items
         # from their shopping list
-        item_list = Item.objects.filter(itemName__istartswith=starts_with, itemNeedsBought = False)
+        item_list = Item.objects.filter(itemName__istartswith=starts_with, itemNeedsBought = False, groupBuying = usergroup )
 
     if max_results > 0:
         if len(item_list) > max_results:

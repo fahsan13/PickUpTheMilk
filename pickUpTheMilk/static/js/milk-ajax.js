@@ -13,9 +13,12 @@ $('#suggestion').keyup(function(){
 
 
 $('#needsBoughtSuggestion').keyup(function(){
+	alert( "Handler for .keyup() called." );
 	var query;
+	var user_group;
 	query = $(this).val();
-	$.get('/suggest_add_item/', {suggestion: query}, function(data){
+	user_group = $(this).attr("data-groupname"); 
+	$.get('/suggest_add_item/', {suggestion: query}{current_group: user_group}, function(data){
 		$('#Items').html(data);
 	});
 });
