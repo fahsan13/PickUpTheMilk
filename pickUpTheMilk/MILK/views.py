@@ -182,6 +182,7 @@ def creategroup(request):
     return response
 
 # View for a user's profile
+@login_required
 def profilepage(request, username):
 
     try:
@@ -437,11 +438,9 @@ def resolve_balances(request):
     current_group = request.GET['current_group']
     print current_group
     group_members = User.objects.filter(groups__name=current_group)
-    print "Do I get reached?"
     zero_balance = 0
     print group_members
     for v in group_members:
-        print "Am I looping?"
         userTo0 = v
         userprofileto0 = UserProfile.objects.get(user=userTo0)
         print userTo0
@@ -449,7 +448,7 @@ def resolve_balances(request):
         userprofileto0.balance = zero_balance
         print userprofileto0.balance
         userprofileto0.save()
-        response = render(request, 'MILK/settled_balances.html', {'members': group_members,})
+    response = render(request, 'MILK/settled_balances.html', {'members': group_members,})
     return response
 
 # helper methdd to determine the average of the balances of the group
