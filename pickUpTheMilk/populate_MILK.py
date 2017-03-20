@@ -1,3 +1,12 @@
+#"Populating Pick Up The Milk, this population script provides three scenarios."
+#"1. The Group LanceSamanthaandPaulsFlat: Lance Samantha and Paul are having a party, they each add one item they wish to have for the party to the list, and each purchase one item"
+#"2. The Group 2WillowbankSt: Edwin, Julie and Lisa have a group for their shared flat, they have items that they need to purchase, but no one has gone to the shops yet"
+#"3. The users BillFlower and BenPotMan: these are two individual users who do not currently have a group, could be used to test creating a group and adding new members"
+#"NOTE: all users created here have password test12345 should you wish to log in as them "
+
+
+
+
 import os
 import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pickUpTheMilk.settings')
@@ -7,55 +16,101 @@ from MILK.models import Group, GroupDetail, User, UserProfile, Item, Transaction
 
 def populate():
 
-    group = [
-         "Lance, Samantha and Paul's Flat"
+    partygroup = [
+         "LanceSamanthaandPaulsFlat",
     ]
-
-    user = [
+    partyuser = [
         {"username" : "LanceSteel", "email" : "lanceismgtow@liftweights.com", "balance" : 4.00,},
         {"username" : "SamanthaCowlove", "email" : "sheeparefriends@notfood.com", "balance" : 7.00,},
         {"username" : "PaulOtherGuy", "email" : "paul@hasnopersona.com", "balance" : 8.00,}
         ]
-
-    # Lance Samantha and Paul are having a party
-    item = [
-        {"itemName" : "plastic cups", "groupBuying": "Lance, Samantha and Paul's Flat", "addedby" : "LanceSteel"},
-        {"itemName" : "ice", "groupBuying": "Lance, Samantha and Paul's Flat", "addedby" : "SamanthaCowlove"},
-        {"itemName" : "party poppers", "groupBuying": "Lance, Samantha and Paul's Flat", "addedby" : "PaulOtherGuy"}
+    partyitem = [
+        {"itemName" : "plastic cups", "groupBuying": "LanceSamanthaandPaulsFlat", "addedby" : "LanceSteel"},
+        {"itemName" : "ice", "groupBuying":"LanceSamanthaandPaulsFlat", "addedby" : "SamanthaCowlove"},
+        {"itemName" : "party poppers", "groupBuying": "LanceSamanthaandPaulsFlat", "addedby" : "PaulOtherGuy"}
     ]
-
-    transaction =  [
+    partytransaction =  [
         {"payeeID" : "LanceSteel", "itemID" : "ice", "value" : 4.00 },
         {"payeeID" : "SamanthaCowlove", "itemID" : "party poppers", "value" : 7.00 },
         {"payeeID" : "PaulOtherGuy", "itemID" : "plastic cups", "value" : 8.00}
     ]
-
-    for a in group:
+    for a in partygroup:
         group_created = add_group(a)
-
-    for b in user:
+    for b in partyuser:
         if b["username"] == "LanceSteel":
             the_admin = add_user(b["username"], b["email"], b["balance"], group_created,)
             set_admin(group_created, the_admin)
         else:
             add_user(b["username"], b["email"], b["balance"], group_created,)
+    for c in partyitem:
+        for z in partyuser:
+            if z["username"] == c["addedby"]:
+                added_by = User.objects.get(username = z["username"])
+                add_item(c["itemName"], group_created, added_by)
+    for d in partytransaction:
+        for y in partyuser:
+            if y["username"] == d["payeeID"]:
+                payee = User.objects.get(username = y["username"])
+                for x in partyitem:
+                    if x["itemName"]== d["itemID"]:
+                        the_item = Item.objects.get(itemName = d["itemID"])
+                        add_transaction(the_item, payee, d["value"])
+
+
+    sandwichgroup = [
+         "2WillowbankSt",
+    ]
+    sandwichuser = [
+        {"username" : "Edwin", "email" : "edwin@magic.com", "balance" : 0.00,},
+        {"username" : "Julie", "email" : "julie@secret.com", "balance" : 0.00,},
+        {"username" : "Lisa", "email" : "lisa@keys.com", "balance" : 0.00,}
+        ]
+    sandwichitem = [
+        {"itemName" : "bread", "groupBuying": "2WillowbankSt", "addedby" : "Edwin"},
+        {"itemName" : "cheese", "groupBuying":"2WillowbankSt", "addedby" : "Julie"},
+        {"itemName" : "ham", "groupBuying": "2WillowbankSt", "addedby" : "Lisa"}
+    ]
+    for a in sandwichgroup:
+        group_created = add_group(a)
+    for b in sandwichuser:
+        if b["username"] == "Lisa":
+            the_admin = add_user(b["username"], b["email"], b["balance"], group_created,)
+            set_admin(group_created, the_admin)
+        else:
+            add_user(b["username"], b["email"], b["balance"], group_created,)
+    for c in sandwichitem:
+        for z in sandwichuser:
+            if z["username"] == c["addedby"]:
+                added_by = User.objects.get(username = z["username"])
+                add_item(c["itemName"], group_created, added_by)
+
+    lonelyuser = [
+        {"username" : "BillFlower", "email" : "bill@thegarden.com", "balance" : 0.00,},
+        {"username" : "BenPotMan", "email" : "ben@thegarden.com", "balance" : 0.00,},
+        {"username" : "ParsleyTheLion", "email" : "parsley@thelion.com", "balance" : 0.00,}
+        ]
+
+
+    for a in lonelyuser:
+        add_user_no_group(a["username"], a["email"], a["balance"])
 
 
 
-        #for y in group_detail:
-        #    add_group_detail(group_created, the_admin)
 
-    for x in item:
-        add_item(x["itemName"], group_added, x["addedby"])
-    for x in transaction:
-        add_transaction(x)
 
 
 def add_user(username, email, balance, group):
     u = User.objects.get_or_create(username = username, email = email)[0]
-
     u.save()
     u.groups.add(group)
+    u.set_password("test12345")
+    u.save()
+    up = UserProfile.objects.get_or_create(user = u, balance = balance)
+    return u
+
+def add_user_no_group(username, email, balance):
+    u = User.objects.get_or_create(username = username, email = email)[0]
+    u.save()
     u.set_password("test12345")
     u.save()
     up = UserProfile.objects.get_or_create(user = u, balance = balance)
@@ -81,15 +136,16 @@ def add_item(itemName, groupBuying, addedby):
     i.save()
     return i
 
-def add_transaction(payeeID, itemID, value):
-    t = Transaction.object.get_or_create(itemName = itemName)[0]
-    t.payeeID = payeeID
-    t.itemID = itemID
-    t.value = value
+def add_transaction(itemID, payeeID, value):
+    t = Transaction.objects.get_or_create(itemID = itemID, payeeID = payeeID, value = value)[0]
     t.save()
     return t
 
 
 if __name__ == '__main__':
-    print "Populating Pick Up The Milk"
+    print "Populating Pick Up The Milk, this population script provides three scenarios."
+    print "1. The Group LanceSamanthaandPaulsFlat: Lance Samantha and Paul are having a party, they each add one item they wish to have for the party to the list, and each purchase one item"
+    print "2. The Group 2WillowbankSt: Edwin, Julie and Lisa have a group for their shared flat, they have items that they need to purchase, but no one has gone to the shops yet"
+    print "3. The users BillFlower and BenPotMan: these are two individual users who do not currently have a group, could be used to test creating a group and adding new members"
+    print "NOTE: all users created here have password test12345 should you wish to log in as them "
     populate()
