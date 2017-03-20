@@ -1,3 +1,4 @@
+import string
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, Group
@@ -23,15 +24,14 @@ class itemForm(forms.ModelForm):
         # fields = ('itemName', 'addedby', 'groupBuying')
         fields = ('itemName', 'addedby', 'groupBuying')
 
+# Form for AJAX autocomplete of items to be added to a group's list
 class autoItemForm(forms.ModelForm):
     itemName = forms.CharField(max_length=128, help_text="Please enter the item name:")
     addedby = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.HiddenInput(), required=False)
     groupBuying = forms.ModelChoiceField(queryset=Group.objects.all(), widget=forms.HiddenInput(), required=False)
 
-
     class Meta:
         model = Item
-        # fields = ('itemName', 'addedby', 'groupBuying')
         fields = ('itemName', 'addedby', 'groupBuying')
 
 # Used when a new group is created
@@ -44,8 +44,17 @@ class groupForm(forms.ModelForm):
         super(groupForm, self).__init__(*args, **kwargs)
 
     def clean_group(self):
-        # .replace bit strips all whitespace from name entered.
-        new_group, _ = Group.objects.get_or_create(name = self.cleaned_data.get('group').replace(" ", ""))
+        # '.replace' section strips all whitespace from name entered.
+
+        cleaned_name = self.cleaned_data.get('group').replace(" ", "")
+
+        print cleaned_name
+
+        # Strip punctuation.
+        # cleaned_name.translate(string.punctuation)
+
+        new_group, _ = Group.objects.get_or_create(name = cleaned_name)
+
         return new_group
 
     def clean_administrator(self):
@@ -73,33 +82,29 @@ class RemoveUser(forms.Form):
             choices=[(item.id, item) for item in User.objects.filter(groups=group)]
         )
 
-# Allows users to track items purchased - form needs to be renamed to reflect this
+# Allows users to track items purchased.
 class RecordPurchase(forms.ModelForm):
-    # Filter items so can only see items that are on the too pick up list
+    # Filter items so can only see items that are on the 'to pick up' list
     itemID = forms.ModelChoiceField(queryset=Item.objects.filter(itemNeedsBought = True))
     value = forms.DecimalField(required=True, min_value=0.01,
                                     help_text="Please enter price paid for item(s):")
 
-    #should this be set to be the logged in user only?
     payeeID = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
-    # payeeID = forms.ModelChoiceField(queryset = User.objects.all())
-    # purchaserID = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
 
     class Meta:
         model = Transaction
         fields = ('value',)
-        #this label thing doesn't work yet
-        labels = { 'value': _('Test'),}
-    # def clean_item(self):
-        # id = Item.objects.get(id = self.item)
 
+# Form to change the 'needs bought' status of an item.
 class needsBoughtForm(forms.Form):
-    itemID = forms.ModelChoiceField(queryset=Item.objects.filter(itemNeedsBought = False))
+    # itemID = forms.ModelChoiceField(queryset=Item.objects.filter(itemNeedsBought = False))
+    def __init__(self, group, *args, **kwargs):
+        super(needsBoughtForm, self).__init__(*args, **kwargs)
+        self.fields['itemID'] = forms.ChoiceField(
+            choices =[(item, item) for item in Item.objects.filter(itemNeedsBought = False).filter(groupBuying = group)]
+            )
 
-    # class Meta:
-    #     model = Item
-    #     fields = ('itemNeedsBought',)
-
+# Form that is displayed on 'Contact Us' page.
 class ContactForm(forms.Form):
     name = forms.CharField(max_length=128)
     email = forms.CharField(max_length=128)

@@ -60,7 +60,7 @@
             <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a>
             <!--<h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>-->
     <div>
-     This button doesn't work properly at the moment
+
                  <!--Sets modal button type-->
     <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Things to Pick Up!</button>
 
@@ -84,6 +84,7 @@
                                 {{ updateform.as_p }}
 
                               <input type="submit" , name="pickUpButton" , value="Update the list">
+                            </form>
 
                         </div>
 
@@ -133,8 +134,8 @@
                                 {{ purchaseform.as_p }}
 
                               <input type="submit" , name="purchaseButton" , value="Record a purchase">
-
-                        </div>
+                            </form>
+                            </div>
 
                         </div>
                     </div>

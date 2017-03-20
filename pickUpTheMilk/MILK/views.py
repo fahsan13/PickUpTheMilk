@@ -32,7 +32,7 @@ def register_profile(request):
 
 # View for the home page of the site.
 def home(request):
-    # Placed here assuming we're keeping lists on home page? if I'm wrong, easy to change
+
     purchase_form = recPurchHelper(request)
     update_form = updateListHelper(request)
 
@@ -102,18 +102,27 @@ def recPurchHelper(request):
     return form
 
 def updateListHelper(request):
-    #Imports form used to display items which aren't currently marked as needing to be bought
-    form= needsBoughtForm()
+    # Imports form used to display items which aren't currently marked as needing to be bought
+
+    # Get user's group
+    user = request.user
+    group = user.groups.all().first()
+
+    form = needsBoughtForm(group)
 
     if request.method == 'POST' and "pickUpButton" in request.POST:
-        form = needsBoughtForm(request.POST)
+        form = needsBoughtForm(group, request.POST)
 
         if form.is_valid():
 
-            # Gets item to set as needing bought
-            item_needing_bought = form.cleaned_data['itemID']
+            # Gets item name for item to be bought
+            name = form.cleaned_data['itemID']
+            print name
 
-            # Sets items needs bought status to false, for item model
+            # Get the correct item object by filtering based on 'name'
+            item_needing_bought = Item.objects.get(itemName = name)
+
+            # Sets items 'needs bought' status to false, for item model
             item_needing_bought.itemNeedsBought = True
 
             # Saves change
@@ -182,6 +191,7 @@ def creategroup(request):
     return response
 
 # View for a user's profile
+@login_required
 def profilepage(request, username):
 
     try:
@@ -267,65 +277,29 @@ def grouppage(request, groupname):
             selecteduser = User.objects.get(id=selecteduserID)
             selecteduser.groups.remove(groupname)
             print("User successfully removed!")
+            return redirect('group', groupname)
         else:
             print(remove_form.errors)
 
     response = render(request, 'MILK/grouppage.html',  {'currentgroup':groupname, 'groupdetail':groupdetail, 'user':user, 'addform':add_form, 'removeform':remove_form, 'members':groupmembers})
     return response
 
-# moved to home page and split into a helper method
-# @login_required
-# #Should be record purchase. Since we are recording a purchase.
-# def record_purchase(request):
-#
-#     form=RecordPurchase()
-#
-#     if request.method == 'POST':
-#         form = RecordPurchase(request.POST)
-#
-#         if form.is_valid():
-#             purchase=form.save(commit=False)
-#             # Get selected payee ID from drop down box
-#             payee=form.cleaned_data['payeeID']
-#             # Gets item purchased
-#             item_purchased = form.cleaned_data['itemID']
-#             # Get cost of transaction entered by user from form
-#             item_cost = form.cleaned_data['value']
-#             # Get this user's userprofile, where their balance is stored
-#             userprofile = UserProfile.objects.get_or_create(user=payee)[0]
-#             # Gets item object to allow toggling of needsbought booleanfield - what is get or create?
-#             toggle_item_bought = Item.objects.get(id=item_purchased.id)
-#
-#             # Reflect this on user's balance
-#             userprofile.balance += item_cost
-#
-#             # Sets items needs bought status to false, for item model
-#             toggle_item_bought.itemNeedsBought = False
-#
-#             # Updates the transaction model
-#             purchase.payeeID = payee
-#             purchase.itemID = item_purchased
-#
-#             # Saves changes
-#             userprofile.save()
-#             toggle_item_bought.save()
-#             purchase.save()
-#
-#         else:
-#              print(form.errors)
-#
-#     response = render(request, 'MILK/transaction.html', {'form':form})
-#     return response
 
 @login_required
-#Temporary page for modelling item needing bought logic
+# Temporary page for modelling item needing bought logic
 def needsbought(request):
 
+    # Get user's group details
+    user = request.user
+    group = user.groups.all().first()
+
+    print group
+
     #Imports form used to display items which aren't currently marked as needing to be bought
-    form= needsBoughtForm()
+    form = needsBoughtForm(group)
 
     if request.method == 'POST':
-        form = needsBoughtForm(request.POST)
+        form = needsBoughtForm(group, request.POST)
 
         if form.is_valid():
             #needsBought=form.save(commit=False)
@@ -405,8 +379,6 @@ def get_add_item_list(usergroup, max_results=0, starts_with=''):
             item_list = item_list[:max_results]
     print item_list
     return item_list
-
-
 
 
 def item_needs_bought(request):
