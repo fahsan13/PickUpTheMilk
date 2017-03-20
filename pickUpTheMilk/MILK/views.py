@@ -182,6 +182,7 @@ def creategroup(request):
     return response
 
 # View for a user's profile
+@login_required
 def profilepage(request, username):
 
     try:
