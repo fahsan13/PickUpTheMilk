@@ -115,3 +115,11 @@ class ContactForm(forms.Form):
                }
     class Meta:
         fields = ('name', 'email', 'comment')
+
+# Form to allow user to upload new profile picture - don't want to reset their balance!
+class ProfilePictureForm(forms.ModelForm):
+    picture = forms.ImageField(required=False, help_text="Upload a new profile picture!")
+
+    class Meta:
+        model = UserProfile
+        fields = ('picture',)

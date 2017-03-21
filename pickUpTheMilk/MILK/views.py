@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db.models import Sum
 import json
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
-from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm, ContactForm
+from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm, ContactForm, ProfilePictureForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -235,8 +235,13 @@ def profilepage(request, username):
     # We will then pass this to profile.html
     userprofile = UserProfile.objects.get_or_create(user=user)[0]
 
-    if request.method == 'POST':
+    form = itemForm()
+    picture_form = ProfilePictureForm({'picture': userprofile.picture})
+
+    # Deal with itemForm
+    if request.method == 'POST' and "itembutton" in request.POST:
         form = itemForm(request.POST)
+
         if form.is_valid():
             item=form.save(commit=False)
             # Assign the user who added the item and the group it belongs to
@@ -245,16 +250,21 @@ def profilepage(request, username):
             item.save()
         else:
             print(form.errors)
-    else:
-        # Not a post, so just render empty form
-        form = itemForm()
+
+    # Allow user to upload new picture. New form used as we don't want to overwrite balance.
+    if request.method == 'POST' and "picturebutton" in request.POST:
+        picture_form = ProfilePictureForm(request.POST, request.FILES, instance = userprofile)
+
+        if picture_form.is_valid():
+            picture_form.save(commit=True)
+            return redirect('profile', user.username)
+        else:
+            print(picture_form.errors)
 
     # Get items so we can display on user's page
     item_list = Item.objects.order_by('id')
-    context_dict = {'Items': item_list, 'form':form, 'selecteduser':user, 'userprofile': userprofile,}
-    app_url = request.path
-    response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user, 'userprofile': userprofile})
-
+    context_dict = {'Items': item_list, 'form':form, 'pictureform':picture_form, 'selecteduser':user, 'userprofile': userprofile,}
+    app_url = request.path ## is this being used for anything?
     response = render(request, 'MILK/userprofile.html', context_dict)
     return response
 
@@ -277,7 +287,7 @@ def grouppage(request, groupname):
 
     # Not a POST, so just render empty form
     add_form = AddUser()
-    remove_form= RemoveUser(groupname)
+    remove_form = RemoveUser(groupname)
 
     # If admin presses button to add user, do the following:
     if request.method == 'POST' and 'adduserbutton' in request.POST:

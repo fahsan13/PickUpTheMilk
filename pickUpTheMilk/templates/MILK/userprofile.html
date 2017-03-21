@@ -36,46 +36,66 @@
 			Member of group: {{ selecteduser.groups.all.0 }}</br>
 			<a href="{% url 'group' user.groups.all.0 %}">Visit your group page</a>
 	  </h5>
-	  
+
 	  <!-- AJAX for adding items to needs bought list -->
-				
-		
-		
+
+
+
 		<!-- End of Ajax -->
 
 		<div>
 		{% if selecteduser.username == user.username %}
 			<b>Add stuff </b>
-			
-			<form id="itemForm" method="post" action".">					
-				
-					
+
+			<form id="itemForm" method="post" action".">
+
+
 				{% csrf_token %}
 
 				{% for hidden in form.hidden_fields %}
-					{{ hidden }}
-				{% endfor %}
+          {{ hidden }}
+        {% endfor %}
 
 				{% for field in form.visible_fields %}
-					{{ field.errors }}
-					{{ field.help_text }}
-					{{ field }}
+            {{ field.errors }}
+            {{ field.help_text }}
+            {{ field }}
 				{% endfor %}
 
-			<!-- Button to click to submit the form -->
-			<input type="submit" name="submit" value="Add Item" onClick="myAlert()"/>
+				<!-- Button to click to submit the form -->
+				<input type="submit" name="itembutton" value="Add Item" onClick="myAlert()"/>
 			</form>
-			
-		
-			
-			
-			
-			
+
+		<hr/>
+
+			<form id="picture_form" method="post" action"." enctype="multipart/form-data">
+
+					{% csrf_token %}
+
+
+					{% for hidden in pictureform.hidden_fields %}
+	          {{ hidden }}
+	        {% endfor %}
+
+					{% for field in pictureform.visible_fields %}
+	            {{ field.errors }}
+	            {{ field.help_text }}
+	            {{ field }}
+					{% endfor %}
+
+
+
+				<!-- Button to click to submit the form -->
+				<input type="submit" name="picturebutton" value="Upload"/>
+			</form>
+
 			<!-- Shouldn't popup if there was an error with adding item -->
 			<script>
 				function myAlert() {
 					alert("Item successfully added")}
 			</script>
+
+			<hr/>
 
 			<!-- View Group list -->
 			<b>Communal shopping list:</b>
