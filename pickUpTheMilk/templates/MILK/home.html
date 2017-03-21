@@ -63,16 +63,7 @@
         <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#recPurchase" >Record Purchase</button>
         <h3>Find your nearest store</h3>
       </div>
-    <div class="col-md-4">
-      <h3>Items to buy</h3>
-      <div>
-        {% include 'MILK/pickupModal.html' %}
-
-        {% include 'MILK/needsBoughtList.html' %}
-      </div>
-      </br>
-      <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#recPurchase" >Record Purchase</button>
-    </div>
+  
 
       <div class="col-md-8 ">
         <h3> Other things you should be doing </h3>
@@ -80,12 +71,7 @@
         </br>  Use our website and we definitely won't harvest your shopping data and use it to target ads at you.
       </div>
   </div>
-    <div class="col-md-8 ">
-      <h3> Other things you should be doing </h3>
 
-      </br>  Use our website and we definitely won't harvest your shopping data and use it to target ads at you.
-    </div>
-    <!--template for  add items to ''needs bought modal'-->
 
     <div>
       {% include 'MILK/recPurModal.html' %}
@@ -124,13 +110,6 @@
      {% include 'MILK/recPurModal.html' %}
     </div>
   </div>
-  {% else %}
-
-
-    You are not a group member, create one <a href="{% url 'create-group' %}"> HERE!</a>
-    or ask a group to invite you
-  {% endif %}
-
 
 
 
