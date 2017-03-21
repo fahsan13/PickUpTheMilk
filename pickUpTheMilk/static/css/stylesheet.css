@@ -82,6 +82,16 @@ subheading {
     text-transform: capitalize !important;
     }
 
+navbarfont {
+    font-family: 'Lobster' !important;
+    font-weight: bold;
+    line-height: 18px;
+    font-size: 24px;
+    /*margin: 0 0 43px 0;*/
+    color:  #ffffff !important;
+    text-transform: capitalize !important;
+    }
+
 namefont {
     font-family: 'Lobster' !important;
     font-weight: bold;
@@ -138,6 +148,12 @@ nav img {
   height: 110px;
 }
 
+#sitename {
+  /*position:absolute;*/
+  float:right;
+  margin-right: 145px;
+  padding-top: 14px
+}
 
 nav ul li {
     float: left;

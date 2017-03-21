@@ -1,0 +1,22 @@
+<!-- Template to add form for... something? -->
+
+<div>
+			<form id="itemForm" method="post" action".">
+           			{% csrf_token %}
+
+								{% csrf_token %}
+
+								{% for hidden in new_item.hidden_fields %}
+									{{ hidden }}
+								{% endfor %}
+
+								{% for field in new_item.visible_fields %}
+										{{ field.errors }}
+										{{ field.help_text }}
+										{{ field }}
+								{% endfor %}
+
+				<!-- Button to click to submit the form -->
+				<input type="submit" name="itembutton" value="Add Item" onClick="myAlert()"/>
+			</form>
+</div>

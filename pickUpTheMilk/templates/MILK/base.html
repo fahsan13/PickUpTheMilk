@@ -53,7 +53,7 @@
           {% if app_url == '/sitemap/' %}
           <li><a class="active" href="{% url 'sitemap' %}">Site Map</a></li>
           {% else %}
-          <li><a href="{% url 'sitemap' %}">Site Map</a></li>
+          <li style = center><a href="{% url 'sitemap' %}">Site Map</a></li>
           {% endif %}
 
           {% if user.is_authenticated %}
@@ -62,6 +62,9 @@
           <li style="float:right"><a href="{% url 'auth_login' %}">Log in/Register</a></li>
           {% endif %}
         </ul>
+
+        <div id="sitename"><navbarfont>Pick Up The Milk!</navbarfont></div>
+
     </nav>
 
     {% endblock %}
