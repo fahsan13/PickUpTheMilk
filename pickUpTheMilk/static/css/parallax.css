@@ -32,7 +32,7 @@ h2 {
   font-weight: normal;
   text-align: center;
   font-size: 27px;
-  line-height: 10px;
+  line-height: 27px;
   text-transform: uppercase;
   letter-spacing: 2px;
   margin: 0 0 23px 0;
@@ -78,7 +78,7 @@ namefont {
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: auto;
+  background-size: cover;
 }
 
 .bgimg1{
@@ -115,9 +115,10 @@ namefont {
 .logo {
   position: absolute;
   left: 0;
-  top: 30%;
+  top: 250px;
   width: 100%;
   text-align: center;
+
 
 }
 
@@ -134,11 +135,14 @@ namefont {
   padding-left: 90px;
   padding-right: 80px;
   padding-bottom: 10px;
-  text-align: justify;
+  /*text-align: justify;*/
 }
-
-
 
 .center{
   text-align:center;
+}
+
+.footer{
+    background-color: #67aeca;
+    position: static;
 }
