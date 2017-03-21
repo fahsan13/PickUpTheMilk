@@ -349,9 +349,13 @@ def needsbought(request):
 
         if form.is_valid():
             # Gets item to set as needing bought
-            item_needing_bought = form.cleaned_data['itemID']
+            item_name = form.cleaned_data['itemID']
 
+            item_needing_bought = Item(itemName = item_name)
             # Sets items needs bought status to false, for item model
+
+            # ADD RECORD ITEM HELPER METHOD HERE INSTEAD, CURRENTLY DUPLICATING CODE
+
             item_needing_bought.itemNeedsBought = True
 
             # Saves change
@@ -446,7 +450,6 @@ def settleup(request, groupname):
     return response
 
 
-#From early attempt to integrate AJAX for resolving balances, may scrap it
 @login_required
 def resolve_balances(request):
     current_group = request.GET['current_group']
@@ -465,28 +468,159 @@ def resolve_balances(request):
     response = render(request, 'MILK/settled_balances.html', {'members': group_members,})
     return response
 
-# helper methdd to determine the average of the balances of the group
-def averagebalance(groupname):
 
-    groupmembers = User.objects.filter(groups__name=groupname)
+# # Trying again with a list
+# # helper methdd to determine the average of the balances of the group
+# def average_balances(request):
+#     current_group = request.GET['current_group']
+#     groupmembers = User.objects.filter(groups__name=current_group).order_by()
+#     total = 0
+#     nummembers = 0
+#     output = []
+#     # gets user name = v in groupmembers
+#     for v in groupmembers:
+#         user_profile = UserProfile.objects.get(user=v)
+#         money = user_profile.balance
+#         money = round(money, 2)
+#         total = total + money
+#         nummembers = nummembers + 1
+#
+#     # Print statements to check above code
+#     average = total / nummembers
+#     average = round(average, 2)
+#
+#     for v in groupmembers:
+#         user_profile = UserProfile.objects.get(user=v)
+#
+#         money = user_profile.balance
+#         money = round(money, 2)
+#         user = user_profile.user
+#         user_name = user.username
+#         floatmoney = float(money)
+#
+#         userowes = average - floatmoney
+#         userowesstring = str(userowes)
+#
+#
+#         useroutput = user_name + " - balance owed: " + userowesstring
+#         output.append(useroutput)
+#         print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+#         print output
+#     response = render(request, 'MILK/averaged_balances.html', {'user_balances': output})
+#     return (response)
+
+
+
+def average_balances(request):
+    current_group = request.GET['current_group']
+    groupmembers = User.objects.filter(groups__name=current_group).order_by()
     total = 0
     nummembers = 0
-
+    output = []
     # gets user name = v in groupmembers
     for v in groupmembers:
         user_profile = UserProfile.objects.get(user=v)
-
         money = user_profile.balance
         money = round(money, 2)
-
-        # sums total
         total = total + money
-        # tracks number of users
         nummembers = nummembers + 1
 
+    # Print statements to check above code
     average = total / nummembers
-    average = round(average,2)
-    return (average)
+    average = round(average, 2)
+    final_balance = 0
+    for v in groupmembers:
+        user_profile = UserProfile.objects.get(user=v)
+        user = user_profile.user
+        user_name = user.username
+        user_balance = user_profile.balance
+        user_float = float(user_balance)
+
+        finalbalance = user_float - average
+
+        if finalbalance < 0:
+            finalbalance = abs(finalbalance)
+            print "abs:"
+            print finalbalance
+            finalbalance = round(finalbalance, 2)
+            finalbalstring = str(finalbalance)
+            useroutput = user_name + " - owes " + finalbalstring
+            output.append(useroutput)
+        else:
+            finalbalance = round(finalbalance, 2)
+            finalbalstring = str(finalbalance)
+            useroutput = user_name + " - is owed: " + finalbalstring
+            output.append(useroutput)
+        final_balance = 0
+    response = render(request, 'MILK/averaged_balances.html', {'user_balances': output})
+    return (response)
+
+
+
+
+# # helper methdd to determine the average of the balances of the group
+# def average_balances(request):
+#     current_group = request.GET['current_group']
+#     groupmembers = User.objects.filter(groups__name=current_group).order_by()
+#     total = 0
+#     nummembers = 0
+#     output = {}
+#     # gets user name = v in groupmembers
+#     for v in groupmembers:
+#         user_profile = UserProfile.objects.get(user=v)
+#         money = user_profile.balance
+#         money = round(money, 2)
+#         total = total + money
+#         nummembers = nummembers + 1
+#
+#     # Print statements to check above code
+#     average = total / nummembers
+#     average = round(average, 2)
+#
+#     for v in groupmembers:
+#         user_profile = UserProfile.objects.get(user=v)
+#
+#         money = user_profile.balance
+#         money = round(money, 2)
+#         user = user_profile.user
+#         user_name = user.username
+#         floatmoney = float(money)
+#
+#         userowes = average - floatmoney
+#         userowesstring = str(userowes)
+#
+#         useroutput = user_name + " - balance owed: " + userowesstring
+#         output[user_name] = useroutput
+#         print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+#         print useroutput
+#         print output
+#     response = render(request, 'MILK/averaged_balances.html', {'user_balances': output})
+#     return (response)
+
+
+
+# # helper methdd to determine the average of the balances of the group
+# def averagebalance(groupname):
+#
+#     groupmembers = User.objects.filter(groups__name=groupname).order_by()
+#     total = 0
+#     nummembers = 0
+#
+#     # gets user name = v in groupmembers
+#     for v in groupmembers:
+#         user_profile = UserProfile.objects.get(user=v)
+#
+#         money = user_profile.balance
+#         money = round(money, 2)
+#
+#         # sums total
+#         total = total + money
+#         # tracks number of users
+#         nummembers = nummembers + 1
+#
+#     average = total / nummembers
+#     average = round(average,2)
+#     return (average)
 
 # helper method for making a json file
 def jsonmaker(data):
