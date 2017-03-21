@@ -32,7 +32,7 @@ h2 {
   font-weight: normal;
   text-align: center;
   font-size: 27px;
-  line-height: 10px;
+  line-height: 27px;
   text-transform: uppercase;
   letter-spacing: 2px;
   margin: 0 0 23px 0;
@@ -115,9 +115,10 @@ namefont {
 .logo {
   position: absolute;
   left: 0;
-  top: 30%;
+  top: 250px;
   width: 100%;
   text-align: center;
+
 
 }
 
@@ -134,7 +135,7 @@ namefont {
   padding-left: 90px;
   padding-right: 80px;
   padding-bottom: 10px;
-  text-align: justify;
+  /*text-align: justify;*/
 }
 
 .center{
@@ -143,5 +144,5 @@ namefont {
 
 .footer{
     background-color: #67aeca;
-    color:
+    position: static;
 }
