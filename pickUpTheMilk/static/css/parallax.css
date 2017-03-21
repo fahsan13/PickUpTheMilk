@@ -78,7 +78,7 @@ namefont {
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: auto;
+  background-size: cover;
 }
 
 .bgimg1{
@@ -137,8 +137,11 @@ namefont {
   text-align: justify;
 }
 
-
-
 .center{
   text-align:center;
+}
+
+.footer{
+    background-color: #67aeca;
+    color:
 }
