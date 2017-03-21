@@ -37,9 +37,6 @@ class UserProfile(models.Model):
     balance = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
-    # Not currently in use
-    # group =  models.ForeignKey(GroupDetail, null = True)
-
     def __str__(self):
         return self.user.username
     def __unicode__(self):
