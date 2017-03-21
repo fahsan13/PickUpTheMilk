@@ -36,27 +36,22 @@ def home(request):
     purchase_form = recPurchHelper(request)
     update_form = updateListHelper(request)
 
+
     item_list = Item.objects.order_by('id')
     app_url = request.path
 
-    # String to encode path to correct response template
-    rsp_template = ''
-    # set which form to submit
-    # if request.method == 'POST' and 'pickUpButton' in request.POST:
-    #     update_form = updateListHelper(request)
-    #
-    # if request.method == 'POST' and 'purchaseButton' in request.POST:
-    #     purchase_form = recPurchHelper(request)
-
-
     if request.user.is_authenticated():
         rsp_template = 'MILK/home.html'
-
+        user=request.user
+        userprofile = UserProfile.objects.get_or_create(user=user)[0]
+        context_dict = {'Items': item_list, 'app_url': app_url, 'purchaseform': purchase_form, 'updateform': update_form,
+                        'userprofile': userprofile}
     else:
         # User not authenticated; show them parallax version
         rsp_template = 'MILK/parallax.html'
+        context_dict = {'app_url': app_url}
 
-    context_dict = {'Items': item_list, 'app_url': app_url, 'purchaseform':purchase_form, 'updateform':update_form}
+    # context_dict = {'Items': item_list, 'app_url': app_url, 'purchaseform':purchase_form, 'updateform':update_form, 'userprofile':userprofile}
     response = render(request, rsp_template, context_dict)
     return response
 
@@ -189,6 +184,36 @@ def creategroup(request):
 
     response = render(request, 'MILK/create-group.html', {'form':form, 'userprofile': user_profile})
     return response
+
+#Helper method for create group form
+def createGroupForm(request):
+
+    form = groupForm(request.POST)
+
+    # Get currently logged in user.
+    user=request.user
+    # get their user profile
+    user_profile = UserProfile.objects.get(user = user)
+
+    if request.method == 'POST':
+        form = groupForm(user, request.POST)
+        if form.is_valid():
+            # Save the group
+            group=form.save(commit=True)
+            # Get group name from form; field within form containing name is 'group'!
+            groupname = form.cleaned_data['group']
+            # Add the user to this newly created group
+            user.groups.add(groupname)
+            print(group)
+
+            # Redirect user to their profile if group succcessfully created
+            return redirect('profile', user.username)
+        else:
+            print(form.errors)
+
+    return(form)
+
+
 
 # View for a user's profile
 @login_required

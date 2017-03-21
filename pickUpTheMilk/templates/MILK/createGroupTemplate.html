@@ -1,0 +1,11 @@
+  <div>
+        <form id = "groupForm", method = "post", action = "/create-group/">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+          </form>
+          <input type="submit" name="submit" value="Submit" />
+        </form>
+     </div>
