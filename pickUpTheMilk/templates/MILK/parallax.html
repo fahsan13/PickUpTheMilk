@@ -17,30 +17,30 @@ to this page only -->
 
   </head>
   <body>
+
+  <div class="bgimg" >
+    <div class="logo">
     <h1>  <img src="{%static "images/milklogo.png" %}" alt= "Milk Carton Logo" height ="100"/>
-Pick Up The Milk! <subheading>- The Passive Aggressive Cost Sharing App&#8482;</subheading></h1>
-
-<h2><a href="{% url 'registration_register'%}">SIGN UP</a> OR <a href="{% url 'auth_login' %}">LOG IN</a></h2>
-<div class="div1">
-        <h2>Welcome!</h2>
-        <p> Have you ever woke up, gone to the fridge and discovered that your beloved flatmates forgot to
-          <namefont> Pick Up The Milk </namefont> after using it up?
-          Don't worry, it's happened to us too.  So we decided to do something about it!
-    <h3>Read on!</h3>
-      </div>
-    <div class="bgimg" >
-      <div class="logo">
-
+      Pick Up The Milk! <subheading>- The Passive Aggressive Cost Sharing App&#8482;</subheading></h1>
+      <div class="padding">
+      <p class= center > Have you ever woke up, gone to the fridge and discovered that your beloved flatmates forgot to
+        <namefont> Pick Up The Milk </namefont> after using it up?
+        Don't worry, it's happened to us too.  So we decided to do something about it!
+      <h2><a href="{% url 'registration_register'%}">SIGN UP</a> OR <a href="{% url 'auth_login' %}">LOG IN</a></h2>
+      <p> Or scroll down to find out more..
       </div>
     </div>
+  </div>
+
+
 
     <div class="bgimg1">
       <div class="div1">
           <div class = center>
-              <p> Why  not reduce flatmate rage to a mild simmer!</br>
-             Turn those frowns upside down</br>
+              <h2> Why  not reduce flatmate rage to a mild simmer?!</h2>
+          <p>Turn those frowns upside down by settling shopping arguments quickly and easy</br>
           Join the cult at <namefont> Pick Up The Milk </namefont></br>
-          You'll never be short of Riot Juice! Rum Ham or Milk Steak again!!
+          You'll never be short of Riot Juice, Rum Ham or Milk Steak again!!
               </div>
       </div>
     </div>
@@ -48,14 +48,18 @@ Pick Up The Milk! <subheading>- The Passive Aggressive Cost Sharing App&#8482;</
     <div class="bgimg2">
       <div class="div1">
         <h2 >So.... How does it work? </h2>
-        <p> Our website acts as a collaborative shopping list which simplifies your shared finances. We built it with communal living in mind – if a shared item is running low, add it to your list and notify ALL your flatmates that it needs to be replenished. On top of this, our budget tracking feature means that you can keep a running record of purchases. When you decide it's time to settle up, click a button and our state-of-the-art algorithm will figure out everything out for you!
+        <p> Our website acts as a <strong> collaborative shopping list </strong> which simplifies your shared finances. We built it with communal living in mind –
+          if a shared item is running low, add it to the shopping list which will display it to ALL your flatmates. On top of this, our budget tracking
+          feature means that you can keep a running record of purchases. When you decide it's time to settle up, click a button and our state-of-the-art algorithm
+          will figure out everything out for you!
       </div>
     </div>
 
       <div class="div1">
         <h2>DON'T WAIT! <a href="{% url 'registration_register'%}">SIGN UP</a> OR <a href="{% url 'auth_login' %}">LOG IN</a></h2>
-
+        <div class = center>
         <p>Registration is quick, easy, and (best of all) FREE!
       </div>
+    </div >
   </body>
 </html>

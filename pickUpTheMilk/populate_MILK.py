@@ -97,8 +97,6 @@ def populate():
 
 
 
-
-
 def add_user(username, email, balance, group):
     u = User.objects.get_or_create(username = username, email = email)[0]
     u.save()
