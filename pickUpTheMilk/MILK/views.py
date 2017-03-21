@@ -33,19 +33,19 @@ def register_profile(request):
 # View for the home page of the site.
 def home(request):
 
-    # Use helper methods to render forms we want to display
-    purchase_form = recPurchHelper(request)
-    update_form = updateListHelper(request)
-
     item_list = Item.objects.order_by('id')
     app_url = request.path
 
     if request.user.is_authenticated():
+
         rsp_template = 'MILK/home.html'
+        purchase_form = recPurchHelper(request)
+        update_form = updateListHelper(request)
+        group_add_form = createGroupForm(request)
         user=request.user
         userprofile = UserProfile.objects.get_or_create(user=user)[0]
         context_dict = {'Items': item_list, 'app_url': app_url, 'purchaseform': purchase_form, 'updateform': update_form,
-                        'userprofile': userprofile}
+                        'userprofile': userprofile, 'groupform':group_add_form}
     else:
         # User not authenticated; show them parallax version
         rsp_template = 'MILK/parallax.html'
@@ -261,6 +261,7 @@ def profilepage(request, username):
             item.addedby = user
             item.groupBuying = group
             item.save()
+
         else:
             print(form.errors)
 
