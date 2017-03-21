@@ -290,6 +290,8 @@ def grouppage(request, groupname):
     # Get all members of the group
     groupmembers = User.objects.filter(groups__name=groupname)
 
+    user_profile = getUserProfile(request)
+
     try:
         # No idea why this is working; change groupname
         # reference on left and it breaks :/
@@ -329,7 +331,15 @@ def grouppage(request, groupname):
         else:
             print(remove_form.errors)
 
-    response = render(request, 'MILK/grouppage.html',  {'currentgroup':groupname, 'groupdetail':groupdetail, 'user':user, 'addform':add_form, 'removeform':remove_form, 'members':groupmembers})
+    context_dict = {'currentgroup':groupname,
+                    'groupdetail':groupdetail,
+                    'user':user,
+                    'addform':add_form,
+                    'removeform':remove_form,
+                    'members':groupmembers,
+                    'userprofile':user_profile,}
+
+    response = render(request, 'MILK/grouppage.html', context_dict)
     return response
 
 

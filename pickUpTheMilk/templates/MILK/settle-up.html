@@ -1,58 +1,27 @@
-{% extends 'MILK/base.html' %}
-{% load staticfiles %}
+<!-- IMPORTANT - if including on a page, make sure you're passing 'members' or an eqivalent through the corresponding view-->
 
-{% block title_block %}
-  Settle Up
-{% endblock %}
-
-{% block body_block %}
 <p>Settle up the balances</p>
 
-
-  <div><b>Group Members</b>
+<b>Group Members</b>
 
 <div id="initial">
-<ul class="nav nav-pills flex-column">
-	{% if settled_balances %}
-	Since the last time the house settled up</br>
-		{% for UserProfile in settled_balances %}
-			{{ UserProfile }} has spent: {{ UserProfile.userprofile.balance }}
-
-			</br>
-		{% endfor %}
-	{% endif %}
-</ul>
+    <ul class="nav nav-pills flex-column">
+        {% if members %} Since the last time the house settled up</br>
+        {% for userprofile in members %} {{ userprofile }} has spent: {{ userprofile.userprofile.balance }}
+        </br>
+        {% endfor %} {% endif %}
+    </ul>
 </div>
 
+<div id="settled_balances"></div>
 
-	<!-- Non-dynamic display
-    {% for profile in members %}
-      <ul><a href="{% url 'profile' profile.username %}" >{{ profile.username }} has a
-        balance of: {{ profile.userprofile.balance }} </a></ul>
-    {% endfor %}
-  </div></br>
-	-->
-	<div id ="settled_balances">
-	<div>
-	<button id = "settle_balance" data-groupname="{{ user.groups.all.0 }}"
-		class="btn btn-primary btn-sm" type="button"> 
-		Settle Balances
-	</button>
-		
-	<button id = "average_balances" data-groupname="{{ user.groups.all.0 }}"
-		class="btn btn-primary btn-sm" type="button"> 
-		Get averages
-	</button>
-  </div>
+<button id="settle_balance" data-groupname="{{ user.groups.all.0 }}" class="btn btn-primary btn-sm" type="button">
+    Settle balances
+</button>
 
-  
-	<!-- can we set this div to appear in a modal? -->
-	<div id ="averaged_balances"">
-	</div>
+<button id="average_balances" data-groupname="{{ user.groups.all.0 }}" class="btn btn-primary btn-sm" type="button">
+    Get averages
+</button>
 
-{% endblock %}
-
-
-<!-- Need to set it up so the button passes the entire group to the view, which can 
-
-then 0 the balances -->
+<!-- can we set this div to appear in a modal? -->
+<div id="averaged_balances"></div>

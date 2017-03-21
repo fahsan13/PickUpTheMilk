@@ -56,6 +56,10 @@
 						<input type="submit" name="removeuserbutton" value="Remove member from {{ currentgroup.name }}">
 					{% endif %}
 			</div>
+
+			<hr/>
+			{% include 'MILK/settle-up.html' %}
+
 		{% endif %}
 	{% endfor %}
 
