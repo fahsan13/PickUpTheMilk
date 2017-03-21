@@ -35,33 +35,17 @@
 			</ul>
 				<hr />
 
-			<!--<div id="Items">-->
-			<!--</div>-->
-
-		<!-- End of Ajax -->
-            <h3>Communal shopping list</h3>
-            {% include 'MILK/completeList.html' %}
 
 
-      </br>
-      <input class="input-medium search-query" type="text" name="suggestion" value="" id="suggestion"/>
-
-
-            <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a>
-            <!--<h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>-->
     <div>
     <div>
       <div>
-          <!--Sets modal button type-->
-    <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Things to Pick Up!</button>
- <!--template for  add items to ''needs bought modal'-->
 
-        {% include 'MILK/pickupModal.html' %}
     </div>
 
 
       <ul class= "nav nav-list">
-        <li class="nav-header">Add stuff!</li>
+
         <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a>
       <!--Sets modal button type-->
         <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Things to Pick Up!</button>
@@ -82,10 +66,11 @@
 
     <div class="col-md-8 ">
       <h3> Other things you should be doing </h3>
-      <li><a href="{% url 'settle-up' user.groups.all.0 %}">Settle up all balances.</a>
+
       </br>  Use our website and we definitely won't harvest your shopping data and use it to target ads at you.
     </div>
     <!--template for  add items to ''needs bought modal'-->
+
     <div>
 
         {% include 'MILK/recPurModal.html' %}
