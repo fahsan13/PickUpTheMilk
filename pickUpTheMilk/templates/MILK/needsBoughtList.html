@@ -1,0 +1,13 @@
+    <div class=scroll-list>
+                {% if Items %}
+                    {% for item in Items %}
+                        {% if user.groups.all.0 == item.groupBuying %}
+                            {% if item.itemNeedsBought %}
+                                <li>
+                                    {{ item.itemName }}
+                                </li>
+                            {% endif %}
+                         {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>

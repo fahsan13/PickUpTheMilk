@@ -1,0 +1,12 @@
+     <div class="scroll-list">
+                {% if Items %}
+                {% for item in Items %}
+                {% if user.groups.all.0 == item.groupBuying %}
+                <li>
+                    {{ item.itemName }}
+                </li>
+                {% endif %}
+                {% endfor %}
+                {% else %} Your shopping list is empty. {% endif %}
+                </br>
+            </div>

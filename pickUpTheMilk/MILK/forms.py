@@ -1,4 +1,4 @@
-import string
+import string, sys, unicodedata
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, Group
@@ -45,16 +45,10 @@ class groupForm(forms.ModelForm):
 
     def clean_group(self):
         # '.replace' section strips all whitespace from name entered.
-
-        cleaned_name = self.cleaned_data.get('group').replace(" ", "")
-
-        print cleaned_name
-
-        # Strip punctuation.
-        # cleaned_name.translate(string.punctuation)
-
+        name = self.cleaned_data.get('group').replace(" ", "")
+        # Strip punctuation; call helper method
+        cleaned_name = remove_punctuation(name)
         new_group, _ = Group.objects.get_or_create(name = cleaned_name)
-
         return new_group
 
     def clean_administrator(self):
@@ -115,3 +109,17 @@ class ContactForm(forms.Form):
                }
     class Meta:
         fields = ('name', 'email', 'comment')
+
+# Form to allow user to upload new profile picture - don't want to reset their balance!
+class ProfilePictureForm(forms.ModelForm):
+    picture = forms.ImageField(required=False, help_text="Upload a new profile picture!")
+
+    class Meta:
+        model = UserProfile
+        fields = ('picture',)
+
+# Helper method to strip punctuation from a string.
+# Adapted from: http://stackoverflow.com/questions/11066400/remove-punctuation-from-unicode-formatted-strings
+def remove_punctuation(text):
+    tbl = dict.fromkeys(i for i in xrange(sys.maxunicode) if unicodedata.category(unichr(i)).startswith('P'))
+    return text.translate(tbl)

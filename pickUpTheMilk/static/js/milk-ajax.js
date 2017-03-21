@@ -13,12 +13,11 @@ $('#suggestion').keyup(function(){
 
 
 $('#needsBoughtSuggestion').keyup(function(){
-	alert( "Handler for .keyup() called." );
 	var query;
 	var user_group;
 	query = $(this).val();
 	user_group = $(this).attr("data-groupname"); 
-	$.get('/suggest_add_item/', {suggestion: query}{current_group: user_group}, function(data){
+	$.get('/suggest_add_item/', {suggestion: query}, function(data){
 		$('#Items').html(data);
 	});
 });
@@ -34,13 +33,21 @@ $(document).on("click", '#add_to_list', function(){
 });
 
 $('#settle_balance').click(function(){ 
+	alert("Balances settled for " + user_group);
 	var user_group;
 	user_group = $(this).attr("data-groupname");
-	alert("Balances settled for " + user_group);
-	
 	$.get('/resolve_balances/', {current_group: user_group}, function(data){
 		$('#settled_balances').html(data);
 		$("#initial").replaceWith('')
+	});
+});
+
+$('#average_balances').click(function(){ 
+	alert("AVERAGE BALANCES NOW PLZ THANKS");
+	var user_group;
+	user_group = $(this).attr("data-groupname");
+	$.get('/average_balances/', {current_group: user_group}, function(data){
+		$('#averaged_balances').html(data);
 	});
 });
 

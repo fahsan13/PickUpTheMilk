@@ -53,22 +53,41 @@
 				{% csrf_token %}
 
 				{% for hidden in form.hidden_fields %}
-					{{ hidden }}
-				{% endfor %}
+          {{ hidden }}
+        {% endfor %}
 
 				{% for field in form.visible_fields %}
-					{{ field.errors }}
-					{{ field.help_text }}
-					{{ field }}
+            {{ field.errors }}
+            {{ field.help_text }}
+            {{ field }}
 				{% endfor %}
 
-			<!-- Button to click to submit the form -->
-			<input type="submit" name="submit" value="Add Item" onClick="myAlert()"/>
+				<!-- Button to click to submit the form -->
+				<input type="submit" name="itembutton" value="Add Item" onClick="myAlert()"/>
 			</form>
 
+		<hr/>
+
+			<form id="picture_form" method="post" action"." enctype="multipart/form-data">
+
+					{% csrf_token %}
+
+
+					{% for hidden in pictureform.hidden_fields %}
+	          {{ hidden }}
+	        {% endfor %}
+
+					{% for field in pictureform.visible_fields %}
+	            {{ field.errors }}
+	            {{ field.help_text }}
+	            {{ field }}
+					{% endfor %}
 
 
 
+				<!-- Button to click to submit the form -->
+				<input type="submit" name="picturebutton" value="Upload"/>
+			</form>
 
 
 			<!-- Shouldn't popup if there was an error with adding item -->
@@ -76,6 +95,8 @@
 				function myAlert() {
 					alert("Item successfully added")}
 			</script>
+
+			<hr/>
 
 			<!-- View Group list -->
 			<b>Communal shopping list:</b>
