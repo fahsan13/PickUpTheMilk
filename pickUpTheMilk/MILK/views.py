@@ -41,11 +41,12 @@ def home(request):
         rsp_template = 'MILK/home.html'
         purchase_form = recPurchHelper(request)
         update_form = updateListHelper(request)
-        group_add_form = createGroupForm(request)
         user=request.user
-        userprofile = UserProfile.objects.get_or_create(user=user)[0]
+        userprofile = getUserProfile(request)
+        group_add_form = createGroupForm(request)
+        newitem_form = newItemForm(request,user)
         context_dict = {'Items': item_list, 'app_url': app_url, 'purchaseform': purchase_form, 'updateform': update_form,
-                        'userprofile': userprofile, 'groupform':group_add_form}
+                        'userprofile': userprofile, 'groupform':group_add_form, 'new_item':newitem_form}
     else:
         # User not authenticated; show them parallax version
         rsp_template = 'MILK/parallax.html'
@@ -645,3 +646,23 @@ def getUserProfile(request):
     user = request.user
     user_profile = UserProfile.objects.get(user = user)
     return user_profile
+
+#new item form helper method for template
+def newItemForm(request,user):
+    form = itemForm()
+    user_profile = UserProfile.objects.get(user=user)
+    group = user.groups.all().first()
+        # Deal with itemForm
+    if request.method == 'POST' and "itembutton" in request.POST:
+        form = itemForm(request.POST)
+
+        if form.is_valid():
+            item=form.save(commit=False)
+            # Assign the user who added the item and the group it belongs to
+            item.addedby = user
+            item.groupBuying = group
+            item.save()
+
+        else:
+            print(form.errors)
+    return form

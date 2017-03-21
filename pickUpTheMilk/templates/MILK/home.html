@@ -63,7 +63,10 @@
         <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#recPurchase" >Record Purchase</button>
         <h3>Find your nearest store</h3>
       </div>
-  
+    <div>
+      Want to buy something new add it here!
+      {% include 'MILK/newItemTemplate.html' %}
+    </div>
 
       <div class="col-md-8 ">
         <h3> Other things you should be doing </h3>
@@ -83,11 +86,6 @@
     or ask a group to invite you
   {% endif %}
 
-<div >
-
-    {% include 'MILK/maps.html' %}
-
-</div>
 
         {% include 'MILK/recPurModal.html' %}
 
@@ -98,7 +96,7 @@
              For the case of someone realising then need something when they are in the shop-->
 
         <!--Link to the page to resolve kitty/settle up balance-->
-        <a href="{% url 'settle-up' user.groups.all.0 %}">Settle up all balances.</a>
+
         {% endif %}
         {% if user.groups.all.0 %}
 
@@ -110,7 +108,11 @@
      {% include 'MILK/recPurModal.html' %}
     </div>
   </div>
+<div >
 
+    {% include 'MILK/maps.html' %}
+
+</div>
 
 
 <!--Should this only appear if there are items in the to buy list

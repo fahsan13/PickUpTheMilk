@@ -1,0 +1,13 @@
+<div>
+
+			<b>Add stuff </b>
+
+			<form id="itemForm" method="post" action".">
+           			{% csrf_token %}
+
+			        {{ new_item.as_p }}
+
+				<!-- Button to click to submit the form -->
+				<input type="submit" name="itembutton" value="Add Item" onClick="myAlert()"/>
+			</form>
+</div>
