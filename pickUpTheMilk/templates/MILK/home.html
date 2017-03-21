@@ -37,8 +37,9 @@
 				</form>
 			</ul>
 				<hr />
-				<div id="Items">
-				</div>
+
+			<!--<div id="Items">-->
+			<!--</div>-->
 
 		<!-- End of Ajax -->
             <h3>Communal shopping list</h3>
@@ -48,13 +49,14 @@
             <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a>
             <!--<h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>-->
     <div>
-
-                 <!--Sets modal button type-->
+    <div>
+      <div>
+          <!--Sets modal button type-->
     <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Things to Pick Up!</button>
  <!--template for  add items to ''needs bought modal'-->
-    <div>
+
         {% include 'MILK/pickupModal.html' %}
-        </div>
+    </div>
 
         {% include 'MILK/needsBoughtList.html' %}
 
@@ -82,6 +84,7 @@
         {% else %}
             You are not a group member, create one <a href="{% url 'create-group' %}"> HERE!</a>
                     or ask a group to invite you
+            {% include 'MILk/createGroupTemplate.html' %}
         {% endif %}
 
 
