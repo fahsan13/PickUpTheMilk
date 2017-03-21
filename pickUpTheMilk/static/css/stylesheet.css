@@ -109,6 +109,12 @@ namefont {
 }
 
 /*Navigation Bar Area*/
+#sitename {
+  /*position:absolute;*/
+  float:right;
+  margin-right: 145px;
+  padding-top: 14px
+}
 
 nav{
   top: 0;
@@ -137,8 +143,8 @@ nav ul {
     padding: 0;
     padding-left: 100px;
     overflow: hidden;
-
     position: inherit;
+    background-color: inherit;
 }
 
 nav img {
@@ -146,29 +152,30 @@ nav img {
   top: -30px;
   width: 110px;
   height: 110px;
+  z-index: 1001;
 }
 
-#sitename {
-  /*position:absolute;*/
-  float:right;
-  margin-right: 145px;
-  padding-top: 14px
-}
+
 
 nav ul li {
+    height: inherit;
+    display: inline-block;
     float: left;
+    color: inherit;
 }
 
 nav ul li a {
+  background-color: inherit;
+  height: inherit;
   font-family: 'Roboto', sans-serif  !important;
   font-size: 15px;
-  line-height: 23px;
-  margin: 0 0 23px 0;
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+  line-height: 15px;
+  margin: 0 0 0 0;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 /* Change the link color to white on hover */
 li a:hover {

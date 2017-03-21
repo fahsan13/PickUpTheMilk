@@ -22,6 +22,15 @@ h1 {
 
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+p a {
+  text-decoration: none;
+  color:inherit;
+}
+
 subheading {
   font-family: 'Lobster' !important;
   font-weight: bold;
