@@ -18,6 +18,11 @@
 
     <section>
     {% if user.is_authenticated %}
+
+
+
+
+      {% if user.groups.all.0 %}
       </br>
 
 	  <!-- Attempting to add in some AJAX -->
@@ -36,26 +41,9 @@
 				</div>
 
 		<!-- End of Ajax -->
+            <h3>Communal shopping list</h3>
+            {% include 'MILK/completeList.html' %}
 
-
-      <div>
-          <h6>Communal shopping list: (Need to handle a single group's empty list more gracefully! Scrollable lists not working anymore :(</h6>
-      </div>
-
-        {% if user.groups.all.0 %}
-
-            <div class="scroll-list">
-                {% if Items %}
-                {% for item in Items %}
-                {% if user.groups.all.0 == item.groupBuying %}
-                <li>
-                    {{ item.itemName }}
-                </li>
-                {% endif %}
-                {% endfor %}
-                {% else %} Your shopping list is empty. {% endif %}
-                </br>
-            </div>
 
             <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a>
             <!--<h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>-->
@@ -63,84 +51,23 @@
 
                  <!--Sets modal button type-->
     <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Things to Pick Up!</button>
-
+ <!--template for  add items to ''needs bought modal'-->
     <div>
-        <!-- Modal for updating list-->
-        <div id="pickUp" class="modal fade" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">What we need</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div>
-                            <form id="NeedsBoughtForm" method="post" action="." }>
-
-                                {% csrf_token %}
-
-                                {{ updateform.as_p }}
-
-                              <input type="submit" , name="pickUpButton" , value="Update the list">
-                            </form>
-
-                        </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+        {% include 'MILK/pickupModal.html' %}
         </div>
 
+        {% include 'MILK/needsBoughtList.html' %}
 
-            <!--<div class=scroll-list>-->
-                <!--{% if Items %}-->
-                    <!--{% for item in Items %}-->
-                        <!--{% if user.groups.all.0 == item.groupBuying %}-->
-                            <!--{% if item.itemNeedsBought %}-->
-                                <!--<li>-->
-                                    <!--{{ item.itemName }}-->
-                                <!--</li>-->
-                            <!--{% endif %}-->
-                         <!--{% endif %}-->
-                    <!--{% endfor %}-->
-                <!--{% endif %}-->
-            <!--</div>-->
     </div>
     </section>
 
          <!--Sets modal button type-->
     <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#recPurchase" >Record Purchase</button>
 
+ <!--template for  add items to ''needs bought modal'-->
     <div>
-        <!-- Modal for recording a purchase-->
-        <div id="recPurchase" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+        {% include 'MILK/recPurModal.html' %}
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Enter Purchase Details</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div>
-                            <form id="RecordPurchase" method="post" action="." }>
-
-                                {% csrf_token %}
-
-                                {{ purchaseform.as_p }}
-
-                              <input type="submit" , name="purchaseButton" , value="Record a purchase">
-                            </form>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
 
         <!--Should this only appear if there are items in the to buy list
@@ -150,12 +77,17 @@
         <!--Link to the page to resolve kitty/settle up balance-->
         <a href="{% url 'settle-up' user.groups.all.0 %}">Settle up all balances.</a>
         {% endif %}
-    {% else %}
-        <!-- User not authenticated -->
-        <!-- Line below demonstrates how we would include another template -->
-        <!-- {% include 'MILK/notloggedin.html' %} -->
+        {% if user.groups.all.0 %}
+
+        {% else %}
+            You are not a group member, create one <a href="{% url 'create-group' %}"> HERE!</a>
+                    or ask a group to invite you
+        {% endif %}
+
+
 
         Use our website and we definitely won't harvest your shopping data and use it to target ads at you.
+    {% else %}
 
       <aside>
           <p>
@@ -183,23 +115,6 @@
     {% if user.is_authenticated %}
 
         {% include 'MILK/profilesidebar.html' %}
-        <!--<p> This is a side bar where the user profile (or maybe lists of some kind?) would be displayed. Example of list:</p></br>-->
-
-        <!--Items to buy:</br>-->
-        <!--<div class=scroll-list>-->
-                <!--{% if Items %}-->
-                    <!--{% for item in Items %}-->
-                        <!--{% if user.groups.all.0 == item.groupBuying %}-->
-                            <!--{% if item.itemNeedsBought %}-->
-                                <!--<li>-->
-                                    <!--{{ item.itemName }}-->
-                                <!--</li>-->
-                            <!--{% endif %}-->
-                        <!--{% endif %}-->
-                    <!--{% endfor %}-->
-                <!--{% endif %}-->
-        <!--</div>-->
-        <!--</div>-->
 
     {% else %}
         SIGN UP</br>
@@ -207,8 +122,5 @@
     {% endif %}
 
 {% endblock %}
-
-
-
 </body>
 </html>

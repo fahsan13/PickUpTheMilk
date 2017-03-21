@@ -31,8 +31,8 @@ h2 {
   font-family: 'Roboto Condensed', sans-serif  !important;
   font-weight: normal;
   text-align: center;
-  font-size: 27 px;
-  line-height: 23px;
+  font-size: 27px;
+  line-height: 27px;
   text-transform: uppercase;
   letter-spacing: 2px;
   margin: 0 0 23px 0;
@@ -44,8 +44,8 @@ h3 {
   font-family: 'Roboto Condensed', sans-serif  !important;
   font-weight: normal;
   text-align: center;
-  font-size: 15 px;
-  line-height: 23px;
+  font-size: 15px;
+  line-height: 15px;
   text-transform: uppercase;
   letter-spacing: 2px;
   margin: 0 0 23px 0;
@@ -74,17 +74,16 @@ namefont {
 .bgimg{
   /* Possible to make these links to image in the static folder? */
   background-image: url("http://all4desktop.com/data_images/original/4242896-milk.jpg");
-  min-height: 400px;
+  min-height: 670px;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
-  background-size: auto;
+  background-size: cover;
 }
 
 .bgimg1{
   background-image: url("http://www.whodrankmymilk.com/wp-content/uploads/2015/05/flatmate-angry-mask.jpg");
-  opacity: 50%;
-  min-height: 500px;
+  min-height: 580px;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -116,13 +115,19 @@ namefont {
 .logo {
   position: absolute;
   left: 0;
-  top:30%;
+  top: 250px;
   width: 100%;
   text-align: center;
+
+
 }
 
 /*DIV STYLING*/
 
+.padding{
+  padding-left: 20px;
+  padding-right: 10px;
+}
 .div1{
   background-color:white;
   text-align:center;
@@ -130,9 +135,14 @@ namefont {
   padding-left: 90px;
   padding-right: 80px;
   padding-bottom: 10px;
-  text-align: justify;
+  /*text-align: justify;*/
 }
 
 .center{
   text-align:center;
+}
+
+.footer{
+    background-color: #67aeca;
+    position: static;
 }

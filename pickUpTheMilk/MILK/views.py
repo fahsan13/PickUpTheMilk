@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db.models import Sum
 import json
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
-from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm, ContactForm
+from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm, ContactForm, ProfilePictureForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -36,27 +36,22 @@ def home(request):
     purchase_form = recPurchHelper(request)
     update_form = updateListHelper(request)
 
+
     item_list = Item.objects.order_by('id')
     app_url = request.path
 
-    # String to encode path to correct response template
-    rsp_template = ''
-    # set which form to submit
-    # if request.method == 'POST' and 'pickUpButton' in request.POST:
-    #     update_form = updateListHelper(request)
-    #
-    # if request.method == 'POST' and 'purchaseButton' in request.POST:
-    #     purchase_form = recPurchHelper(request)
-
-
     if request.user.is_authenticated():
         rsp_template = 'MILK/home.html'
-
+        user=request.user
+        userprofile = UserProfile.objects.get_or_create(user=user)[0]
+        context_dict = {'Items': item_list, 'app_url': app_url, 'purchaseform': purchase_form, 'updateform': update_form,
+                        'userprofile': userprofile}
     else:
         # User not authenticated; show them parallax version
         rsp_template = 'MILK/parallax.html'
+        context_dict = {'app_url': app_url}
 
-    context_dict = {'Items': item_list, 'app_url': app_url, 'purchaseform':purchase_form, 'updateform':update_form}
+    # context_dict = {'Items': item_list, 'app_url': app_url, 'purchaseform':purchase_form, 'updateform':update_form, 'userprofile':userprofile}
     response = render(request, rsp_template, context_dict)
     return response
 
@@ -102,19 +97,18 @@ def recPurchHelper(request):
     return form
 
 def updateListHelper(request):
-    # Imports form used to display items which aren't currently marked as needing to be bought
 
     # Get user's group
     user = request.user
     group = user.groups.all().first()
 
+    # Imports form used to display items which aren't currently marked as needing to be bought
     form = needsBoughtForm(group)
 
     if request.method == 'POST' and "pickUpButton" in request.POST:
         form = needsBoughtForm(group, request.POST)
 
         if form.is_valid():
-
             # Gets item name for item to be bought
             name = form.cleaned_data['itemID']
             print name
@@ -127,32 +121,46 @@ def updateListHelper(request):
 
             # Saves change
             item_needing_bought.save()
-
         else:
              print(form.errors)
     return form
 
+# View for sitemap
 def sitemap(request):
+
     app_url = request.path
-    response = render(request, 'MILK/sitemap.html', {'app_url': app_url})
+
+    # Get the user profile so profile sidebar can render balance.
+    user_profile = getUserProfile(request)
+
+    context_dict = {'app_url': app_url, 'userprofile':user_profile}
+
+    response = render(request, 'MILK/sitemap.html', context_dict)
     return response
 
+# View for contact us page
 def contact(request):
 
     app_url = request.path
 
+    # Get the user profile so profile sidebar can render balance.
+    user_profile = getUserProfile(request)
+
+    # Form to be displayed for users to contact the site.
     form = ContactForm()
 
-    return render(request, 'MILK/contact.html', {'app_url': app_url, 'form':form})
+    context_dict = {'app_url': app_url, 'form':form, 'userprofile':user_profile}
+
+    return render(request, 'MILK/contact.html', context_dict)
 
 def about(request):
+
     app_url = request.path
-    return render(request, 'MILK/about.html', {'app_url': app_url})
 
-# def parralax(request):
-#     app_url = request.path
-#     return render(request, 'MILK/parralax.html', {'app_url': app_url})
+    # Get the user profile so profile sidebar can render balance.
+    user_profile = getUserProfile(request)
 
+    return render(request, 'MILK/about.html', {'app_url': app_url, 'userprofile':user_profile})
 
 
 # View for create-group.html.
@@ -168,8 +176,8 @@ def creategroup(request):
 
     # Get currently logged in user.
     user=request.user
-    # get their user profile
-    user_profile = UserProfile.objects.get(user = user)
+    # Get their user profile.
+    user_profile = getUserProfile(request)
 
     if request.method == 'POST':
         form = groupForm(user, request.POST)
@@ -190,6 +198,34 @@ def creategroup(request):
     response = render(request, 'MILK/create-group.html', {'form':form, 'userprofile': user_profile})
     return response
 
+# Helper method for create group form
+def createGroupForm(request):
+
+    form = groupForm(request.POST)
+
+    # Get currently logged in user.
+    user=request.user
+    # Get their user profile
+    user_profile = getUserProfile(request)
+
+    if request.method == 'POST':
+        form = groupForm(user, request.POST)
+        if form.is_valid():
+            # Save the group
+            group=form.save(commit=True)
+            # Get group name from form; field within form containing name is 'group'!
+            groupname = form.cleaned_data['group']
+            # Add the user to this newly created group
+            user.groups.add(groupname)
+            print(group)
+
+            # Redirect user to their profile if group succcessfully created
+            return redirect('profile', user.username)
+        else:
+            print(form.errors)
+
+    return(form)
+
 # View for a user's profile
 @login_required
 def profilepage(request, username):
@@ -201,7 +237,7 @@ def profilepage(request, username):
         # it exists, we select it. If it doesn't, form won't
         # be rendered anyway.
         if user.groups.all().first() != None:
-            group = user.groups.all()[0]
+            group = user.groups.all().first()
 
     except User.DoesNotExist:
         return redirect('home')
@@ -210,8 +246,13 @@ def profilepage(request, username):
     # We will then pass this to profile.html
     userprofile = UserProfile.objects.get_or_create(user=user)[0]
 
-    if request.method == 'POST':
+    form = itemForm()
+    picture_form = ProfilePictureForm({'picture': userprofile.picture})
+
+    # Deal with itemForm
+    if request.method == 'POST' and "itembutton" in request.POST:
         form = itemForm(request.POST)
+
         if form.is_valid():
             item=form.save(commit=False)
             # Assign the user who added the item and the group it belongs to
@@ -220,16 +261,21 @@ def profilepage(request, username):
             item.save()
         else:
             print(form.errors)
-    else:
-        # Not a post, so just render empty form
-        form = itemForm()
+
+    # Allow user to upload new picture. New form used as we don't want to overwrite balance.
+    if request.method == 'POST' and "picturebutton" in request.POST:
+        picture_form = ProfilePictureForm(request.POST, request.FILES, instance = userprofile)
+
+        if picture_form.is_valid():
+            picture_form.save(commit=True)
+            return redirect('profile', user.username)
+        else:
+            print(picture_form.errors)
 
     # Get items so we can display on user's page
     item_list = Item.objects.order_by('id')
-    context_dict = {'Items': item_list, 'form':form, 'selecteduser':user, 'userprofile': userprofile,}
-    app_url = request.path
-    response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user, 'userprofile': userprofile})
-
+    context_dict = {'Items': item_list, 'form':form, 'pictureform':picture_form, 'selecteduser':user, 'userprofile': userprofile,}
+    app_url = request.path ## is this being used for anything?
     response = render(request, 'MILK/userprofile.html', context_dict)
     return response
 
@@ -252,7 +298,7 @@ def grouppage(request, groupname):
 
     # Not a POST, so just render empty form
     add_form = AddUser()
-    remove_form= RemoveUser(groupname)
+    remove_form = RemoveUser(groupname)
 
     # If admin presses button to add user, do the following:
     if request.method == 'POST' and 'adduserbutton' in request.POST:
@@ -293,17 +339,13 @@ def needsbought(request):
     user = request.user
     group = user.groups.all().first()
 
-    print group
-
-    #Imports form used to display items which aren't currently marked as needing to be bought
+    # Imports form used to display items which aren't currently marked as needing to be bought
     form = needsBoughtForm(group)
 
     if request.method == 'POST':
         form = needsBoughtForm(group, request.POST)
 
         if form.is_valid():
-            #needsBought=form.save(commit=False)
-
             # Gets item to set as needing bought
             item_name = form.cleaned_data['itemID']
 
@@ -316,14 +358,11 @@ def needsbought(request):
 
             # Saves change
             item_needing_bought.save()
-
         else:
              print(form.errors)
 
     response = render(request, 'MILK/needsBought.html', {'form':form})
     return response
-
-
 
 def suggest_item(request):
     item_list = []
@@ -585,3 +624,9 @@ def average_balances(request):
 def jsonmaker(data):
     json_data = json.dumps(data)
     return json_data
+
+# Helper method to get currently logged in user's userprofile
+def getUserProfile(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user = user)
+    return user_profile
