@@ -53,7 +53,7 @@
           {% if app_url == '/sitemap/' %}
           <li><a class="active" href="{% url 'sitemap' %}">Site Map</a></li>
           {% else %}
-          <li><a href="{% url 'sitemap' %}">Site Map</a></li>
+          <li style = center><a href="{% url 'sitemap' %}">Site Map</a></li>
           {% endif %}
 
           {% if user.is_authenticated %}
@@ -62,6 +62,9 @@
           <li style="float:right"><a href="{% url 'auth_login' %}">Log in/Register</a></li>
           {% endif %}
         </ul>
+
+        <div id="sitename"><navbarfont>Pick Up The Milk!</navbarfont></div>
+
     </nav>
 
     {% endblock %}
@@ -87,7 +90,7 @@
     <div class="col-md-8 main_content">
       <div id="bgColour">
         {% block body_block %}
-		
+
         {% endblock %}
       </div>
     </div>
@@ -97,9 +100,9 @@
     <footer class="footer">
       <div class="position">
       {% block footer %}
-	  
-	  
-	  
+
+
+
       <a href="{% url 'home' %}">Homepage</a>
       <a href="{% url 'about' %}">About/FAQ</a>
       <a href="{% url 'contact'%}">Contact Us</a>
@@ -115,7 +118,7 @@
     <!-- jQuery library  -->
 	<script src="{% static "js/jquery.min.js" %}"></script>
 	<script src="{% static "js/milk-ajax.js" %}"></script>
-	
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="{% static 'js/pagescript.js' %}">
     <!-- Latest compiled JavaScript -->
