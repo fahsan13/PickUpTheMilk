@@ -5,7 +5,9 @@
   header: 0;
   border: 0;
 }
-
+body{
+  overflow-x: hidden;
+}
 
 h1 {
     font-family: 'Lobster' !important;
