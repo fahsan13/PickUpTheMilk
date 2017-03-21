@@ -22,7 +22,7 @@ class GroupDetail(models.Model):
     group = models.OneToOneField(Group)
     # Additional group details we want to store
     administrator = models.ForeignKey(User, null = True, related_name = 'the_group_creator')
-    shoppinglist = models.ForeignKey(Item, null = True)
+#    shoppinglist = models.ForeignKey(Item, null = True)
 
     def __str__(self):
         return '{}'.format(self.group)
@@ -46,6 +46,9 @@ class UserProfile(models.Model):
         return self.user.username
     def getUserID(self):
         return self.user.id
+    def save(self, *args, **kwargs):
+        if self.balance<0: self.balance = 0
+        super(UserProfile, self).save(*args, **kwargs)
 
 # Dave removed all user names from the below table as these can be inferred
 # from the IDs
@@ -65,3 +68,6 @@ class Transaction(models.Model):
         return '{}'.format(self.value)
     def __unicode__(self):
         return '{}'.format(self.value)
+    def save(self, *args, **kwargs):
+        if self.value<=0: self.value = 0.01
+        super(Transaction, self).save(*args, **kwargs)

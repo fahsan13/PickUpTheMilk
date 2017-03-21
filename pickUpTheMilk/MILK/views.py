@@ -228,8 +228,7 @@ def profilepage(request, username):
     item_list = Item.objects.order_by('id')
     context_dict = {'Items': item_list, 'form':form, 'selecteduser':user, 'userprofile': userprofile,}
     app_url = request.path
-    response = render(request, 'MILK/userprofile.html', {'form':form, 'selecteduser':user, 'userprofile': userprofile})
-
+    response = render(request, 'MILK/userprofile.html', {'Items': item_list, 'form':form, 'selecteduser':user, 'userprofile': userprofile})
     response = render(request, 'MILK/userprofile.html', context_dict)
     return response
 
