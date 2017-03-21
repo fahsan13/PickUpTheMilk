@@ -278,6 +278,8 @@ def profilepage(request, username):
 
     # Get items so we can display on user's page
     item_list = Item.objects.order_by('id')
+
+    response = render(request, 'MILK/userprofile.html', {'Items': item_list, 'form':form, 'selecteduser':user, 'userprofile': userprofile})
     context_dict = {'Items': item_list, 'form':form, 'pictureform':picture_form, 'selecteduser':user, 'userprofile': userprofile,}
     app_url = request.path ## is this being used for anything?
     response = render(request, 'MILK/userprofile.html', context_dict)
@@ -291,6 +293,8 @@ def grouppage(request, groupname):
     user=request.user
     # Get all members of the group
     groupmembers = User.objects.filter(groups__name=groupname)
+
+    user_profile = getUserProfile(request)
 
     try:
         # No idea why this is working; change groupname
@@ -331,7 +335,15 @@ def grouppage(request, groupname):
         else:
             print(remove_form.errors)
 
-    response = render(request, 'MILK/grouppage.html',  {'currentgroup':groupname, 'groupdetail':groupdetail, 'user':user, 'addform':add_form, 'removeform':remove_form, 'members':groupmembers})
+    context_dict = {'currentgroup':groupname,
+                    'groupdetail':groupdetail,
+                    'user':user,
+                    'addform':add_form,
+                    'removeform':remove_form,
+                    'members':groupmembers,
+                    'userprofile':user_profile,}
+
+    response = render(request, 'MILK/grouppage.html', context_dict)
     return response
 
 
