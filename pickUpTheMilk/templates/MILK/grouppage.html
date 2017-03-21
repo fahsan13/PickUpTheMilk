@@ -14,56 +14,62 @@
 		<!--Will only render once as they can only be a member once -->
 		{% if profile == user %}
 
-			<div>
+		<div id = adminblock>
 		  <h3>Group page for {{ currentgroup.name }}</h3>
 		  <h4>The group admin is <a href="{% url 'profile' groupdetail.administrator %}">{{ groupdetail.administrator }}</a></h4>
 
-		  This is where we will display collective group info!</br></br>
-
-		  <div><b>Group Members</b>
+		  <div><b>Group Members:</b>
 		    {% for profile in members %}
-		      <ul><a href="{% url 'profile' profile.username %}">{{ profile.username }}</a></ul>
+		      <li><a href="{% url 'profile' profile.username %}">{{ profile.username }}</a></li>
 		    {% endfor %}
 		  </div></br>
 
-		  <div>
-		      {% if user == groupdetail.administrator %}
-			      <b>You can see this because you're the group admin!</b></br></br>
 
-							Bit buggy as these require a refresh of page before updated member options reflected in drop-down lists.
-							Ajax???
-							</thead>
-							If we have time (lolololol) maybe replace with a search field later so admin can enter a username </br></br>
+			{% if user == groupdetail.administrator %}
+		  	<div>
+						<b>You can see this because you're the group admin!</b></br></br>
 
-						<!-- Form to add a user to a group - only visible to admin  -->
-			      <form id="AddUser" method="post" action".">
+						<!-- Left column -->
+						<div class="col-md-6">
+								<!-- Include template allowing admin to settle group balances -->
+								<hr/>
+								{% include 'MILK/settle-up.html' %}
+						</div>
 
-			        {% csrf_token %}
+						<!-- Right column -->
+            <div class="col-md-6 ">
+								<hr/>
+								<h3>Add or remove users from {{ currentgroup.name }}</h3>
+								<!-- Form to add a user to a group - only visible to admin  -->
+					      <form id="AddUser" method="post" action".">
 
-			        {{ addform.as_p }}
+					        {% csrf_token %}
+					        {{ addform.as_p }}
 
-			      <!-- Button to click to submit the form -->
-			      <input type="submit" name="adduserbutton" value="Add member to {{ currentgroup.name }}"></br></br>
+					      <!-- Button to click to submit the form -->
+					      <input type="submit" name="adduserbutton" value="Add member to {{ currentgroup.name }}"></br></br>
 
-						<!-- Form to remove a user from a group - only visible to admin -->
-						<form id="RemoveUser" method="post" action".">
+								<!-- Form to remove a user from a group - only visible to admin -->
+								<form id="RemoveUser" method="post" action".">
 
-						  {% csrf_token %}
+								  {% csrf_token %}
+									{{ removeform.as_p }}
 
-							{{ removeform.as_p }}
+							  <!-- Button to click to submit the form -->
+								<input type="submit" name="removeuserbutton" value="Remove member from {{ currentgroup.name }}">
+						</div>
+				</div>
 
-					  <!-- Button to click to submit the form -->
-						<input type="submit" name="removeuserbutton" value="Remove member from {{ currentgroup.name }}">
-					{% endif %}
-			</div>
+		</div>
 
-			<hr/>
-			{% include 'MILK/settle-up.html' %}
-
+		<!-- Invisible character for formatting linebreaks -->
+		&#8291
+		<hr/>
+			{% endif %}
 		{% endif %}
 	{% endfor %}
 
-	</br>
+
 	Trouble with viewing group information? Perhaps you're not a member of {{ currentgroup.name }}...
 
 {% endblock %}
