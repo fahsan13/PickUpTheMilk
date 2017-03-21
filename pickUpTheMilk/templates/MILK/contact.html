@@ -13,14 +13,16 @@
 
     <form method="post" action="{% url 'home' %}">
 
-        {% csrf_token %} {{ form.as_p }}
+        {% csrf_token %}
+
+        {{ form.as_p }}
 
 
         <!-- Button to click to submit the form -->
-    <input type="submit" name="Submit" value="Submit" onClick="myAlert()" />
+    <input type="submit" name="Submit" value="Submit" onClick="myAlert()"/>
 
     <!-- Include javascript for the popup -->
-    <script src="{% static " js/contactus.js " %}"></script>
+    <script src="{% static "js/contactus.js" %}"></script>
 
     <hr/>
     Alternatively, <a href="mailto:pleasegiveusanAgerardo@gmail.com">send us an email!</a>

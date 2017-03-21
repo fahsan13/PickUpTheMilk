@@ -26,9 +26,12 @@
         </ul>
 
         <hr/>
-        <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a>
+        <!-- <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a> -->
             <!--Sets modal button type-->
         <!-- <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Things to Pick Up!</button> -->
+
+        <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Let your group know an item needs bought!</button>
+        <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#recPurchase" >Record a purchase you've made</button>
 
         <!-- Are these working yet?  -->
         {% include 'MILK/recPurModal.html' %}
@@ -39,7 +42,7 @@
     <div id = columns>
         <!-- Left column -->
         <div class="col-md-4">
-          <h3>Items to buy</h3>
+          <h3>Items needed</h3>
           <div>
             {% include 'MILK/needsBoughtList.html' %}
           </div>
@@ -54,8 +57,8 @@
                 {% include 'MILK/newItemTemplate.html' %}
           <hr/>
 
-          <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#recPurchase" >Record Purchase</button>
-          <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Things to Pick Up!</button>
+          <!-- <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#recPurchase" >Record Purchase</button> -->
+          <!-- <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Things to Pick Up!</button> -->
         </div>
     </div>
 

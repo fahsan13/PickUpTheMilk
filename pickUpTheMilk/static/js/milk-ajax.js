@@ -38,7 +38,8 @@ $('#settle_balance').click(function(){
 	alert("Balances settled for " + user_group);
 	$.get('/resolve_balances/', {current_group: user_group}, function(data){
 		$('#settled_balances').html(data);
-		$("#initial").replaceWith('')
+		$("#initial").replaceWith('');
+		$("#averaged_balances").replaceWith('')
 	});
 });
 

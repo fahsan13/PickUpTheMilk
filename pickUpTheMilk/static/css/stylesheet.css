@@ -218,11 +218,10 @@ input {
   border: 1px solid #67aeca;
 
   }
+
 .position{
   float: left;
 }
-
-
 
 .scroll-list
 {
@@ -236,12 +235,10 @@ input {
 }
 
 textarea {
-    vertical-align: top;
+    display:block;
     border: 2px solid #dadada;
     border-radius: 3px;
     resize:none;
-    rows: 6;
-    cols: 200;
 }​
 
 

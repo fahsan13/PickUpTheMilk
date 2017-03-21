@@ -279,9 +279,16 @@ def profilepage(request, username):
     # Get items so we can display on user's page
     item_list = Item.objects.order_by('id')
 
-    response = render(request, 'MILK/userprofile.html', {'Items': item_list, 'form':form, 'selecteduser':user, 'userprofile': userprofile})
-    context_dict = {'Items': item_list, 'form':form, 'pictureform':picture_form, 'selecteduser':user, 'userprofile': userprofile,}
-    app_url = request.path ## is this being used for anything?
+    # Used for CSS purposes
+    app_url = '/profile/'
+
+    context_dict = {'Items': item_list,
+                    'form':form,
+                    'pictureform':picture_form,
+                    'selecteduser':user,
+                    'userprofile': userprofile,
+                    'app_url':app_url,}
+
     response = render(request, 'MILK/userprofile.html', context_dict)
     return response
 
@@ -643,9 +650,13 @@ def jsonmaker(data):
 
 # Helper method to get currently logged in user's userprofile
 def getUserProfile(request):
+
     user = request.user
-    user_profile = UserProfile.objects.get(user = user)
-    return user_profile
+
+    if user.is_authenticated():
+        user_profile = UserProfile.objects.get(user = user)
+        return user_profile
+
 
 #new item form helper method for template
 def newItemForm(request,user):
