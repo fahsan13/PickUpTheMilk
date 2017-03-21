@@ -1,0 +1,8 @@
+<ul class="nav nav-pills flex-column">
+	{% if user_balances %}
+		{% for useroutput in user_balances %} 
+		{{ useroutput }}
+		</br>
+		{% endfor %}
+	{% endif %}
+</ul>
