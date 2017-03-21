@@ -33,9 +33,9 @@ def register_profile(request):
 # View for the home page of the site.
 def home(request):
 
+    # Use helper methods to render forms we want to display
     purchase_form = recPurchHelper(request)
     update_form = updateListHelper(request)
-
 
     item_list = Item.objects.order_by('id')
     app_url = request.path
@@ -233,6 +233,7 @@ def profilepage(request, username):
     try:
         # May want to view another user's profile!
         user = User.objects.get(username=username)
+
         # User should only functionally have one group. If
         # it exists, we select it. If it doesn't, form won't
         # be rendered anyway.
@@ -240,6 +241,7 @@ def profilepage(request, username):
             group = user.groups.all().first()
 
     except User.DoesNotExist:
+        print "CUNT"
         return redirect('home')
 
     # Retrieve UserProfile extension (containing balance/picture).
