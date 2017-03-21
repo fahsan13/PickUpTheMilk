@@ -6,10 +6,6 @@
   border: 0;
 }
 
-body {
-  background-color:transparent;
-}
-
 
 h1 {
     font-family: 'Lobster' !important;
@@ -74,8 +70,6 @@ p {
     color: #003003F !important;
     }
 
-
-
 subheading {
     font-family: 'Lobster' !important;
     font-weight: bold;
@@ -96,6 +90,8 @@ namefont {
      /*text-shadow: 1px 1px gray;*/
     }
 
+
+/*margin area*/
 .main_content {
   margin-top: 100px;
 }
@@ -172,7 +168,7 @@ li a.active{
 
 /* Added these 2 so that input fields will outlined */
 input {
-    border: 2px solid #dadada;
+    border: 2px solid #b1cbd6;
     border-radius: 3px;
 }
 
@@ -214,7 +210,7 @@ input {
 {
     padding-left: 25px;
     padding-top: 5px;
-    padding-right: 5px; 
+    padding-right: 5px;
     min-height: 200px;
     max-height: 200px;
     max-width: 250px;

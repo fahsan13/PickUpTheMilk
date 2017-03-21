@@ -20,45 +20,96 @@
   <div>
     {% if user.is_authenticated %}
       {% if user.groups.all.0 %}
-
       </br>
-      <input class="input-medium search-query" type="text" name="suggestion" value="" id="suggestion"/>
+
+	  <!-- Attempting to add in some AJAX -->
+
+		<div>
+			<input class="input-medium search-query" type="text"
+				name="suggestion" value="" id="suggestion" />
+
+				<ul class= "nav nav-list">
+					<li class="nav-header">Add stuff!</li>
+
+				</form>
+			</ul>
+				<hr />
+
+
+
+    <div>
+    <div>
+      <div>
+
+    </div>
+
 
       <ul class= "nav nav-list">
-        <li class="nav-header">Add stuff!</li>
+
         <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a>
       <!--Sets modal button type-->
         <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Things to Pick Up!</button>
         </ul>
-      </div>
+    </div>
 
     <div>
-    <div class="col-md-4">
-      <h3>Items to buy</h3>
-      <div>
-        {% include 'MILK/pickupModal.html' %}
-        {% include 'MILK/needsBoughtList.html' %}
+      <div class="col-md-4">
+        <h3>Items to buy</h3>
+        <div>
+          {% include 'MILK/pickupModal.html' %}
+          {% include 'MILK/needsBoughtList.html' %}
+        </div>
+        </br>
+        <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#recPurchase" >Record Purchase</button>
+        <h3>Find your nearest store</h3>
       </div>
-      </br>
-      <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#recPurchase" >Record Purchase</button>
-    </div>
+  
 
-    <div class="col-md-8 ">
-      <h3> Other things you should be doing </h3>
-      <li><a href="{% url 'settle-up' user.groups.all.0 %}">Settle up all balances.</a>
-      </br>  Use our website and we definitely won't harvest your shopping data and use it to target ads at you.
-    </div>
-    <!--template for  add items to ''needs bought modal'-->
+      <div class="col-md-8 ">
+        <h3> Other things you should be doing </h3>
+        <li><a href="{% url 'settle-up' user.groups.all.0 %}">Settle up all balances.</a>
+        </br>  Use our website and we definitely won't harvest your shopping data and use it to target ads at you.
+      </div>
+  </div>
+
+
     <div>
       {% include 'MILK/recPurModal.html' %}
+
     </div>
-  </div>
   {% else %}
 
     You are not a group member, create one <a href="{% url 'create-group' %}"> HERE!</a>
     or ask a group to invite you
   {% endif %}
-  {% endif %}
+
+<div >
+
+    {% include 'MILK/maps.html' %}
+
+</div>
+
+        {% include 'MILK/recPurModal.html' %}
+
+        </div>
+
+        <!--Should this only appear if there are items in the to buy list
+             should we be able to add and record the purchase of items on the same page
+             For the case of someone realising then need something when they are in the shop-->
+
+        <!--Link to the page to resolve kitty/settle up balance-->
+        <a href="{% url 'settle-up' user.groups.all.0 %}">Settle up all balances.</a>
+        {% endif %}
+        {% if user.groups.all.0 %}
+
+        {% else %}
+            You are not a group member, create one <a href="{% url 'create-group' %}"> HERE!</a>
+                    or ask a group to invite you
+            {% include 'MILk/createGroupTemplate.html' %}
+        {% endif %}
+     {% include 'MILK/recPurModal.html' %}
+    </div>
+  </div>
 
 
 
@@ -67,13 +118,6 @@ should we be able to add and record the purchase of items on the same page
 For the case of someone realising then need something when they are in the shop-->
 <!--Link to the page to resolve kitty/settle up balance-->
 
-
-
-<!--Include the Google Maps widget-->
-<section>
-<h4>  Search for your nearest store: </h4>
-  {% include 'MILK/maps.html' %}
-</section>
 
 {% endblock %}
 </div>
