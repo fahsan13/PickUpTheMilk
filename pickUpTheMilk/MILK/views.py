@@ -277,14 +277,10 @@ def profilepage(request, username):
 
     # Get items so we can display on user's page
     item_list = Item.objects.order_by('id')
-<<<<<<< HEAD
-    context_dict = {'Items': item_list, 'form':form, 'selecteduser':user, 'userprofile': userprofile,}
-    app_url = request.path
+
     response = render(request, 'MILK/userprofile.html', {'Items': item_list, 'form':form, 'selecteduser':user, 'userprofile': userprofile})
-=======
     context_dict = {'Items': item_list, 'form':form, 'pictureform':picture_form, 'selecteduser':user, 'userprofile': userprofile,}
     app_url = request.path ## is this being used for anything?
->>>>>>> f7b3aeda21de26ddb2105ffc712ffca7456024e7
     response = render(request, 'MILK/userprofile.html', context_dict)
     return response
 
