@@ -18,4 +18,6 @@ urlpatterns = [
     url(r'^suggest_add_item/$', views.suggest_add_item, name='suggest_add_item'),
     url(r'^item_needs_bought/$', views.item_needs_bought, name='item_needs_bought'),
     url(r'^resolve_balances/$', views.resolve_balances, name='resolve_balances'),
+    url(r'^average_balances/$', views.average_balances, name='average_balances'),
+
 ]
