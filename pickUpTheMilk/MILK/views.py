@@ -97,19 +97,18 @@ def recPurchHelper(request):
     return form
 
 def updateListHelper(request):
-    # Imports form used to display items which aren't currently marked as needing to be bought
 
     # Get user's group
     user = request.user
     group = user.groups.all().first()
 
+    # Imports form used to display items which aren't currently marked as needing to be bought
     form = needsBoughtForm(group)
 
     if request.method == 'POST' and "pickUpButton" in request.POST:
         form = needsBoughtForm(group, request.POST)
 
         if form.is_valid():
-
             # Gets item name for item to be bought
             name = form.cleaned_data['itemID']
             print name
@@ -122,32 +121,46 @@ def updateListHelper(request):
 
             # Saves change
             item_needing_bought.save()
-
         else:
              print(form.errors)
     return form
 
+# View for sitemap
 def sitemap(request):
+
     app_url = request.path
-    response = render(request, 'MILK/sitemap.html', {'app_url': app_url})
+
+    # Get the user profile so profile sidebar can render balance.
+    user_profile = getUserProfile(request)
+
+    context_dict = {'app_url': app_url, 'userprofile':user_profile}
+
+    response = render(request, 'MILK/sitemap.html', context_dict)
     return response
 
+# View for contact us page
 def contact(request):
 
     app_url = request.path
 
+    # Get the user profile so profile sidebar can render balance.
+    user_profile = getUserProfile(request)
+
+    # Form to be displayed for users to contact the site.
     form = ContactForm()
 
-    return render(request, 'MILK/contact.html', {'app_url': app_url, 'form':form})
+    context_dict = {'app_url': app_url, 'form':form, 'userprofile':user_profile}
+
+    return render(request, 'MILK/contact.html', context_dict)
 
 def about(request):
+
     app_url = request.path
-    return render(request, 'MILK/about.html', {'app_url': app_url})
 
-# def parralax(request):
-#     app_url = request.path
-#     return render(request, 'MILK/parralax.html', {'app_url': app_url})
+    # Get the user profile so profile sidebar can render balance.
+    user_profile = getUserProfile(request)
 
+    return render(request, 'MILK/about.html', {'app_url': app_url, 'userprofile':user_profile})
 
 
 # View for create-group.html.
@@ -163,8 +176,8 @@ def creategroup(request):
 
     # Get currently logged in user.
     user=request.user
-    # get their user profile
-    user_profile = UserProfile.objects.get(user = user)
+    # Get their user profile.
+    user_profile = getUserProfile(request)
 
     if request.method == 'POST':
         form = groupForm(user, request.POST)
@@ -185,15 +198,15 @@ def creategroup(request):
     response = render(request, 'MILK/create-group.html', {'form':form, 'userprofile': user_profile})
     return response
 
-#Helper method for create group form
+# Helper method for create group form
 def createGroupForm(request):
 
     form = groupForm(request.POST)
 
     # Get currently logged in user.
     user=request.user
-    # get their user profile
-    user_profile = UserProfile.objects.get(user = user)
+    # Get their user profile
+    user_profile = getUserProfile(request)
 
     if request.method == 'POST':
         form = groupForm(user, request.POST)
@@ -213,8 +226,6 @@ def createGroupForm(request):
 
     return(form)
 
-
-
 # View for a user's profile
 @login_required
 def profilepage(request, username):
@@ -222,13 +233,15 @@ def profilepage(request, username):
     try:
         # May want to view another user's profile!
         user = User.objects.get(username=username)
+
         # User should only functionally have one group. If
         # it exists, we select it. If it doesn't, form won't
         # be rendered anyway.
         if user.groups.all().first() != None:
-            group = user.groups.all()[0]
+            group = user.groups.all().first()
 
     except User.DoesNotExist:
+        print "CUNT"
         return redirect('home')
 
     # Retrieve UserProfile extension (containing balance/picture).
@@ -329,33 +342,30 @@ def needsbought(request):
     user = request.user
     group = user.groups.all().first()
 
-    print group
-
-    #Imports form used to display items which aren't currently marked as needing to be bought
+    # Imports form used to display items which aren't currently marked as needing to be bought
     form = needsBoughtForm(group)
 
     if request.method == 'POST':
         form = needsBoughtForm(group, request.POST)
 
         if form.is_valid():
-            #needsBought=form.save(commit=False)
-
             # Gets item to set as needing bought
-            item_needing_bought = form.cleaned_data['itemID']
+            item_name = form.cleaned_data['itemID']
 
+            item_needing_bought = Item(itemName = item_name)
             # Sets items needs bought status to false, for item model
+
+            # ADD RECORD ITEM HELPER METHOD HERE INSTEAD, CURRENTLY DUPLICATING CODE
+
             item_needing_bought.itemNeedsBought = True
 
             # Saves change
             item_needing_bought.save()
-
         else:
              print(form.errors)
 
     response = render(request, 'MILK/needsBought.html', {'form':form})
     return response
-
-
 
 def suggest_item(request):
     item_list = []
@@ -441,7 +451,6 @@ def settleup(request, groupname):
     return response
 
 
-#From early attempt to integrate AJAX for resolving balances, may scrap it
 @login_required
 def resolve_balances(request):
     current_group = request.GET['current_group']
@@ -460,31 +469,167 @@ def resolve_balances(request):
     response = render(request, 'MILK/settled_balances.html', {'members': group_members,})
     return response
 
-# helper methdd to determine the average of the balances of the group
-def averagebalance(groupname):
 
-    groupmembers = User.objects.filter(groups__name=groupname)
+# # Trying again with a list
+# # helper methdd to determine the average of the balances of the group
+# def average_balances(request):
+#     current_group = request.GET['current_group']
+#     groupmembers = User.objects.filter(groups__name=current_group).order_by()
+#     total = 0
+#     nummembers = 0
+#     output = []
+#     # gets user name = v in groupmembers
+#     for v in groupmembers:
+#         user_profile = UserProfile.objects.get(user=v)
+#         money = user_profile.balance
+#         money = round(money, 2)
+#         total = total + money
+#         nummembers = nummembers + 1
+#
+#     # Print statements to check above code
+#     average = total / nummembers
+#     average = round(average, 2)
+#
+#     for v in groupmembers:
+#         user_profile = UserProfile.objects.get(user=v)
+#
+#         money = user_profile.balance
+#         money = round(money, 2)
+#         user = user_profile.user
+#         user_name = user.username
+#         floatmoney = float(money)
+#
+#         userowes = average - floatmoney
+#         userowesstring = str(userowes)
+#
+#
+#         useroutput = user_name + " - balance owed: " + userowesstring
+#         output.append(useroutput)
+#         print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+#         print output
+#     response = render(request, 'MILK/averaged_balances.html', {'user_balances': output})
+#     return (response)
+
+
+
+def average_balances(request):
+    current_group = request.GET['current_group']
+    groupmembers = User.objects.filter(groups__name=current_group).order_by()
     total = 0
     nummembers = 0
-
+    output = []
     # gets user name = v in groupmembers
     for v in groupmembers:
         user_profile = UserProfile.objects.get(user=v)
-
         money = user_profile.balance
         money = round(money, 2)
-
-        # sums total
         total = total + money
-        # tracks number of users
         nummembers = nummembers + 1
 
+    # Print statements to check above code
     average = total / nummembers
-    average = round(average,2)
-    return (average)
+    average = round(average, 2)
+    final_balance = 0
+    for v in groupmembers:
+        user_profile = UserProfile.objects.get(user=v)
+        user = user_profile.user
+        user_name = user.username
+        user_balance = user_profile.balance
+        user_float = float(user_balance)
+
+        finalbalance = user_float - average
+
+        if finalbalance < 0:
+            finalbalance = abs(finalbalance)
+            print "abs:"
+            print finalbalance
+            finalbalance = round(finalbalance, 2)
+            finalbalstring = str(finalbalance)
+            useroutput = user_name + " - owes " + finalbalstring
+            output.append(useroutput)
+        else:
+            finalbalance = round(finalbalance, 2)
+            finalbalstring = str(finalbalance)
+            useroutput = user_name + " - is owed: " + finalbalstring
+            output.append(useroutput)
+        final_balance = 0
+    response = render(request, 'MILK/averaged_balances.html', {'user_balances': output})
+    return (response)
+
+
+
+
+# # helper methdd to determine the average of the balances of the group
+# def average_balances(request):
+#     current_group = request.GET['current_group']
+#     groupmembers = User.objects.filter(groups__name=current_group).order_by()
+#     total = 0
+#     nummembers = 0
+#     output = {}
+#     # gets user name = v in groupmembers
+#     for v in groupmembers:
+#         user_profile = UserProfile.objects.get(user=v)
+#         money = user_profile.balance
+#         money = round(money, 2)
+#         total = total + money
+#         nummembers = nummembers + 1
+#
+#     # Print statements to check above code
+#     average = total / nummembers
+#     average = round(average, 2)
+#
+#     for v in groupmembers:
+#         user_profile = UserProfile.objects.get(user=v)
+#
+#         money = user_profile.balance
+#         money = round(money, 2)
+#         user = user_profile.user
+#         user_name = user.username
+#         floatmoney = float(money)
+#
+#         userowes = average - floatmoney
+#         userowesstring = str(userowes)
+#
+#         useroutput = user_name + " - balance owed: " + userowesstring
+#         output[user_name] = useroutput
+#         print "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+#         print useroutput
+#         print output
+#     response = render(request, 'MILK/averaged_balances.html', {'user_balances': output})
+#     return (response)
+
+
+
+# # helper methdd to determine the average of the balances of the group
+# def averagebalance(groupname):
+#
+#     groupmembers = User.objects.filter(groups__name=groupname).order_by()
+#     total = 0
+#     nummembers = 0
+#
+#     # gets user name = v in groupmembers
+#     for v in groupmembers:
+#         user_profile = UserProfile.objects.get(user=v)
+#
+#         money = user_profile.balance
+#         money = round(money, 2)
+#
+#         # sums total
+#         total = total + money
+#         # tracks number of users
+#         nummembers = nummembers + 1
+#
+#     average = total / nummembers
+#     average = round(average,2)
+#     return (average)
 
 # helper method for making a json file
 def jsonmaker(data):
     json_data = json.dumps(data)
     return json_data
 
+# Helper method to get currently logged in user's userprofile
+def getUserProfile(request):
+    user = request.user
+    user_profile = UserProfile.objects.get(user = user)
+    return user_profile

@@ -195,6 +195,15 @@ input {
     z-index: 999;
 }
 
+.margins{
+  padding-left: 20px;
+}
+
+.border {
+  border-radius: 25px;
+  border: 1px solid #67aeca;
+
+  }
 .position{
   float: left;
 }
@@ -203,6 +212,10 @@ input {
 
 .scroll-list
 {
+    padding-left: 25px;
+    padding-top: 5px;
+    padding-right: 5px; 
+    min-height: 200px;
     max-height: 200px;
     max-width: 250px;
     overflow-y: scroll;

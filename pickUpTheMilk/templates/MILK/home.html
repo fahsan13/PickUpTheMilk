@@ -3,25 +3,22 @@
 
 {% block title_block %} Home {% endblock %}
 
-{% block body_block %}
+<!--START OF THE RIGHT SECTION-->
+<div>
+  {% block body_block %}
 
-    <h1> <img src="{% static "images/milklogo.png" %}" alt= "Milk Carton Logo" height ="100"/>
-        Pick Up The Milk! <subheading>- The Passive Aggressive Cost Sharing App&#8482;</subheading> </h1>
-
-
+  <!--HEADER LOGO AND GREETING-->
+  <div>
     {% if user.is_authenticated %}
-        <h2> Welcome back, {{ user.username }}! </h2>
+    <h2> Welcome back, {{ user.username }}! </h2>
     {% else %}
-        <h2> Welcome! </h2>
+    <h2> Welcome! </h2>
     {% endif %}
+  </div>
 
-
-    <section>
+  <!--ADD ITEMS SECTION-->
+  <div>
     {% if user.is_authenticated %}
-
-
-
-
       {% if user.groups.all.0 %}
       </br>
 
@@ -46,6 +43,10 @@
             {% include 'MILK/completeList.html' %}
 
 
+      </br>
+      <input class="input-medium search-query" type="text" name="suggestion" value="" id="suggestion"/>
+
+
             <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a>
             <!--<h6> Items you need to <strong>pick up</strong> (just like the name of the app!)</h6>-->
     <div>
@@ -58,16 +59,35 @@
         {% include 'MILK/pickupModal.html' %}
     </div>
 
-        {% include 'MILK/needsBoughtList.html' %}
 
-    </div>
-    </section>
+      <ul class= "nav nav-list">
+        <li class="nav-header">Add stuff!</li>
+        <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a>
+      <!--Sets modal button type-->
+        <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Things to Pick Up!</button>
+        </ul>
+      </div>
 
-         <!--Sets modal button type-->
-    <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#recPurchase" >Record Purchase</button>
-
- <!--template for  add items to ''needs bought modal'-->
     <div>
+    <div class="col-md-4">
+      <h3>Items to buy</h3>
+      <div>
+        {% include 'MILK/pickupModal.html' %}
+
+        {% include 'MILK/needsBoughtList.html' %}
+      </div>
+      </br>
+      <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#recPurchase" >Record Purchase</button>
+    </div>
+
+    <div class="col-md-8 ">
+      <h3> Other things you should be doing </h3>
+      <li><a href="{% url 'settle-up' user.groups.all.0 %}">Settle up all balances.</a>
+      </br>  Use our website and we definitely won't harvest your shopping data and use it to target ads at you.
+    </div>
+    <!--template for  add items to ''needs bought modal'-->
+    <div>
+
         {% include 'MILK/recPurModal.html' %}
 
         </div>
@@ -86,44 +106,51 @@
                     or ask a group to invite you
             {% include 'MILk/createGroupTemplate.html' %}
         {% endif %}
+     {% include 'MILK/recPurModal.html' %}
+    </div>
+  </div>
+  {% else %}
+
+
+    You are not a group member, create one <a href="{% url 'create-group' %}"> HERE!</a>
+    or ask a group to invite you
+  {% endif %}
 
 
 
-        Use our website and we definitely won't harvest your shopping data and use it to target ads at you.
-    {% else %}
 
-      <aside>
-          <p>
-              <a href="{% url 'auth_login' %}?/next=/">Login</a> or
-              <a href="{% url 'registration_register' %}">Register</a>
-              <p>
-      </aside>
-    {% endif %}
+<!--Should this only appear if there are items in the to buy list
+should we be able to add and record the purchase of items on the same page
+For the case of someone realising then need something when they are in the shop-->
+<!--Link to the page to resolve kitty/settle up balance-->
 
 
-</section>
 
 <!--Include the Google Maps widget-->
 <section>
-    Search for your nearest store:
-    {% include 'MILK/maps.html' %}
+<h4>  Search for your nearest store: </h4>
+  {% include 'MILK/maps.html' %}
 </section>
 
 {% endblock %}
+</div>
 
-{% block side_block %}
+<div>
+  {% block side_block %}
 
-    <h2> Hello Friend! </h2>
+  <h2> Hello Friend! </h2>
 
-    {% if user.is_authenticated %}
+  {% if user.is_authenticated %}
 
-        {% include 'MILK/profilesidebar.html' %}
+  {% include 'MILK/profilesidebar.html' %}
 
-    {% else %}
-        SIGN UP</br>
-        (superliminal messaging)
-    {% endif %}
+  {% else %}
+  SIGN UP</br>
+  (superliminal messaging)
+  {% endif %}
 
-{% endblock %}
+  {% endblock %}
+</div>
+
 </body>
 </html>
