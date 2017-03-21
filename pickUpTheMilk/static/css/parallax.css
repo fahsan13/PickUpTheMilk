@@ -5,6 +5,10 @@
   header: 0;
   border: 0;
 }
+body{
+    overflow-x: scroll !important;
+    margin:auto;
+}
 
 /*FONTS */
 h1 {
@@ -73,6 +77,7 @@ namefont {
 /*BACKGROUND*/
 .bgimg{
   /* Possible to make these links to image in the static folder? */
+  position: relative;
   background-image: url("http://all4desktop.com/data_images/original/4242896-milk.jpg");
   min-height: 670px;
   background-attachment: fixed;
@@ -82,6 +87,7 @@ namefont {
 }
 
 .bgimg1{
+    position: relative;
   background-image: url("http://www.whodrankmymilk.com/wp-content/uploads/2015/05/flatmate-angry-mask.jpg");
   min-height: 580px;
   background-attachment: fixed;
@@ -91,6 +97,7 @@ namefont {
 }
 
 .bgimg2{
+    position: relative;
   background-image: url("http://draftmag.com/wp-content/uploads/2015/07/shutterstock_275339564.jpg");
   opacity: 50%;
   min-height: 700px;
@@ -102,6 +109,7 @@ namefont {
 
 
 .bgimg3{
+  position: relative;
   background-image: url("http://www.whodrankmymilk.com/wp-uploads/2015/05/flatmate-angry-mask.jpg");
   opacity: 50%;
   min-height: 500px;
@@ -115,9 +123,10 @@ namefont {
 .logo {
   position: absolute;
   left: 0;
-  top: 250px;
+  top: 180px;
   width: 100%;
   text-align: center;
+  bottom:auto;
 
 
 }
