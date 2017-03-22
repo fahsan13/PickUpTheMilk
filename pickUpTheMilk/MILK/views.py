@@ -4,7 +4,7 @@ from django.conf import settings
 from django.db.models import Sum
 import json
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
-from MILK.forms import itemForm, groupForm, UserProfileForm, AddUser, RemoveUser, RecordPurchase, needsBoughtForm, ContactForm, ProfilePictureForm
+from MILK.forms import itemForm, groupForm, UserProfileForm, RemoveUser, RecordPurchase, needsBoughtForm, ContactForm, ProfilePictureForm
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -295,20 +295,7 @@ def grouppage(request, groupname):
         return redirect('home')
 
     # Not a POST, so just render empty form
-    add_form = AddUser()
     remove_form = RemoveUser(groupname)
-
-    # If admin presses button to add user, do the following:
-    if request.method == 'POST' and 'adduserbutton' in request.POST:
-        add_form = AddUser(request.POST)
-
-        # Deal with add_form
-        if add_form.is_valid():
-            selecteduser = add_form.cleaned_data['user_to_add']
-            selecteduser.groups.add(groupname)
-            print("User successfully added!")
-        else:
-            print(add_form.errors)
 
     # If admin presses button to remove user, instead do the following:
     if request.method == 'POST' and 'removeuserbutton' in request.POST:
@@ -342,7 +329,6 @@ def grouppage(request, groupname):
     context_dict = {'currentgroup':groupname,
                     'groupdetail':groupdetail,
                     'user':user,
-                    'addform':add_form,
                     'removeform':remove_form,
                     'members':groupmembers,
                     'userprofile':user_profile,}
@@ -396,6 +382,50 @@ def suggest_add_item(request):
 
     return render(request, 'milk/add_items.html', {'Items': item_list})
 
+# Ajax to search for a user to add
+def user_search(request):
+    user_list = []
+    starts_with = ''
+    if request.method == 'GET':
+        starts_with = request.GET['suggestion']
+        user = request.user
+
+        print starts_with
+    user_list = get_user_list(4, starts_with)
+    print user_list
+
+    return render(request, 'MILK/user_search.html', {'Users': user_list})
+
+# Helper method to search for users.
+def get_user_list(max_results=0, starts_with=''):
+    user_list = []
+    if starts_with:
+        # Search for users who don't have a group
+        user_list = User.objects.filter(username__istartswith=starts_with, groups = None,)
+
+    if max_results > 0:
+        if len(user_list) > max_results:
+            user_list = user_list[:max_results]
+    print user_list
+    return user_list
+
+# Method using AJAX to add a user to a group
+def add_user(request):
+    user_to_add = None
+    if request.method == 'GET':
+        username_to_add = request.GET['user_adding']
+
+        # Get administrator's group - they are logged in!
+        user = request.user
+        usergroup = user.groups.all().first()
+        # Get the actual user object for the user to add
+        user_to_add = User.objects.get(username = username_to_add)
+        # Add this usee to the admin's group
+        user_to_add.groups.add(usergroup)
+        # Save
+        user_to_add.save()
+
+        return HttpResponse(True)
 
 def get_add_item_list(usergroup, max_results=0, starts_with=''):
     item_list = []
@@ -413,9 +443,6 @@ def get_add_item_list(usergroup, max_results=0, starts_with=''):
 
 def item_needs_bought(request):
     item_id = None
-    # Get user's group
-    user = request.user
-    usergroup = user.groups.all().first()
     if request.method == 'GET':
         item_id = request.GET['item_adding']
         print item_id
@@ -423,14 +450,14 @@ def item_needs_bought(request):
 
         item_to_add = Item.objects.get(itemName=item_id)
         if item_to_add:
-            print item_to_add
             item_to_add.itemNeedsBought = True
-            item_to_add.groupBuying = usergroup
             item_to_add.save()
 
         item_list = []
 
-
+        # Get user's group
+        user = request.user
+        usergroup = user.groups.all().first()
 
         # Need to get the user's group in here to filter by this and only show items
         # from their shopping list

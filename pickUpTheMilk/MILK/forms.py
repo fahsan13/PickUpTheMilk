@@ -62,11 +62,7 @@ class groupForm(forms.ModelForm):
         model = GroupDetail
         fields = ('group', 'administrator')
 
-# Allows admin to add a user to a group...
-class AddUser(forms.Form):
-    user_to_add = forms.ModelChoiceField(queryset= User.objects.filter(groups=None))
-
-# ... or remove a user from a group.
+# Allows user remove a user from a group.
 class RemoveUser(forms.Form):
     # Pass group into constructor as an argument, then filter user list
     # based on their group.
