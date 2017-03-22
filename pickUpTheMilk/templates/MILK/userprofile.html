@@ -88,5 +88,7 @@
 {% block side_block %}
 	{% if user.is_authenticated %}
 		<!-- Silly to sidebar profile here as well, can override it by adding this tag -->
+		<a class="twitter-timeline" data-width="300" data-height="600" data-theme="light" href="https://twitter.com/PickUpTheMilk">Tweets by PickUpTheMilk</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 	{% endif %}
 {% endblock %}
