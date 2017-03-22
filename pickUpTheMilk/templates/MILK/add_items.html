@@ -2,7 +2,7 @@
 	{% if Items %}
 		{% for item in Items %}
 			<button id="add_to_list" data-itemtoadd="{{item.itemName}}"
-			class="btn btn-primary btn-sm" type="button">
+			class="btn btn-primary btn-sm" data-dismiss="modal" type="button">
 			{{ item }} needs bought
 			</button>
 			

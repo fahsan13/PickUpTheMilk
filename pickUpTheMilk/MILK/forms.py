@@ -79,11 +79,19 @@ class RemoveUser(forms.Form):
 # Allows users to track items purchased.
 class RecordPurchase(forms.ModelForm):
     # Filter items so can only see items that are on the 'to pick up' list
-    itemID = forms.ModelChoiceField(queryset=Item.objects.filter(itemNeedsBought = True))
-    value = forms.DecimalField(required=True, min_value=0.01,
-                                    help_text="Please enter price paid for item(s):")
+    #itemID = forms.ModelChoiceField(queryset=Item.objects.filter(itemNeedsBought = True))
 
-    payeeID = forms.ModelChoiceField(queryset= User.objects.all(), widget = forms.HiddenInput(), required = False)
+
+    def __init__(self, group, *args, **kwargs):
+        super(RecordPurchase, self).__init__(*args, **kwargs)
+        self.fields['itemID'] = forms.ChoiceField(
+            choices=[(item, item) for item in Item.objects.filter(itemNeedsBought=True).filter(groupBuying=group)]
+
+        )
+    value = forms.DecimalField(required=True, min_value=0.01,
+                               help_text="Please enter price paid for item(s):")
+
+    payeeID = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.HiddenInput(), required=False)
 
     class Meta:
         model = Transaction

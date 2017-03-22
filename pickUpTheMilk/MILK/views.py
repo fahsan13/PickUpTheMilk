@@ -35,8 +35,8 @@ def home(request):
 
     user=request.user
 
-    if user.groups.all().first() != None:
-        group = user.groups.all().first()
+    # if user.groups.all().first() != None:
+    #     group = user.groups.all().first()
 
     item_list = Item.objects.order_by('id')
     app_url = request.path
@@ -48,7 +48,8 @@ def home(request):
         purchase_form = recPurchHelper(request)
         # form to update the list of items needed
         update_form = updateListHelper(request)
-        needs_bought_form = needsBoughtForm(group)
+        # this breaks it when first logging it
+        # needs_bought_form = needsBoughtForm(group)
 
         userprofile = getUserProfile(request)
         # Form to allow user to add a new item to the shopping list
@@ -65,7 +66,7 @@ def home(request):
                         'userprofile': userprofile,
                         'groupform':group_add_form,
                         'new_item_form':newitem_form,
-                        'needsboughtform':needs_bought_form,}
+                        }
 
     else:
         # User not authenticated; show them parallax version
@@ -77,11 +78,18 @@ def home(request):
 
 # handles recording purchase form process
 def recPurchHelper(request):
-    form = RecordPurchase()
+    # Get user's group
+    user = request.user
+    # handles error in case of a user without a user profile( superuser ) accessing the home page
+    userprofile = UserProfile.objects.get_or_create(user=request.user)[0]
+    group = user.groups.all().first()
+
+    form = RecordPurchase(group)
     # selecteduser = request.user
 
     if request.method == 'POST' and 'purchaseButton' in request.POST:
-        form = RecordPurchase(request.POST)
+
+        form = RecordPurchase(group,request.POST)
 
         if form.is_valid():
             purchase = form.save(commit=False)
@@ -94,7 +102,7 @@ def recPurchHelper(request):
             # Get this user's userprofile, where their balance is stored
             userprofile = UserProfile.objects.get_or_create(user=request.user)[0]
             # Gets item object to allow toggling of needsbought booleanfield - what is get or create?
-            toggle_item_bought = Item.objects.get(id=item_purchased.id)
+            toggle_item_bought = Item.objects.get(itemName=item_purchased)
 
             # Reflect this on user's balance
             userprofile.balance += item_cost
@@ -104,13 +112,14 @@ def recPurchHelper(request):
 
             # Updates the transaction model
             purchase.payeeID = request.user
-            purchase.itemID = item_purchased
+            purchase.itemID = toggle_item_bought
 
             # Saves changes
             userprofile.save()
             toggle_item_bought.save()
             purchase.save()
-            form = RecordPurchase()
+            # calls form again so that it is set as blank for next purchase
+            form = RecordPurchase(group)
 
         else:
             print(form.errors)
