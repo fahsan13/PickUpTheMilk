@@ -3,8 +3,8 @@
 {% block body_block %}
   <h3> Login!</h3>
 
-  {% if registered %}
-    You are successfully registered
+  {% if user.is_authenticated %}
+    You are already logged in, you silly sausage!
   {% else %}
     <form method="post" action=".">
 
