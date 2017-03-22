@@ -14,11 +14,11 @@
 		<!--Will only render once as they can only be a member once -->
 		{% if profile == user %}
 
-		<div id = adminblock>
+		<div id = "adminblock">
 		  <h3>Group page for {{ currentgroup.name }}</h3>
 		  <h4>The group admin is <a href="{% url 'profile' groupdetail.administrator %}">{{ groupdetail.administrator }}</a></h4>
 
-		  <div><b>Group Members:</b>
+		  <div id="memberdiv"><b>Group Members:</b>
 		    {% for profile in members %}
 		      <li><a href="{% url 'profile' profile.username %}">{{ profile.username }}</a></li>
 		    {% endfor %}

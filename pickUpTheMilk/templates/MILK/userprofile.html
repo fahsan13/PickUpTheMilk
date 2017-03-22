@@ -48,7 +48,7 @@
 
 	{% if selecteduser.username == user.username %}
 	<!-- Allow them to update their profile picture. -->
-		<div class="col-md-6">
+		<div id="profilepicdiv" class="col-md-6">
 				<form id="picture_form" method="post" action"." enctype="multipart/form-data">
 
 						{% csrf_token %}
@@ -71,7 +71,7 @@
 		{% if selecteduser.groups.all.0 %}
 
 		<!-- View Group list -->
-			<div class= "col-md-12">
+			<div id="additemdiv" class= "col-md-12">
 					<hr/>
 					<!-- Template to allow user to add a new item-->
 					<h3>Add a new item to the group shopping list</h3>
