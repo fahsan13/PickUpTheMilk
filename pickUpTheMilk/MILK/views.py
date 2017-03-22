@@ -114,8 +114,8 @@ def updateListHelper(request):
             name = form.cleaned_data['itemID']
             print name
 
-            # Get the correct item object by filtering based on 'name'
-            item_needing_bought = Item.objects.get(itemName = name)
+            # Get the correct item object by filtering based on 'name' and group
+            item_needing_bought = Item.objects.get(itemName = name, groupBuying = group)
 
             # Sets items 'needs bought' status to false, for item model
             item_needing_bought.itemNeedsBought = True
@@ -658,7 +658,7 @@ def getUserProfile(request):
         return user_profile
 
 
-#new item form helper method for template
+# New item form helper method for template
 def newItemForm(request,user):
     form = itemForm()
     user_profile = UserProfile.objects.get(user=user)
@@ -670,10 +670,21 @@ def newItemForm(request,user):
         if form.is_valid():
             item=form.save(commit=False)
             # Assign the user who added the item and the group it belongs to
-            item.addedby = user
-            item.groupBuying = group
-            item.save()
+            item_name = form.cleaned_data['itemName']
 
+            # The lines below check to see if an item with this name already exists
+            # for this group. If it does, we don't save it as a new item. If it
+            # doesn't, we add it as a new item. This means that 2 groups can have
+            # an item with the same name, but a single group can't have the same item
+            # twice.
+            try:
+                item_check = Item.objects.get(itemName = item_name, groupBuying = group)
+                print "Error! Item already exists."
+            except Item.DoesNotExist:
+                item.addedby = user
+                item.groupBuying = group
+                item.save()
+                print "Item successfully added"
         else:
             print(form.errors)
     return form
