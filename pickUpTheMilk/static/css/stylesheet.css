@@ -87,7 +87,7 @@ navbarfont {
     font-weight: bold;
     line-height: 18px;
     font-size: 24px;
-    color:  black !important;
+    color: white !important;
     text-transform: capitalize !important;
     }
 
@@ -98,7 +98,6 @@ namefont {
     font-size: 18px;
     color:  #0a1429 !important;
     text-transform: capitalize !important;
-     /*text-shadow: 1px 1px gray;*/
     }
 
 
@@ -108,24 +107,16 @@ namefont {
 }
 
 /* Navigation Bar Area */
-#sitename {
-  /*position:absolute;*/
-  /*float:right;*/
-  /*margin-right: 145px;
-  padding-top: 14px*/
-  color: black !important;
-  background-color: black;
-}
 
 .handle {
   width: 100%;
   text-align: left;
   box-sizing: border-box;
-  padding: 10px 10px;
+  padding: 10px 10px 10px 10px;
   cursor: pointer;
-  /*display: none;*/
+  display: list-item;
+  display: none;
 }
-
 
 
 nav{
@@ -163,30 +154,17 @@ nav{
     width: 100%;
     box-sizing: border-box;
     padding:15px;
-
     text-align: left;
   }
   nav img  {
     display: none;
   }
-  li a:hover {
-      background-color: none;
-      color: none;
-      text-decoration: none;
-      height: none;
-  }
-  li a.active{
-    background-color: white;
-    color: black;
-    height: 45px;
-    text-decoration: none;
-  }
   .handle {
-    display:inline;
+    display:grid;
     z-index: 1001;
   }
   .main_content {
-    margin-top: 30%;
+    margin-top: 20%;
   }
 }
 
