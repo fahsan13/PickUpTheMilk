@@ -1,6 +1,5 @@
 <!-- Template for items which need to be bought by the group-->
-<h3>Items to pick up</h3>
-<div class=scroll-list>
+<div id = "pickuplist" class=scroll-list>
     {% if Items %}
         {% for item in Items %}
             {% if user.groups.all.0 == item.groupBuying %}

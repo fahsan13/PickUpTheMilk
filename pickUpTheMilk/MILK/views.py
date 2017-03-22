@@ -146,6 +146,9 @@ def updateListHelper(request):
 
             # Saves change
             item_needing_bought.save()
+
+            # Refresh the form
+            form = needsBoughtForm(group)
         else:
              print(form.errors)
     return form
@@ -374,7 +377,7 @@ def suggest_add_item(request):
         usergroup = user.groups.all().first()
 
         print starts_with
-    item_list = get_add_item_list(usergroup ,1, starts_with)
+    item_list = get_add_item_list(usergroup ,4, starts_with)
     print item_list
 
     return render(request, 'milk/add_items.html', {'Items': item_list})
@@ -405,7 +408,18 @@ def item_needs_bought(request):
             print item_to_add
             item_to_add.itemNeedsBought = True
             item_to_add.save()
-    return HttpResponse(True)
+
+        item_list = []
+
+        # Get user's group
+        user = request.user
+        usergroup = user.groups.all().first()
+
+        # Need to get the user's group in here to filter by this and only show items
+        # from their shopping list
+        item_list = Item.objects.filter(itemNeedsBought = True, groupBuying = usergroup )
+
+    return render(request, 'MILK/needsBoughtList.html', {'Items': item_list})
 
 @login_required
 def resolve_balances(request):

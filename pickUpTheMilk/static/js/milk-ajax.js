@@ -25,23 +25,29 @@ $('#needsBoughtSuggestion').keyup(function(){
 $(document).on("click", '#add_to_list', function(){
 	var this_item;
 	this_item = $(this).attr("data-itemtoadd");
-	alert(this_item + " has been added to your 'Items Needed' list!");
+	alert(this_item + " has been added to your 'Items To Pick Up' list!");
 	$.get('/item_needs_bought/', {item_adding: this_item}, function(data){
-		$('#something').html(data);
+		// Refresh div which contains 'items to pick up' list
+		$('#pickuplist').html(data);
 		$('#add_to_list').hide();
-
+		// Refresh modal window
+		// 	$('#pickUp').reset();
+		location.reload();
 	});
 });
 
 $('#settle_balance').click(function(){
 	var user_group;
 	user_group = $(this).attr("data-groupname");
-	alert("Balances settled for " + user_group);
-	$.get('/resolve_balances/', {current_group: user_group}, function(data){
-		$('#settled_balances').html(data);
-		$("#initial").replaceWith('');
-		$("#averaged_balances").replaceWith('')
-	});
+	var popup = confirm("Warning! This operation cannot be undone. Are you sure you wish to settlle balances for " + user_group + "?");
+
+	if (popup==true) {
+		$.get('/resolve_balances/', {current_group: user_group}, function(data){
+			$('#settled_balances').html(data);
+			$("#initial").replaceWith('');
+			$("#averaged_balances").replaceWith('')
+		});
+	}
 });
 
 $('#average_balances').click(function(){
