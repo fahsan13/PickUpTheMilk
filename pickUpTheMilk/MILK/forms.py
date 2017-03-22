@@ -95,6 +95,7 @@ class RemoveUser(forms.Form):
         super(RemoveUser, self).__init__(*args, **kwargs)
         self.fields['user_to_remove'] = forms.ChoiceField(
             choices=[(item.id, item) for item in User.objects.filter(groups=group)]
+
         )
 
 # Allows users to track items purchased.

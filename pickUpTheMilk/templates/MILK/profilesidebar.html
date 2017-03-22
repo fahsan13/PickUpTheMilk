@@ -3,12 +3,12 @@
 
 	{% if userprofile.picture %}
 		<img src="{{ MEDIA_URL }}{{ userprofile.picture }}"
-     	width="64"
-     	height="64"
+     	width="120"
+
      	alt="{{request.user.username}}" />
 			<br/>
 	{% else %}
-		<img width="64" height="64" src="http://lorempixel.com/64/64/people/"/>
+		<img width="180"  src="http://lorempixel.com/64/64/people/"/>
 		{% if request.user.username == user.username %}
 	<p>
 			Why not upload your own profile picture?
