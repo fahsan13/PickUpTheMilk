@@ -48,7 +48,6 @@ def home(request):
         purchase_form = recPurchHelper(request)
         # form to update the list of items needed
         update_form = updateListHelper(request)
-        needs_bought_form = needsBoughtForm(group)
 
         userprofile = getUserProfile(request)
         # Form to allow user to add a new item to the shopping list
@@ -64,8 +63,7 @@ def home(request):
                         'updateform': update_form,
                         'userprofile': userprofile,
                         'groupform':group_add_form,
-                        'new_item_form':newitem_form,
-                        'needsboughtform':needs_bought_form,}
+                        'new_item_form':newitem_form,}
 
     else:
         # User not authenticated; show them parallax version

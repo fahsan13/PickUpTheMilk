@@ -55,6 +55,9 @@ class UserProfileMethodTests(TestCase):
 
 
     def test_ensure_users_balance_displays_correctly(self):
+        """"
+        Check a user's balance displays correctly on their profile page
+        """
         #create a dummy group and user
         group = add_group("testgroup")
         u = add_user("testuser", "test@test.com", 9.00, group)
@@ -69,6 +72,9 @@ class UserProfileMethodTests(TestCase):
 
 
     def test_group_page_shows_all_members(self):
+        """
+        Check that a user without groups profile displays properly
+        """
         #create a dummy group and several users
         group = add_group("testgroup")
         u1 = add_user("testuser1", "test1@test.com", 0.00, group)
@@ -81,6 +87,23 @@ class UserProfileMethodTests(TestCase):
         self.assertContains(response, "testuser3")
         num_members =len(response.context['members'])
         self.assertEqual(num_members, 3)
+
+    def test_userprofile_without_group(self):
+
+        add_user_no_group("testuser1", "test1@test.com", 0.00)
+        #login a user
+        self.client.login(username='testuser1', password='test12345')
+        response = self.client.get(reverse('profile', args =['testuser1']))
+        self.assertContains(response, "Not a member of any groups")
+
+
+
+
+
+
+
+
+
 
 
 
