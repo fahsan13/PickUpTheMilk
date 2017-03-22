@@ -1,13 +1,18 @@
-    <div class=scroll-list>
-                {% if Items %}
-                    {% for item in Items %}
-                        {% if user.groups.all.0 == item.groupBuying %}
-                            {% if item.itemNeedsBought %}
-                                <li>
-                                    {{ item.itemName }}
-                                </li>
-                            {% endif %}
-                         {% endif %}
-                    {% endfor %}
+<!-- Template for items which need to be bought by the group-->
+
+<div class=scroll-list>
+
+<h3>Items to pick up</h3>
+
+    {% if Items %}
+        {% for item in Items %}
+            {% if user.groups.all.0 == item.groupBuying %}
+                {% if item.itemNeedsBought %}
+                    <li>
+                        {{ item.itemName }}
+                    </li>
                 {% endif %}
-            </div>
+             {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>

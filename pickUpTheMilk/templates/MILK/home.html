@@ -18,41 +18,43 @@
 {% if user.groups.all.0 %} </br>
 
 		<div>
-        <!-- <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a> -->
-            <!--Sets modal button type-->
-
-
+        <!--Sets modal button type-->
+        <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#addItem" >Add an item to your group's list</button>
         <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Let your group know an item needs bought!</button>
         <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#recPurchase" >Record a purchase you've made</button>
 
         <!-- Modal templates   -->
-        {% include 'MILK/recPurModal.html' %}
+        {% include 'MILK/addItemModal.html' %}
         {% include 'MILK/pickupModal.html' %}
+        {% include 'MILK/recPurModal.html' %}
         <hr/>
     </div>
 
     <div id = columns>
+
         <!-- Left column -->
         <div class="col-md-4">
-          <h3>Items needed</h3>
+            {% include 'MILK/completeList.html' %}
+        </br>
+        </div>
+
+
+        <!-- Middle column -->
+        <div class="col-md-4">
           <div>
             {% include 'MILK/needsBoughtList.html' %}
           </div>
           </br>
         </div>
 
-      <!-- Right column -->
-        <div class="col-md-8 ">
-          <h3> Other things you should be doing </h3>
-          <li><a href="{% url 'group' user.groups.all.0 %}">Settle up all balances.</a><br/>
-          <li>Want to buy something new?</li>
-            <!--would be really could if this didn't need to refresh, AJAX?-->
-                {% include 'MILK/newItemTemplate.html' %}
-          <hr/>
 
-          <!-- <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#recPurchase" >Record Purchase</button> -->
-          <!-- <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Things to Pick Up!</button> -->
-        </div>
+        <!-- Right column -->
+          <div class="col-md-4 ">
+            <h3> Other things you should be doing </h3>
+            <li><a href="{% url 'group' user.groups.all.0 %}">View a snapshot of your group's spending.</a></li>
+            <li><a href="{% url 'contact' %}">Write us love letters.</a></li></br>
+            <ul><a href="https://twitter.com/pickupthemilk" class="twitter-follow-button" data-show-count="false">Follow @pickupthemilk</a><script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script></ul>
+          </div>
     </div>
 
 {% else %}

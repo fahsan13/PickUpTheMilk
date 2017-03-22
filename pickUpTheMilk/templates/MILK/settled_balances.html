@@ -2,7 +2,7 @@
 	{% if members %}
 		Since the last time the house settled up</br>
 			{% for a in members %}
-				{{ a }} has spent: {{ a.userprofile.balance }}
+				{{ a }} has spent: £{{ a.userprofile.balance }}
 			</br>
 			{% endfor %}
 	{% endif %}

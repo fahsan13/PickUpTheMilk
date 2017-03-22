@@ -5,23 +5,31 @@
 <b>Group Members</b>
 
 <div id="initial">
-    <ul class="nav nav-pills flex-column">
-        {% if members %} Since the last time the house settled up</br>
-        {% for userprofile in members %} {{ userprofile }} has spent: {{ userprofile.userprofile.balance }}
-        </br>
-        {% endfor %} {% endif %}
-    </ul>
+    <li class="nav nav-pills flex-column">
+        {% if members %}
+            Since the last time your group settled up,</br>
+            {% for userprofile in members %}
+              {{ userprofile }} has spent: £{{ userprofile.userprofile.balance }}
+            </br>
+            {% endfor %}
+        {% endif %}
+    </li>
 </div>
 
 <div id="settled_balances"></div>
 
-<button id="settle_balance" data-groupname="{{ user.groups.all.0 }}" class="btn btn-primary btn-sm" type="button">
-    Settle balances
+<button id="average_balances" data-groupname="{{ user.groups.all.0 }}" class="btn btn-primary btn-sm" type="button">
+    Who owes whom?
 </button>
 
-<button id="average_balances" data-groupname="{{ user.groups.all.0 }}" class="btn btn-primary btn-sm" type="button">
-    Get averages
-</button>
+<!-- Only group admin is able to reset balances  -->
+{% if user == groupdetail.administrator %}
+
+  <button id="settle_balance" data-groupname="{{ user.groups.all.0 }}" class="btn btn-primary btn-sm" type="button">
+      Reset balances
+  </button>
+{% endif %}
+
 
 <!-- can we set this div to appear in a modal? -->
 <div id="averaged_balances"></div>

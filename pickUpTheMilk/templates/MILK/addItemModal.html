@@ -1,0 +1,33 @@
+<!-- Modal for recording a purchase-->
+<div id="addItem" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Add an item to your shopping list</h4>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form id="RecordPurchase" method="post" action="." }>
+
+                        {% csrf_token %}
+
+                        {% for hidden in new_item_form.hidden_fields %}
+                          {{ hidden }}
+                        {% endfor %}
+
+                        {% for field in new_item_form.visible_fields %}
+                          {{ field.errors }}
+                          {{ field.help_text }}
+                          {{ field }}
+                        {% endfor %}
+
+                        <input type="submit" , name="itembutton" , value="Add item">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

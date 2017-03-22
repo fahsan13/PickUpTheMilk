@@ -25,7 +25,7 @@ $('#needsBoughtSuggestion').keyup(function(){
 $(document).on("click", '#add_to_list', function(){
 	var this_item;
 	this_item = $(this).attr("data-itemtoadd");
-	alert(this_item + " has been added to your shopping list!");
+	alert(this_item + " has been added to your 'Items Needed' list!");
 	$.get('/item_needs_bought/', {item_adding: this_item}, function(data){
 		$('#something').html(data);
 		$('#add_to_list').hide();
@@ -44,7 +44,7 @@ $('#settle_balance').click(function(){
 });
 
 $('#average_balances').click(function(){
-	alert("AVERAGE BALANCES NOW PLZ THANKS");
+	alert("Clicking this button will return a snapshot of your group's current spending. Please note that only your group administrator can reset group balances.");
 	var user_group;
 	user_group = $(this).attr("data-groupname");
 	$.get('/average_balances/', {current_group: user_group}, function(data){

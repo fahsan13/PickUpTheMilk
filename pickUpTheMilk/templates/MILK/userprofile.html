@@ -47,6 +47,7 @@
 	</div>
 
 	{% if selecteduser.username == user.username %}
+	<!-- Allow them to update their profile picture. -->
 		<div class="col-md-6">
 				<form id="picture_form" method="post" action"." enctype="multipart/form-data">
 
@@ -67,57 +68,18 @@
 		</div>
 	</div>
 
-	{% if selecteduser.groups.all.0 %}
-	<div class="col-md-12">
-			<hr/>
-			<h3>Add stuff </h3>
-
-			<form id="itemForm" method="post" action".">
-
-
-				{% csrf_token %}
-
-				{% for hidden in form.hidden_fields %}
-          {{ hidden }}
-        {% endfor %}
-
-				{% for field in form.visible_fields %}
-            {{ field.errors }}
-            {{ field.help_text }}
-            {{ field }}
-				{% endfor %}
-
-				<!-- Button to click to submit the form -->
-				<input type="submit" name="itembutton" value="Add Item" onClick="myAlert()"/>
-			</form>
-
-
-					<!-- Shouldn't popup if there was an error with adding item -->
-					<script>
-						function myAlert() {
-							alert("Item successfully added")}
-					</script>
-		</div>
-
+		{% if selecteduser.groups.all.0 %}
 
 		<!-- View Group list -->
-		<div class= "col-md-12">
-				<hr/>
-				<h3>Communal shopping list:</h3>
-
-				<div class=scroll-list>
-						{% if Items %}
-							{% for item in Items %}
-								<!-- Only show the items belonging to this group! -->
-								{% if selecteduser.groups.all.0 == item.groupBuying %}
-									<li>{{ item.itemName }}</li>
-								{% endif %}
-							{% endfor %}
-						{% else %}
-							Your shopping list is empty.
-						{% endif %}
-				</div>
-		</div>
+			<div class= "col-md-12">
+					<hr/>
+					<!-- Template to allow user to add a new item-->
+					<h3>Add a new item to the group shopping list</h3>
+					{% include 'MILK/newItemTemplate.html' %}
+					<hr/>
+					<!-- Template to show the complete shopping list -->
+					{% include 'MILK/completeList.html' %}
+			</div>
 		{% endif %}
 {% endif %}
 

@@ -1,48 +1,48 @@
-      <!-- Modal for updating list-->
-        <div id="pickUp" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+<!-- Modal for updating list-->
+<div id="pickUp" class="modal fade" role="dialog">
+    <div class="modal-dialog">
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">What we need</h4>
-                    </div>
-                    <div class="modal-body">
-
-                              <input class="input-medium search-query" type="text" data-groupname="{{ user.groups.all.0 }}"
-                                name="needsBoughtSuggestion" value="" id="needsBoughtSuggestion" />
-
-                                      <ul class= "nav nav-list">
-                                        <li class="nav-header"><b>Type in the name of the item needing replenished and click its button...</b></li>
-                                          <form>
-                                            </li>
-                                          </form>
-                                      </ul>
-
-                                <div id="Items"></div>
-                                <hr/>
-
-                                <h6> ...or choose it from the drop-down!</h6>
-                                  <div>
-                                      <form id="needsBoughtForm" method="post" action"/"}>
-
-                                      {% csrf_token %}
-                                      {% for hidden in updateform.hidden_fields %}
-                          							{{ hidden }}
-                          						{% endfor %}
-
-                          						{% for field in updateform.visible_fields %}
-                          								{{ field.errors }}
-                          								{{ field.help_text }}
-                          								{{ field }}
-                          						{% endfor %}
-
-                                      <input type="submit", name="pickUpButton", value="Mark selected item as needing bought">
-                                      </form>
-                                  </div>
-
-                    </div>
-                </div>
-              </div>
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">What we need</h4>
             </div>
+
+            <div class="modal-body">
+
+                <input class="input-medium search-query" type="text" data-groupname="{{ user.groups.all.0 }}" name="needsBoughtSuggestion" value="" id="needsBoughtSuggestion" />
+
+                <ul class="nav nav-list">
+                    <li class="nav-header"><b>Type in the name of the item needing replenished and click its button...</b></li>
+                    <form>
+                        </li>
+                    </form>
+                </ul>
+
+                <div id="Items"></div>
+                <hr/>
+
+                <h6> ...or choose it from the drop-down!</h6>
+                <div>
+                    <form id="needsBoughtForm" method="post" action "/"}>
+
+                        {% csrf_token %}
+
+                        {% for hidden in updateform.hidden_fields %}
+                          {{ hidden }}
+                        {% endfor %}
+
+                        {% for field in updateform.visible_fields %}
+                          {{ field.errors }}
+                          {{ field.help_text }}
+                          {{ field }}
+                        {% endfor %}
+
+                        <input type="submit" , name="pickUpButton" , value="Mark selected item as needing bought">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
