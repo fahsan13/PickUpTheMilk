@@ -38,22 +38,28 @@
 			{% if user == groupdetail.administrator %}
 
 			<hr/>
-			<b>You can see the box below as the group admin!</b></br>
+			<b>You can see the boxes below as the group admin!</b></br>
 
 				<div>
 						<!-- Right column -->
             <div class="col-md-6 ">
 								<hr/>
-								<h3>Add or remove users from {{ currentgroup.name }}</h3>
-								<!-- Form to add a user to a group - only visible to admin  -->
-					      <form id="AddUser" method="post" action".">
+								<h3>Add users to {{ currentgroup.name }}</h3>
 
-					        {% csrf_token %}
-					        {{ addform.as_p }}
+								<input class="input-medium search-query" type="text" data-groupname="{{ user.groups.all.0 }}" name="usersearch" value="" id="usersearch" />
 
-					      <!-- Button to click to submit the form -->
-					      <input type="submit" name="adduserbutton" value="Add member to {{ currentgroup.name }}"></br></br>
+                <ul class="nav nav-list">
+                    <li class="nav-header"><b>Search for a user to add</b></li>
+                    <form>
+                        </li>
+                    </form>
+                </ul>
 
+                <div id="Users"></div>
+
+								<hr/>
+
+								<h3>Remove users from {{ currentgroup.name }}</h3>
 								<!-- Form to remove a user from a group - only visible to admin -->
 								<form id="RemoveUser" method="post" action".">
 

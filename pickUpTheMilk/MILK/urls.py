@@ -9,6 +9,8 @@ urlpatterns = [
     url(r'^register_profile/$', views.register_profile, name='register_profile'),
     url(r'^suggest_item/$', views.suggest_item, name='suggest_item'),
     url(r'^suggest_add_item/$', views.suggest_add_item, name='suggest_add_item'),
+    url(r'^user_search/$', views.user_search, name='user_search'),
+    url(r'^add_user/$', views.add_user, name='add_user'),
     url(r'^item_needs_bought/$', views.item_needs_bought, name='item_needs_bought'),
     url(r'^resolve_balances/$', views.resolve_balances, name='resolve_balances'),
 
@@ -19,5 +21,4 @@ urlpatterns = [
     # url(r'^profile/(?P<username>[^/]+)/$', views.profilepage, name= 'profile'),
     # url(r'^group/(?P<groupname>)[^/]+/$', views.grouppage, name= 'group'),
     url(r'^average_balances/$', views.average_balances, name='average_balances'),
-
 ]

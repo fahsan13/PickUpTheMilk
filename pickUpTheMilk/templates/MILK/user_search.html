@@ -1,0 +1,10 @@
+<ul class="nav nav-pills flex-column">
+	{% if Users %}
+		{% for user in Users %}
+			<button id="add_to_group" data-usertoadd="{{ user.username }}"
+			class="btn btn-primary btn-sm" data-dismiss="modal" type="button">
+			Add {{ user }}
+			</button>
+		{% endfor %}
+	{% endif %}
+</ul>

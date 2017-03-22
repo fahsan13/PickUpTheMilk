@@ -22,6 +22,31 @@ $('#needsBoughtSuggestion').keyup(function(){
 	});
 });
 
+// JQuery to search for a user to add to a group
+$('#usersearch').keyup(function(){
+	var query;
+	var user_group;
+	query = $(this).val();
+	user_group = $(this).attr("data-groupname");
+	$.get('/user_search/', {suggestion: query}, function(data){
+		$('#Users').html(data);
+	});
+});
+
+//
+$(document).on("click", '#add_to_group', function(){
+	var this_user;
+	this_user = $(this).attr("data-usertoadd");
+	alert(this_user + " has been added to your group!");
+	$.get('/add_user/', {user_adding: this_user}, function(data){
+		// Refresh div which contains 'items to pick up' list
+		$('#add_to_group').hide();
+		// Refresh modal window
+		// 	$('#pickUp').reset();
+		location.reload();
+	});
+});
+
 $(document).on("click", '#add_to_list', function(){
 	var this_item;
 	this_item = $(this).attr("data-itemtoadd");
