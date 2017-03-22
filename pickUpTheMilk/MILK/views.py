@@ -82,7 +82,7 @@ def recPurchHelper(request):
     group = user.groups.all().first()
 
     form = RecordPurchase(group)
-    # selecteduser = request.user
+
 
     if request.method == 'POST' and 'purchaseButton' in request.POST:
 
@@ -316,12 +316,26 @@ def grouppage(request, groupname):
 
         # Deal with remove_form
         if remove_form.is_valid():
+            currentuser =request.user
             selecteduserID = remove_form.cleaned_data['user_to_remove']
-            # Filter user based on their ID
-            selecteduser = User.objects.get(id=selecteduserID)
-            selecteduser.groups.remove(groupname)
-            print("User successfully removed!")
-            return redirect('group', groupname)
+            currentuserID = currentuser.id
+            # selecteduser = User.objects.get(id=selecteduserID)
+
+            # cast to strings for comparision purposes, probably would know a better with some python lectures
+            valueCID = int(currentuserID)
+            valueSID = int(selecteduserID)
+
+            #user cannot remove themselves from a group
+            if valueCID != valueSID:
+                # Filter user based on their ID
+                selecteduser = User.objects.get(id=selecteduserID)
+                selecteduser.groups.remove(groupname)
+
+                print("User successfully removed!")
+                return redirect('group', groupname)
+            else:
+
+                return redirect('group', groupname)
         else:
             print(remove_form.errors)
 
@@ -399,21 +413,24 @@ def get_add_item_list(usergroup, max_results=0, starts_with=''):
 
 def item_needs_bought(request):
     item_id = None
+    # Get user's group
+    user = request.user
+    usergroup = user.groups.all().first()
     if request.method == 'GET':
         item_id = request.GET['item_adding']
         print item_id
         print "----------------"
+
         item_to_add = Item.objects.get(itemName=item_id)
         if item_to_add:
             print item_to_add
             item_to_add.itemNeedsBought = True
+            item_to_add.groupBuying = usergroup
             item_to_add.save()
 
         item_list = []
 
-        # Get user's group
-        user = request.user
-        usergroup = user.groups.all().first()
+
 
         # Need to get the user's group in here to filter by this and only show items
         # from their shopping list
@@ -439,6 +456,8 @@ def resolve_balances(request):
     response = render(request, 'MILK/settled_balances.html', {'members': group_members,})
     return response
 
+# method to work out the money owed by each group member
+# used in settling balances calculations
 def average_balances(request):
 
     current_group = request.GET['current_group']
@@ -448,13 +467,16 @@ def average_balances(request):
     output = []
     # gets user name = v in groupmembers
     for v in groupmembers:
+        # iterate through the members of a group getting matching user profiles
         user_profile = UserProfile.objects.get(user=v)
+        # get the balance and round to two decimal places
         money = user_profile.balance
         money = round(money, 2)
+        # track total ammount spent by a group and number of group members
         total = total + money
         nummembers = nummembers + 1
 
-    # Print statements to check above code
+    # determine average owed
     average = total / nummembers
     average = round(average, 2)
     final_balance = 0
@@ -462,32 +484,30 @@ def average_balances(request):
         user_profile = UserProfile.objects.get(user=v)
         user = user_profile.user
         user_name = user.username
+        # get user spending
         user_balance = user_profile.balance
+        # cast to float prior to calculations
         user_float = float(user_balance)
-
+        # what each user owes is current balance minus average
         finalbalance = user_float - average
 
+        # handle whether user is owed or owes money since last settlement
         if finalbalance < 0:
             finalbalance = abs(finalbalance)
             print "abs:"
             print finalbalance
             finalbalance = round(finalbalance, 2)
-            finalbalstring = str(finalbalance)
-            useroutput = user_name + " owes: " + finalbalstring
+            finalbalstring = str.format('%.2f' % finalbalance)
+            useroutput = user_name + " owes: " + unichr(163) + finalbalstring
             output.append(useroutput)
         else:
             finalbalance = round(finalbalance, 2)
-            finalbalstring = str(finalbalance)
-            useroutput = user_name + " is owed: " + finalbalstring
+            finalbalstring = str.format('%.2f' % finalbalance)
+            useroutput = user_name + " is owed: " + unichr(163) + finalbalstring
             output.append(useroutput)
         final_balance = 0
     response = render(request, 'MILK/averaged_balances.html', {'user_balances': output})
     return (response)
-
-# Helper method for making a json file
-def jsonmaker(data):
-    json_data = json.dumps(data)
-    return json_data
 
 # Helper method to get currently logged in user's userprofile
 def getUserProfile(request):
