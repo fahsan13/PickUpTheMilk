@@ -20,8 +20,9 @@ from MILK import views
 from django.conf import settings
 from django.conf.urls.static import static
 from MILK.views import MyRegistrationView
-from MILK.forms import CustomRegistration
 
+# Include this custom form as it has different help text for username field.
+from MILK.forms import CustomRegistration
 
 urlpatterns = [
     url(r'^', include('MILK.urls')),

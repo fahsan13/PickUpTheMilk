@@ -16,16 +16,8 @@ class GroupAdmin(GroupAdmin):
     list_display = ['name', Members]
     list_display_links = ['name']
 
-#display doesn't work because formated string return type is not iterable, will need fixed
-#class ItemToUser(admin.ModelAdmin):
-#    list_display = ('userID')
-
-#class UserProfile(admin.ModelAdmin):
-#    list_display = ('balance')
-
 # Adding user account ID to display in admin panel
 UserAdmin.list_display = ('id','email', 'first_name', 'last_name', 'groups', 'date_joined', 'is_staff',)
-
 admin.site.unregister(Group)
 admin.site.register(Item, ItemAdmin)
 admin.site.register(Transaction)

@@ -165,10 +165,18 @@ def sitemap(request):
 
     app_url = request.path
 
+    user = request.user
     # Get the user profile so profile sidebar can render balance.
     user_profile = getUserProfile(request)
 
-    context_dict = {'app_url': app_url, 'userprofile':user_profile}
+    group = None
+    if user.groups.all().first() != None:
+        group = user.groups.all().first()
+
+    context_dict = {'app_url': app_url,
+                    'user':user,
+                    'userprofile':user_profile,
+                    'group':group}
 
     response = render(request, 'MILK/sitemap.html', context_dict)
     return response
@@ -343,38 +351,6 @@ def grouppage(request, groupname):
     response = render(request, 'MILK/grouppage.html', context_dict)
     return response
 
-
-def suggest_item(request):
-    item_list = []
-    starts_with = ''
-
-    if request.method == 'GET':
-        starts_with = request.GET['suggestion']
-    item_list = get_item_list(8, starts_with)
-    print "-------------------"
-    print item_list
-
-    return render(request, 'milk/items.html', {'Items': item_list})
-
-
-def get_item_list(max_results=0, starts_with=''):
-    item_list = []
-    if starts_with:
-
-        # Need to get the user group in here
-        # so I can filter it to only show items not already in the group list
-
-        # May also use a set to do this, to eliminate duplicates
-
-        item_list = Item.objects.filter(itemName__istartswith=starts_with)
-
-    if max_results > 0:
-        if len(item_list) > max_results:
-            item_list = item_list[:max_results]
-    print item_list
-    return item_list
-
-
 def suggest_add_item(request):
     item_list = []
     starts_with = ''
@@ -388,6 +364,19 @@ def suggest_add_item(request):
     print item_list
 
     return render(request, 'milk/add_items.html', {'Items': item_list})
+
+# Helper method for 'suggest_add_item'
+def get_add_item_list(usergroup, max_results=0, starts_with=''):
+    item_list = []
+    if starts_with:
+        # Use the user's group to filter and only show item from their group shopping list
+        item_list = Item.objects.filter(itemName__istartswith=starts_with, itemNeedsBought = False, groupBuying = usergroup )
+
+    if max_results > 0:
+        if len(item_list) > max_results:
+            item_list = item_list[:max_results]
+    print item_list
+    return item_list
 
 # Ajax to search for a user to add
 def user_search(request):
@@ -434,18 +423,7 @@ def add_user(request):
 
         return HttpResponse(True)
 
-def get_add_item_list(usergroup, max_results=0, starts_with=''):
-    item_list = []
-    if starts_with:
-        # Need to get the user's group in here to filter by this and only show items
-        # from their shopping list
-        item_list = Item.objects.filter(itemName__istartswith=starts_with, itemNeedsBought = False, groupBuying = usergroup )
 
-    if max_results > 0:
-        if len(item_list) > max_results:
-            item_list = item_list[:max_results]
-    print item_list
-    return item_list
 
 
 def item_needs_bought(request):

@@ -1,26 +1,29 @@
-   <!-- Modal for recording a purchase-->
-        <div id="recPurchase" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+<!-- Modal popup for recording a purchase. Used on home -->
 
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Enter Purchase Details</h4>
-                    </div>
-                    <div class="modal-body">
-                        <div>
-                            <form id="RecordPurchase" method="post" action="." }>
+<div id="recPurchase" class="modal fade" role="dialog">
 
-                                {% csrf_token %}
+    <div class="modal-dialog">
 
-                                {{ purchaseform.as_p }}
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Enter Purchase Details</h4>
+            </div>
 
-                              <input type="submit" , name="purchaseButton" , value="Record a purchase">
-                            </form>
-                            </div>
+            <div class="modal-body">
+                <div>
+                    <form id="RecordPurchase" method="post" action="." }>
 
-                        </div>
-                    </div>
+                        {% csrf_token %}
+
+                        {{ purchaseform.as_p }}
+
+                    <input type="submit" , name="purchaseButton" , value="Record a purchase">
+                    </form>
                 </div>
             </div>
+            
+        </div>
+    </div>
+</div>

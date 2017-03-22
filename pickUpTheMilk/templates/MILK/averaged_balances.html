@@ -1,6 +1,8 @@
+<!-- Template used for AJAX when displaying a group's settled balanced -->
+
 <ul class="nav nav-pills flex-column">
 	{% if user_balances %}
-		{% for useroutput in user_balances %} 
+		{% for useroutput in user_balances %}
 		{{ useroutput }}
 		</br>
 		{% endfor %}

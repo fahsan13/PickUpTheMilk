@@ -1,23 +1,27 @@
 {% extends 'MILK/base.html' %}
 
-	
-		{% block title_block %}
+{% block title_block %}
+	Sitemap
+{% endblock %}
 
-		{% endblock %}
-
-		{% block body_block %}
-				<h3>Sitemap</h3>
+{% block body_block %}
+		<h3>Sitemap</h3>
 
 			<section>
-			<h4>Don't get lost!</h4></br>
-			<a href="{% url 'about' %}">About</a></br>
-			<a href="{% url 'contact' %}">Contact Us</a></br>
-			<a href="{% url 'home' %}">Home</a></br>
-		{% if AnonymousUser.is_authenticated %}
-			<a href="{% url 'auth_login' %}">Login</a></br>
-		{% endif %}
-			<a href="{% url 'registration_register' %}">Register</a></br>
+					<h4>Don't get lost!</h4></br>
+					<a href="{% url 'about' %}">About</a></br>
+					<a href="{% url 'contact' %}">Contact Us</a></br>
+					<a href="{% url 'home' %}">Home</a></br>
 
+					{% if user.is_authenticated %}
+							<!-- If the user has a group  -->
+							{% if user.groups.all.0 %}
+							<a href="{% url 'group' user.groups.all.0 %}">Group Page</a></br>
+							{% endif %}
 
+					{% else %}
+					<a href="{% url 'auth_login' %}">Login</a></br>
+					<a href="{% url 'registration_register' %}">Register</a></br>
+					{% endif %}
 			</section>
-		{% endblock %}
+{% endblock %}

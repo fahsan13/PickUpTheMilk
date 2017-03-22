@@ -5,7 +5,6 @@ from django.contrib.auth.models import User, Group
 from MILK.models import Item, UserProfile, GroupDetail, Transaction
 from registration.forms import RegistrationForm
 
-
 # Class to override default regisration-redux form. Lets users know not to add symbols.
 class CustomRegistration(RegistrationForm):
     username = forms.CharField(max_length=128, help_text="Please enter a username. No symbols or special characters!")

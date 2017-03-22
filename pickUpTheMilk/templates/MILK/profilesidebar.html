@@ -1,5 +1,4 @@
 <h3>{{ request.user.username }}'s profile</h3>
-<!-- {{ request.user.username}} -->
 
 	{% if userprofile.picture %}
 		<img src="{{ MEDIA_URL }}{{ userprofile.picture }}"
@@ -17,12 +16,13 @@
 			{{ request.user.username }} hasn't uploaded a profile picture.
 		{% endif %}
 	{% endif %}
+	
 <div>
-	<!-- These might not all be necessary but we can see how to get this info  -->
 	<h5>{{ request.user.username }}'s current spending: £{{ userprofile.balance }}</h5>
-	<!-- Think this will only display first group properly, BUT they should only have one in the simplest case -->
 </div>
+
 	<div>
+	<!-- This will only display user's first group, BUT they only have one anyway -->
 	{% if request.user.groups.all.0 %}
 
 		<h5>

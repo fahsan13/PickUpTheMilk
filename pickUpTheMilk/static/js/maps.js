@@ -1,4 +1,5 @@
-// Code adapted from
+// Code adapted from:
+// https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-directions
 
 
 // This example adds a search box to a map, using the Google Place Autocomplete
@@ -8,11 +9,6 @@
 // This example requires the Places library. Include the libraries=places
 // parameter when you first load the API. For example:
 // <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
-// Note: This example requires that you consent to location sharing when
-// prompted by your browser. If you see the error "The Geolocation service
-// failed.", it means you probably did not give permission for the browser to
-// locate you.
 
 // Function initialise not strictly necessary but here for extensibility reasons.
 // Callback calls initialise function, so we can make this function call additional
@@ -114,39 +110,3 @@ AutocompleteDirectionsHandler.prototype.route = function() {
         }
     });
 }
-
-// // Window to display if geolocation was successful
-// var geoWindow = new google.maps.InfoWindow({
-//     map: map
-// });
-//
-// // Try HTML5 geolocation.
-// if (navigator.geolocation) {
-//     navigator.geolocation.getCurrentPosition(function (position) {
-//         var pos = {
-//             lat: position.coords.latitude,
-//             lng: position.coords.longitude
-//         };
-//
-//         geoWindow.setPosition(pos);
-//         geoWindow.setContent('Location found.');
-//         map.setCenter(pos);
-//     }, function () {
-//         handleLocationError(true, geoWindow, map.getCenter());
-//     });
-// } else {
-//     // Browser doesn't support Geolocation
-//     handleLocationError(false, geoWindow, map.getCenter());
-// }
-//
-// function handleLocationError(browserHasGeolocation, geoWindow, pos) {
-//     geoWindow.setPosition(pos);
-//     geoWindow.setContent(browserHasGeolocation ?
-//         'Error: The Geolocation service failed. Please enable on your browser.' :
-//         'Error: Your browser doesn\'t support geolocation.');
-// }
-
-
-
-
-
