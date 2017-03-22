@@ -4,11 +4,18 @@ from django.conf import settings
 from django.db.models import Sum
 import json
 from MILK.models import User, UserProfile, Group, GroupDetail, Item
-from MILK.forms import itemForm, groupForm, UserProfileForm, RemoveUser, RecordPurchase, needsBoughtForm, ContactForm, ProfilePictureForm
+from MILK.forms import itemForm, groupForm, UserProfileForm, RemoveUser, RecordPurchase, needsBoughtForm, ContactForm, ProfilePictureForm, CustomRegistration
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
+from registration.backends.simple.views import RegistrationView
+
+# Create a new class that redirects the user to the index page, if successful at logging
+class MyRegistrationView(RegistrationView):
+
+    def get_success_url(self, user):
+        return '/register_profile/'
 
 # View for second page in 2-step registration process. Required as we're
 # using registration-redux package and still want to populate the UserProfile

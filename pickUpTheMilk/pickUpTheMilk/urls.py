@@ -17,22 +17,18 @@ from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
 from MILK import views
-from registration.backends.simple.views import RegistrationView
 from django.conf import settings
 from django.conf.urls.static import static
-# from MILK.forms import UserProfileForm
+from MILK.views import MyRegistrationView
+from MILK.forms import CustomRegistration
 
-# Create a new class that redirects the user to the index page, #if successful at logging
-class MyRegistrationView(RegistrationView):
-    def get_success_url(self, user):
-        return '/register_profile/'
 
 urlpatterns = [
     url(r'^', include('MILK.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/register/',
-        MyRegistrationView.as_view(),
-        name='registration_register'),
+        MyRegistrationView.as_view(template_name='registration/registration_form.html',
+        form_class=CustomRegistration), name='registration_register'),
     url(r'^accounts/', include('registration.backends.simple.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

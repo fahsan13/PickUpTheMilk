@@ -3,6 +3,32 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, Group
 from MILK.models import Item, UserProfile, GroupDetail, Transaction
+from registration.forms import RegistrationForm
+
+
+# Class to override default regisration-redux form. Lets users know not to add symbols.
+class CustomRegistration(RegistrationForm):
+    username = forms.CharField(max_length=128, help_text="Please enter a username. No symbols or special characters!")
+
+    # def clean(self):
+    #     cleaned_data = super(CustomRegistration, self).clean()
+    #     username = cleaned_data.get("username")
+    #
+    #     if username:
+    #         # Only do something if the username is valid.
+    #         if '@' in username:
+    #             print username
+    #             raise forms.ValidationError(
+    #                 "Error! No symbols or special characters in username!"
+    #             )
+    #         else:
+    #             print "NO @"
+    #             return username
+
+    class Meta:
+        model = User
+        fields = ('username',)
+
 
 # Form displayed in Step 2 of user registration process
 class UserProfileForm(forms.ModelForm):
@@ -21,7 +47,6 @@ class itemForm(forms.ModelForm):
 
     class Meta:
         model = Item
-        # fields = ('itemName', 'addedby', 'groupBuying')
         fields = ('itemName', 'addedby', 'groupBuying')
 
 # Form for AJAX autocomplete of items to be added to a group's list
@@ -74,10 +99,7 @@ class RemoveUser(forms.Form):
 
 # Allows users to track items purchased.
 class RecordPurchase(forms.ModelForm):
-    # Filter items so can only see items that are on the 'to pick up' list
-    #itemID = forms.ModelChoiceField(queryset=Item.objects.filter(itemNeedsBought = True))
-
-
+    # Constructor for this form. Group is passed in as a parameter so we can filter the ModelChoiceField.
     def __init__(self, group, *args, **kwargs):
         super(RecordPurchase, self).__init__(*args, **kwargs)
         self.fields['itemID'] = forms.ChoiceField(
