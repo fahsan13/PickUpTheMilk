@@ -39,12 +39,19 @@ def home(request):
     if request.user.is_authenticated():
 
         rsp_template = 'MILK/home.html'
+        # form to record the purchase of an item
         purchase_form = recPurchHelper(request)
+        # form to update the list of items needed
         update_form = updateListHelper(request)
+
         user=request.user
         userprofile = getUserProfile(request)
-        group_add_form = createGroupForm(request)
+        # form to allow user to add a new item to the shopping list
         newitem_form = newItemForm(request,user)
+        #for form that allows user to create a group
+        #will only dispaly if user is not a member of a group
+        group_add_form = createGroupForm(request)
+
         context_dict = {'Items': item_list, 'app_url': app_url, 'purchaseform': purchase_form, 'updateform': update_form,
                         'userprofile': userprofile, 'groupform':group_add_form, 'new_item':newitem_form}
     else:
@@ -112,7 +119,6 @@ def updateListHelper(request):
         if form.is_valid():
             # Gets item name for item to be bought
             name = form.cleaned_data['itemID']
-            print name
 
             # Get the correct item object by filtering based on 'name'
             item_needing_bought = Item.objects.get(itemName = name)
@@ -242,7 +248,7 @@ def profilepage(request, username):
             group = user.groups.all().first()
 
     except User.DoesNotExist:
-        print "CUNT"
+
         return redirect('home')
 
     # Retrieve UserProfile extension (containing balance/picture).
