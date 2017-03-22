@@ -33,6 +33,11 @@ def register_profile(request):
 # View for the home page of the site.
 def home(request):
 
+    user=request.user
+
+    if user.groups.all().first() != None:
+        group = user.groups.all().first()
+
     item_list = Item.objects.order_by('id')
     app_url = request.path
 
@@ -41,12 +46,18 @@ def home(request):
         rsp_template = 'MILK/home.html'
         purchase_form = recPurchHelper(request)
         update_form = updateListHelper(request)
-        user=request.user
+        needs_bought_form = needsBoughtForm(group)
         userprofile = getUserProfile(request)
         group_add_form = createGroupForm(request)
         newitem_form = newItemForm(request,user)
-        context_dict = {'Items': item_list, 'app_url': app_url, 'purchaseform': purchase_form, 'updateform': update_form,
-                        'userprofile': userprofile, 'groupform':group_add_form, 'new_item':newitem_form}
+        context_dict = {'Items': item_list,
+                        'app_url': app_url,
+                        'purchaseform': purchase_form,
+                        'updateform': update_form,
+                        'userprofile': userprofile,
+                        'groupform':group_add_form,
+                        'new_item':newitem_form,
+                        'needsboughtform':needs_bought_form,}
     else:
         # User not authenticated; show them parallax version
         rsp_template = 'MILK/parallax.html'
@@ -164,41 +175,6 @@ def about(request):
     return render(request, 'MILK/about.html', {'app_url': app_url, 'userprofile':user_profile})
 
 
-# View for create-group.html.
-# Need to implement error handling for when
-# group with a given name already exists IF
-# we don't later refactor this so that we use
-# group IDs in URLs instead of unique group names but thats
-# a bit harder and I can't be bothered right now.
-@login_required
-def creategroup(request):
-
-    form = groupForm(request.POST)
-
-    # Get currently logged in user.
-    user=request.user
-    # Get their user profile.
-    user_profile = getUserProfile(request)
-
-    if request.method == 'POST':
-        form = groupForm(user, request.POST)
-        if form.is_valid():
-            # Save the group
-            group=form.save(commit=True)
-            # Get group name from form; field within form containing name is 'group'!
-            groupname = form.cleaned_data['group']
-            # Add the user to this newly created group
-            user.groups.add(groupname)
-            print(group)
-
-            # Redirect user to their profile if group succcessfully created
-            return redirect('profile', user.username)
-        else:
-            print(form.errors)
-
-    response = render(request, 'MILK/create-group.html', {'form':form, 'userprofile': user_profile})
-    return response
-
 # Helper method for create group form
 def createGroupForm(request):
 
@@ -242,29 +218,18 @@ def profilepage(request, username):
             group = user.groups.all().first()
 
     except User.DoesNotExist:
-        print "CUNT"
         return redirect('home')
 
     # Retrieve UserProfile extension (containing balance/picture).
     # We will then pass this to profile.html
     userprofile = UserProfile.objects.get_or_create(user=user)[0]
 
-    form = itemForm()
+    # Form to add a new item (calls helper method)
+    item_form = newItemForm(request, user)
+    # Form to create a new group (calls helper method)
+    group_add_form = createGroupForm(request)
+
     picture_form = ProfilePictureForm({'picture': userprofile.picture})
-
-    # Deal with itemForm
-    if request.method == 'POST' and "itembutton" in request.POST:
-        form = itemForm(request.POST)
-
-        if form.is_valid():
-            item=form.save(commit=False)
-            # Assign the user who added the item and the group it belongs to
-            item.addedby = user
-            item.groupBuying = group
-            item.save()
-
-        else:
-            print(form.errors)
 
     # Allow user to upload new picture. New form used as we don't want to overwrite balance.
     if request.method == 'POST' and "picturebutton" in request.POST:
@@ -283,8 +248,9 @@ def profilepage(request, username):
     app_url = '/profile/'
 
     context_dict = {'Items': item_list,
-                    'form':form,
+                    'form':item_form,
                     'pictureform':picture_form,
+                    'groupform':group_add_form,
                     'selecteduser':user,
                     'userprofile': userprofile,
                     'app_url':app_url,}
@@ -459,17 +425,6 @@ def item_needs_bought(request):
             item_to_add.itemNeedsBought = True
             item_to_add.save()
     return HttpResponse(True)
-
-
-#Settle up page, resolve balances
-@login_required
-def settleup(request, groupname):
-    # Get all members of the group
-    group_members = User.objects.filter(groups__name=groupname)
-
-    response = render(request, 'MILK/settle-up.html',{'settled_balances':group_members,})
-    return response
-
 
 @login_required
 def resolve_balances(request):

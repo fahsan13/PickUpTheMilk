@@ -9,19 +9,40 @@
                         <h4 class="modal-title">What we need</h4>
                     </div>
                     <div class="modal-body">
-                        <div>
-                            <form id="NeedsBoughtForm" method="post" action="." }>
 
-                                {% csrf_token %}
+                              <input class="input-medium search-query" type="text" data-groupname="{{ user.groups.all.0 }}"
+                                name="needsBoughtSuggestion" value="" id="needsBoughtSuggestion" />
 
-                                {{ updateform.as_p }}
+                                      <ul class= "nav nav-list">
+                                        <li class="nav-header"><b>Type in the name of the item needing replenished and click its button...</b></li>
+                                          <form>
+                                            </li>
+                                          </form>
+                                      </ul>
 
-                              <input type="submit" , name="pickUpButton" , value="Update the list">
-                            </form>
+                                <div id="Items"></div>
+                                <hr/>
 
-                        </div>
+                                <h6> ...or choose it from the drop-down!</h6>
+                                  <div>
+                                      <form id="needsBoughtForm" method="post" action"/"}>
 
-                        </div>
+                                      {% csrf_token %}
+                                      {% for hidden in updateform.hidden_fields %}
+                          							{{ hidden }}
+                          						{% endfor %}
+
+                          						{% for field in updateform.visible_fields %}
+                          								{{ field.errors }}
+                          								{{ field.help_text }}
+                          								{{ field }}
+                          						{% endfor %}
+
+                                      <input type="submit", name="pickUpButton", value="Mark selected item as needing bought">
+                                      </form>
+                                  </div>
+
                     </div>
                 </div>
+              </div>
             </div>

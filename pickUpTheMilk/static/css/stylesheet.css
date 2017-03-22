@@ -87,7 +87,6 @@ navbarfont {
     font-weight: bold;
     line-height: 18px;
     font-size: 24px;
-    /*margin: 0 0 43px 0;*/
     color:  #ffffff !important;
     text-transform: capitalize !important;
     }
@@ -108,7 +107,7 @@ namefont {
   margin-top: 100px;
 }
 
-/*Navigation Bar Area*/
+/* Navigation Bar Area */
 #sitename {
   /*position:absolute;*/
   float:right;

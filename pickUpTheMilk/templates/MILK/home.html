@@ -17,15 +17,7 @@
 
 {% if user.groups.all.0 %} </br>
 
-<!-- Attempting to add in some AJAX -->
 		<div>
-			  <input class="input-medium search-query" type="text" name="suggestion" value="" id="suggestion" />
-
-				<ul class= "nav nav-list">
-				    <li class="nav-header">Add stuff!</li>
-        </ul>
-
-        <hr/>
         <!-- <a href="{% url 'needsbought' %}">Running out of something? Mark it as needing bought here!</a> -->
             <!--Sets modal button type-->
         <!-- <button type="button" class="btn btn-info btn-sm listButton" data-toggle="modal" data-target="#pickUp" >Things to Pick Up!</button> -->
@@ -64,8 +56,7 @@
 
 {% else %}
   <!-- User has no group, so we give them the option to create a group -->
-  You are not a group member, create one <a href="{% url 'create-group' %}"> HERE!</a> or ask a group to invite you
-  {% include 'MILk/createGroupTemplate.html' %}
+  {% include 'MILK/createGroupTemplate.html' %}
 {% endif %}
 
   <!-- INCLUDE GOOGLE MAPS! -->

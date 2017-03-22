@@ -15,7 +15,7 @@
 				<img src="{{ MEDIA_URL }}{{ userprofile.picture }}"
 		     	width="64"
 		     	height="64"
-		     	alt="{{selecteduser.username}}" />
+		     	alt="{{ selecteduser.username }}" />
 					<br/>
 			{% else %}
 					<img width="64" height="64" src="http://lorempixel.com/64/64/people/"/>
@@ -39,7 +39,8 @@
 						<!-- If the user is viewing their own profile...  -->
 						{% if selecteduser.username == user.username %}
 							<div>
-								<a href="{% url 'create-group' %}">Create a Group</a>
+								<!-- User has no group, so we give them the option to create a group -->
+								{% include 'MILK/createGroupTemplate.html' %}
 							</div>
 						{% endif %}</br>
 			{% endif %}
@@ -66,7 +67,7 @@
 		</div>
 	</div>
 
-
+	{% if selecteduser.groups.all.0 %}
 	<div class="col-md-12">
 			<hr/>
 			<h3>Add stuff </h3>
@@ -117,8 +118,8 @@
 						{% endif %}
 				</div>
 		</div>
+		{% endif %}
 {% endif %}
-
 
 {% endblock %}
 

@@ -1,11 +1,19 @@
 
       <h3> Create the group you want to share costs with!</h3>
       <div>
-        <form id = "groupForm", method = "post", action = "/create-group/">
+        <form id = "groupForm", method = "post", action = "/">
             {% csrf_token %}
 
-          {{ groupform.as_p }}
+            {% for hidden in groupform.hidden_fields %}
+              {{ hidden }}
+            {% endfor %}
 
+            {% for field in groupform.visible_fields %}
+                {{ field.errors }}
+                {{ field.help_text }}
+                {{ field }}
+            {% endfor %}
+            
           <input type="submit" name="submit" value="Submit" />
         </form>
      </div>
