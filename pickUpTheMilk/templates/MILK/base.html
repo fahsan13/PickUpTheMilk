@@ -26,6 +26,10 @@
     <nav>
         <img src="{%static "images/milklogo - white.png" %}" alt= "Milk Carton Logo"/>
 
+        <div class="handle">
+          <navbarfont>Menu +</navbarfont>
+        </div>
+
         <ul>
 
           {% if app_url == '/' %}
@@ -65,14 +69,7 @@
           {% else %}
           <li style="float:right"><a href="{% url 'auth_login' %}">Log in/Register</a></li>
           {% endif %}
-
-
-          <div id="sitename">
-            <navbarfont>Pick Up The Milk!</navbarfont>
-          </div>
-
         </ul>
-
     </nav>
 
     {% endblock %}
@@ -123,6 +120,7 @@
     <!-- jQuery library  -->
 	<script src="{% static "js/jquery.min.js" %}"></script>
 	<script src="{% static "js/milk-ajax.js" %}"></script>
+  <script src="{% static "js/navbar.js" %}"></script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="{% static 'js/pagescript.js' %}">

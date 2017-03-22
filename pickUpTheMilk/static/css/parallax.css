@@ -136,10 +136,18 @@ namefont {
   width: 100%;
   text-align: center;
   bottom:auto;
-
-
 }
 
+
+@media screen and (max-width: 361px){
+  .logo {
+      background-color: white;
+      left: 0;
+      top: 0;
+      width: 100%;
+      text-align: center;
+  }
+}
 /*DIV STYLING*/
 
 .padding{

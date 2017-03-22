@@ -87,7 +87,7 @@ navbarfont {
     font-weight: bold;
     line-height: 18px;
     font-size: 24px;
-    color:  #ffffff !important;
+    color: white !important;
     text-transform: capitalize !important;
     }
 
@@ -98,7 +98,6 @@ namefont {
     font-size: 18px;
     color:  #0a1429 !important;
     text-transform: capitalize !important;
-     /*text-shadow: 1px 1px gray;*/
     }
 
 
@@ -108,12 +107,17 @@ namefont {
 }
 
 /* Navigation Bar Area */
-#sitename {
-  /*position:absolute;*/
-  float:right;
-  margin-right: 145px;
-  padding-top: 14px
+
+.handle {
+  width: 100%;
+  text-align: left;
+  box-sizing: border-box;
+  padding: 10px 10px 10px 10px;
+  cursor: pointer;
+  display: list-item;
+  display: none;
 }
+
 
 nav{
   top: 0;
@@ -126,14 +130,16 @@ nav{
   margin-top: 20px;
 }
 
-
-.fixed {
+/*.fixed {
   position: fixed;
   top: 0;
   transform:translateY(-50px);
   transition:all 1s ease;
 
-}
+}*/
+
+
+/*NAVIGATION BAR AREA*/
 
 nav ul {
     width:100%;
@@ -144,6 +150,10 @@ nav ul {
     overflow: hidden;
     position: inherit;
     background-color: inherit;
+    -webkit-transition: max-height 0.4s;
+    -ms-transition: max-height 0.4s;
+    -o-transition: max-height 0.4s;
+    transition: max-height 0.4s;
 }
 
 nav img {
@@ -153,8 +163,6 @@ nav img {
   height: 110px;
   z-index: 1001;
 }
-
-
 
 nav ul li {
     height: inherit;
@@ -176,7 +184,7 @@ nav ul li a {
   padding: 14px 16px;
   text-decoration: none;
 }
-/* Change the link color to white on hover */
+
 li a:hover {
     background-color: #f9e03e;
     color: black;
@@ -203,9 +211,6 @@ input {
 }
 
 /* Background on divs*/
-#bgColour {
- background: rgba(255, 255, 255, 0.80);
-}
 .padding {
     position: fixed;
     top: -30px;
@@ -215,14 +220,9 @@ input {
     z-index: 999;
 }
 
-.margins{
-  padding-left: 20px;
-}
-
 .border {
   border-radius: 25px;
   border: 1px solid #67aeca;
-
   }
 
 .position{
@@ -257,6 +257,36 @@ textarea {
     float: left;
 
  }
+
+/*MOBILE SETTINGS*/
+@media screen and (max-width: 645px){
+  nav ul {
+    max-height: 0;
+    padding-top: 20px;
+    padding-left: 0px !important;
+  }
+  .showing {
+    max-height: 40em;
+  }
+  nav ul li{
+    width: 100%;
+    box-sizing: border-box;
+    padding:15px;
+    text-align: left;
+  }
+  nav img  {
+    display: none;
+  }
+  .handle {
+    display:grid;
+    z-index: 1001;
+  }
+  .main_content {
+    margin-top: 20%;
+  }
+}
+
+
 
 #footer {
     height: 50px;
