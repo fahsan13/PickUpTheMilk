@@ -1,5 +1,4 @@
 {% extends 'MILK/base.html' %}
-
 {% load staticfiles %}
 
 {% block title_block %}
@@ -8,44 +7,69 @@
 
 {% block body_block %}
 
-  <h3>{{ selecteduser.username }}'s profile</h3>
+<div id=profilepage>
+	<div class="col-md-6">
+		  <h3>{{ selecteduser.username }}'s profile</h3>
 
-	{% if userprofile.picture %}
-		<img src="{{ MEDIA_URL }}{{ userprofile.picture }}"
-     	width="64"
-     	height="64"
-     	alt="{{selecteduser.username}}" />
-			<br/>
-	{% else %}
-		<img width="64" height="64" src="http://lorempixel.com/64/64/people/"/>
-		{% if selecteduser.username == user.username %}
-			Why not upload your own profile picture?
-		{% else %}
-			{{ selecteduser.username }} hasn't uploaded a profile picture.
-		{% endif %}
-	{% endif %}
+			{% if userprofile.picture %}
+				<img src="{{ MEDIA_URL }}{{ userprofile.picture }}"
+		     	width="64"
+		     	height="64"
+		     	alt="{{selecteduser.username}}" />
+					<br/>
+			{% else %}
+					<img width="64" height="64" src="http://lorempixel.com/64/64/people/"/>
+					{% if selecteduser.username == user.username %}
+							Why not upload your own profile picture?
+					{% else %}
+							{{ selecteduser.username }} hasn't uploaded a profile picture.
+					{% endif %}
+			{% endif %}
 
-	<!-- These might not all be necessary but we can see how to get this info  -->
-	<h5>{{ selecteduser.username }}'s current balance: {{ userprofile.balance }}</h5>
-	<!-- Think this will only display first group properly, BUT they should only have one in the simplest case -->
+			<!--Display the user's balance  -->
+			<h5>{{ selecteduser.username }}'s current balance: {{ userprofile.balance }}</h5>
 
-	<div>
-	{% if selecteduser.groups.all.0 %}
+			{% if selecteduser.groups.all.0 %}
+					Member of group: {{ selecteduser.groups.all.0 }}</br>
+					<a href="{% url 'group' user.groups.all.0 %}">Visit your group page</a>
+			{% else %}
+						<!--Selected user does not have a group-->
+						<h5>Not a member of any groups :(</h5>
 
-		<h5>
-			Member of group: {{ selecteduser.groups.all.0 }}</br>
-			<a href="{% url 'group' user.groups.all.0 %}">Visit your group page</a>
-	  </h5>
+						<!-- If the user is viewing their own profile...  -->
+						{% if selecteduser.username == user.username %}
+							<div>
+								<a href="{% url 'create-group' %}">Create a Group</a>
+							</div>
+						{% endif %}</br>
+			{% endif %}
+	</div>
 
-	  <!-- AJAX for adding items to needs bought list -->
+	{% if selecteduser.username == user.username %}
+		<div class="col-md-6">
+				<form id="picture_form" method="post" action"." enctype="multipart/form-data">
+
+						{% csrf_token %}
+
+						{% for hidden in pictureform.hidden_fields %}
+							{{ hidden }}
+						{% endfor %}
+
+						{% for field in pictureform.visible_fields %}
+								{{ field.errors }}
+								<h3>{{ field.help_text }}</h3>
+								{{ field }}
+						{% endfor %}
+					<!-- Button to click to submit the form -->
+					<input type="submit" name="picturebutton" value="Upload"/>
+				</form>
+		</div>
+	</div>
 
 
-
-		<!-- End of Ajax -->
-
-		<div>
-		{% if selecteduser.username == user.username %}
-			<b>Add stuff </b>
+	<div class="col-md-12">
+			<hr/>
+			<h3>Add stuff </h3>
 
 			<form id="itemForm" method="post" action".">
 
@@ -66,42 +90,20 @@
 				<input type="submit" name="itembutton" value="Add Item" onClick="myAlert()"/>
 			</form>
 
-		<hr/>
 
-			<form id="picture_form" method="post" action"." enctype="multipart/form-data">
-
-					{% csrf_token %}
-
-
-					{% for hidden in pictureform.hidden_fields %}
-	          {{ hidden }}
-	        {% endfor %}
-
-					{% for field in pictureform.visible_fields %}
-	            {{ field.errors }}
-	            {{ field.help_text }}
-	            {{ field }}
-					{% endfor %}
+					<!-- Shouldn't popup if there was an error with adding item -->
+					<script>
+						function myAlert() {
+							alert("Item successfully added")}
+					</script>
+		</div>
 
 
+		<!-- View Group list -->
+		<div class= "col-md-12">
+				<hr/>
+				<h3>Communal shopping list:</h3>
 
-				<!-- Button to click to submit the form -->
-				<input type="submit" name="picturebutton" value="Upload"/>
-			</form>
-
-
-			<!-- Shouldn't popup if there was an error with adding item -->
-			<script>
-				function myAlert() {
-					alert("Item successfully added")}
-			</script>
-
-			<hr/>
-
-			<!-- View Group list -->
-			<b>Communal shopping list:</b>
-
-			<div>
 				<div class=scroll-list>
 						{% if Items %}
 							{% for item in Items %}
@@ -114,29 +116,14 @@
 							Your shopping list is empty.
 						{% endif %}
 				</div>
-		{% endif %}
+		</div>
+{% endif %}
 
-	{% else %}
-		<!--Selected User does not have a group-->
-		<h5>Not a member of any groups :(</h5>
-
-		{% if selecteduser.username == user.username %}
-			<div>
-				<a href="{% url 'create-group' %}">Create a Group</a>
-			</div>
-		{% endif %}</br>
-
-		<h5>POSSIBLE TO-DO: GIVE THEM A WAY TO JOIN AN EXISTING GROUP?</h5>
-
-	{% endif %}
-	</div>
 
 {% endblock %}
 
 {% block side_block %}
-
 	{% if user.is_authenticated %}
-		<!-- Silly to sidebar profile here as well, can override it with something else -->
+		<!-- Silly to sidebar profile here as well, can override it by adding this tag -->
 	{% endif %}
-
 {% endblock %}

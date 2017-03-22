@@ -120,8 +120,8 @@ def updateListHelper(request):
             # Gets item name for item to be bought
             name = form.cleaned_data['itemID']
 
-            # Get the correct item object by filtering based on 'name'
-            item_needing_bought = Item.objects.get(itemName = name)
+            # Get the correct item object by filtering based on 'name' and group
+            item_needing_bought = Item.objects.get(itemName = name, groupBuying = group)
 
             # Sets items 'needs bought' status to false, for item model
             item_needing_bought.itemNeedsBought = True
@@ -285,9 +285,16 @@ def profilepage(request, username):
     # Get items so we can display on user's page
     item_list = Item.objects.order_by('id')
 
-    response = render(request, 'MILK/userprofile.html', {'Items': item_list, 'form':form, 'selecteduser':user, 'userprofile': userprofile})
-    context_dict = {'Items': item_list, 'form':form, 'pictureform':picture_form, 'selecteduser':user, 'userprofile': userprofile,}
-    app_url = request.path ## is this being used for anything?
+    # Used for CSS purposes
+    app_url = '/profile/'
+
+    context_dict = {'Items': item_list,
+                    'form':form,
+                    'pictureform':picture_form,
+                    'selecteduser':user,
+                    'userprofile': userprofile,
+                    'app_url':app_url,}
+
     response = render(request, 'MILK/userprofile.html', context_dict)
     return response
 
@@ -649,11 +656,15 @@ def jsonmaker(data):
 
 # Helper method to get currently logged in user's userprofile
 def getUserProfile(request):
-    user = request.user
-    user_profile = UserProfile.objects.get(user = user)
-    return user_profile
 
-#new item form helper method for template
+    user = request.user
+
+    if user.is_authenticated():
+        user_profile = UserProfile.objects.get(user = user)
+        return user_profile
+
+
+# New item form helper method for template
 def newItemForm(request,user):
     form = itemForm()
     user_profile = UserProfile.objects.get(user=user)
@@ -665,10 +676,21 @@ def newItemForm(request,user):
         if form.is_valid():
             item=form.save(commit=False)
             # Assign the user who added the item and the group it belongs to
-            item.addedby = user
-            item.groupBuying = group
-            item.save()
+            item_name = form.cleaned_data['itemName']
 
+            # The lines below check to see if an item with this name already exists
+            # for this group. If it does, we don't save it as a new item. If it
+            # doesn't, we add it as a new item. This means that 2 groups can have
+            # an item with the same name, but a single group can't have the same item
+            # twice.
+            try:
+                item_check = Item.objects.get(itemName = item_name, groupBuying = group)
+                print "Error! Item already exists."
+            except Item.DoesNotExist:
+                item.addedby = user
+                item.groupBuying = group
+                item.save()
+                print "Item successfully added"
         else:
             print(form.errors)
     return form
