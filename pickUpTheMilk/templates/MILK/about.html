@@ -25,7 +25,11 @@
       Our platform gives your household a shared shopping list accessable from
       anywhere you have internet access. We can simplify
       tracking of purchases and help you record money owed between users.
-      <a href="{% url 'registration_register' %}">Sign up today!</a>
+			{% if user.is_authenticated %}
+			{% else %}
+			 <a href="{% url 'registration_register' %}">Sign up today!</a>
+			{% endif %}
+
     </p>
   </div>
 
