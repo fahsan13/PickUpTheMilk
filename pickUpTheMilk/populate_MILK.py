@@ -8,21 +8,25 @@
 
 
 import os
+#file_path = os.path.join(BASE_DIR, 'relative_path')
 import django
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'pickUpTheMilk.settings')
+from django.core.files import File
 django.setup()
 
 from MILK.models import Group, GroupDetail, User, UserProfile, Item, Transaction
 
 def populate():
 
+
+
     partygroup = [
          "LanceSamanthaandPaulsFlat",
     ]
     partyuser = [
-        {"username" : "LanceSteel", "email" : "lanceismgtow@liftweights.com", "balance" : 4.00,},
-        {"username" : "SamanthaCowlove", "email" : "sheeparefriends@notfood.com", "balance" : 7.00,},
-        {"username" : "PaulOtherGuy", "email" : "paul@hasnopersona.com", "balance" : 8.00,}
+        {"username" : "LanceSteel", "email" : "lanceismgtow@liftweights.com", "balance" : 4.00, "picture" : File(open("media/profile_images/ghost.jpg"))},
+        {"username" : "SamanthaCowlove", "email" : "sheeparefriends@notfood.com", "balance" : 7.00, "picture" : File(open("media/profile_images/broccoli.jpg"))},
+        {"username" : "PaulOtherGuy", "email" : "paul@hasnopersona.com", "balance" : 8.00, "picture" : File(open("media/profile_images/broccoli.jpg"))}
         ]
     partyitem = [
         {"itemName" : "plastic cups", "groupBuying": "LanceSamanthaandPaulsFlat", "addedby" : "LanceSteel"},
@@ -38,10 +42,10 @@ def populate():
         group_created = add_group(a)
     for b in partyuser:
         if b["username"] == "LanceSteel":
-            the_admin = add_user(b["username"], b["email"], b["balance"], group_created,)
+            the_admin = add_user(b["username"], b["email"], b["balance"], b["picture"], group_created)
             set_admin(group_created, the_admin)
         else:
-            add_user(b["username"], b["email"], b["balance"], group_created,)
+            add_user(b["username"], b["email"], b["balance"], b["picture"], group_created)
     for c in partyitem:
         for z in partyuser:
             if z["username"] == c["addedby"]:
@@ -61,9 +65,9 @@ def populate():
          "2WillowbankSt",
     ]
     sandwichuser = [
-        {"username" : "Edwin", "email" : "edwin@magic.com", "balance" : 0.00,},
-        {"username" : "Julie", "email" : "julie@secret.com", "balance" : 0.00,},
-        {"username" : "Lisa", "email" : "lisa@keys.com", "balance" : 0.00,}
+        {"username" : "Edwin", "email" : "edwin@magic.com", "balance" : 0.00, "picture" : File(open("media/profile_images/ghost.jpg"))},
+        {"username" : "Julie", "email" : "julie@secret.com", "balance" : 0.00, "picture" : File(open("media/profile_images/broccoli.jpg"))},
+        {"username" : "Lisa", "email" : "lisa@keys.com", "balance" : 0.00, "picture" : File(open("media/profile_images/milk.jpg"))},
         ]
     sandwichitem = [
         {"itemName" : "bread", "groupBuying": "2WillowbankSt", "addedby" : "Edwin"},
@@ -74,10 +78,10 @@ def populate():
         group_created = add_group(a)
     for b in sandwichuser:
         if b["username"] == "Lisa":
-            the_admin = add_user(b["username"], b["email"], b["balance"], group_created,)
+            the_admin = add_user(b["username"], b["email"], b["balance"], b["picture"], group_created)
             set_admin(group_created, the_admin)
         else:
-            add_user(b["username"], b["email"], b["balance"], group_created,)
+            add_user(b["username"], b["email"], b["balance"], b["picture"], group_created)
     for c in sandwichitem:
         for z in sandwichuser:
             if z["username"] == c["addedby"]:
@@ -85,33 +89,33 @@ def populate():
                 add_item(c["itemName"], group_created, added_by)
 
     lonelyuser = [
-        {"username" : "BillFlower", "email" : "bill@thegarden.com", "balance" : 0.00,},
-        {"username" : "BenPotMan", "email" : "ben@thegarden.com", "balance" : 0.00,},
-        {"username" : "ParsleyTheLion", "email" : "parsley@thelion.com", "balance" : 0.00,}
+        {"username" : "BillFlower", "email" : "bill@thegarden.com", "balance" : 0.00,"picture" : File(open("media/profile_images/ghost.jpg"))},
+        {"username" : "BenPotMan", "email" : "ben@thegarden.com", "balance" : 0.00,"picture" : File(open("media/profile_images/ghost.jpg"))},
+        {"username" : "ParsleyTheLion", "email" : "parsley@thelion.com", "balance" : 0.00, "picture" : File(open("media/profile_images/ghost.jpg"))},
         ]
 
 
     for a in lonelyuser:
-        add_user_no_group(a["username"], a["email"], a["balance"])
+        add_user_no_group(a["username"], a["email"], a["balance"], a["picture"])
 
 
 
 
-def add_user(username, email, balance, group):
+def add_user(username, email, balance, pic, group):
     u = User.objects.get_or_create(username = username, email = email)[0]
     u.save()
     u.groups.add(group)
     u.set_password("test12345")
     u.save()
-    up = UserProfile.objects.get_or_create(user = u, balance = balance)
+    up = UserProfile.objects.get_or_create(user = u, balance = balance, picture = pic)
     return u
 
-def add_user_no_group(username, email, balance):
+def add_user_no_group(username, email, balance, pic):
     u = User.objects.get_or_create(username = username, email = email)[0]
     u.save()
     u.set_password("test12345")
     u.save()
-    up = UserProfile.objects.get_or_create(user = u, balance = balance)
+    up = UserProfile.objects.get_or_create(user = u, balance = balance, picture = pic)
     return u
 
 def add_group(name,):
