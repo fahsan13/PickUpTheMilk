@@ -3,13 +3,15 @@
 <h3>Full shopping list</h3>
 <div id="completelist" class="scroll-list">
     {% if Items %}
-    {% for item in Items %}
-    {% if user.groups.all.0 == item.groupBuying %}
-    <li>
-        {{ item.itemName }}
-    </li>
+      {% for item in Items %}
+        {% if user.groups.all.0 == item.groupBuying %}
+            <li>
+                {{ item.itemName }}
+            </li>
+        {% endif %}
+      {% endfor %}
+    {% else %}
+        Your shopping list is empty.
     {% endif %}
-    {% endfor %}
-    {% else %} Your shopping list is empty. {% endif %}
-    </br>
+  </br>
 </div>

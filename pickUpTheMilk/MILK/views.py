@@ -22,9 +22,6 @@ def home(request):
 
     user=request.user
 
-    # if user.groups.all().first() != None:
-    #     group = user.groups.all().first()
-
     item_list = Item.objects.order_by('id')
     app_url = request.path
 
@@ -64,12 +61,12 @@ def home(request):
 def recPurchHelper(request):
     # Get user's group
     user = request.user
-    # handles error in case of a user without a user profile( superuser ) accessing the home page
+    # Handles error in case of a user without a UserProfile (superuser) accessing the home page.
+    # Get or create means that if it doesn't exist, we make one!
     userprofile = UserProfile.objects.get_or_create(user=request.user)[0]
     group = user.groups.all().first()
 
     form = RecordPurchase(group)
-
 
     if request.method == 'POST' and 'purchaseButton' in request.POST:
 
@@ -77,15 +74,17 @@ def recPurchHelper(request):
 
         if form.is_valid():
             purchase = form.save(commit=False)
-            # # Get selected payee ID from drop down box
-            # payee = form.cleaned_data['payeeID']
+
             # Gets item purchased
             item_purchased = form.cleaned_data['itemID']
+
             # Get cost of transaction entered by user from form
             item_cost = form.cleaned_data['value']
+
             # Get this user's userprofile, where their balance is stored
             userprofile = UserProfile.objects.get_or_create(user=request.user)[0]
-            # Gets item object to allow toggling of needsbought booleanfield - what is get or create?
+
+            # Gets item object to allow toggling of needsbought booleanfield
             toggle_item_bought = Item.objects.get(itemName=item_purchased)
 
             # Reflect this on user's balance
@@ -104,11 +103,11 @@ def recPurchHelper(request):
             purchase.save()
             # calls form again so that it is set as blank for next purchase
             form = RecordPurchase(group)
-
         else:
             print(form.errors)
     return form
 
+# Helper method to handle the form for when user adds new item to their full list.
 def updateListHelper(request):
 
     # Get user's group
@@ -161,9 +160,10 @@ def sitemap(request):
     response = render(request, 'MILK/sitemap.html', context_dict)
     return response
 
-# View for contact us page
+# View for contact page
 def contact(request):
 
+    # Gets the current URL - used for CSS
     app_url = request.path
 
     # Get the user profile so profile sidebar can render balance.
@@ -176,8 +176,10 @@ def contact(request):
 
     return render(request, 'MILK/contact.html', context_dict)
 
+#  View for the about page
 def about(request):
 
+    # Gets the current URL - used for CSS
     app_url = request.path
 
     # Get the user profile so profile sidebar can render balance.
@@ -331,15 +333,18 @@ def grouppage(request, groupname):
     response = render(request, 'MILK/grouppage.html', context_dict)
     return response
 
+# Method which auto-suggests an item to be added to the 'Items To Pick Up' list
 def suggest_add_item(request):
     item_list = []
     starts_with = ''
+
     if request.method == 'GET':
         starts_with = request.GET['suggestion']
         user = request.user
         usergroup = user.groups.all().first()
 
         print starts_with
+
     item_list = get_add_item_list(usergroup ,4, starts_with)
     print item_list
 
@@ -403,16 +408,14 @@ def add_user(request):
 
         return HttpResponse(True)
 
-
-
-
+# View to take an item ID from an AJAX query so we can set items needsbought status to true.
 def item_needs_bought(request):
     item_id = None
     if request.method == 'GET':
-        item_id = request.GET['item_adding']
-        print item_id
-        print "----------------"
 
+        item_id = request.GET['item_adding']
+
+        # Get the item to add using item_id to filter.
         item_to_add = Item.objects.get(itemName=item_id)
         if item_to_add:
             item_to_add.itemNeedsBought = True
@@ -424,12 +427,12 @@ def item_needs_bought(request):
         user = request.user
         usergroup = user.groups.all().first()
 
-        # Need to get the user's group in here to filter by this and only show items
-        # from their shopping list
+        # Use the user's group in here to filter and only show items from their shopping list
         item_list = Item.objects.filter(itemNeedsBought = True, groupBuying = usergroup )
 
     return render(request, 'MILK/needsBoughtList.html', {'Items': item_list})
 
+# View using AJAX to resolve group balances to 0.
 @login_required
 def resolve_balances(request):
     current_group = request.GET['current_group']
@@ -448,8 +451,8 @@ def resolve_balances(request):
     response = render(request, 'MILK/settled_balances.html', {'members': group_members,})
     return response
 
-# method to work out the money owed by each group member
-# used in settling balances calculations
+# Method to work out the money owed by each group member
+# Used in settling balances calculations.
 def average_balances(request):
 
     current_group = request.GET['current_group']
@@ -457,18 +460,18 @@ def average_balances(request):
     total = 0
     nummembers = 0
     output = []
-    # gets user name = v in groupmembers
+    # Gets user name = v in groupmembers
     for v in groupmembers:
-        # iterate through the members of a group getting matching user profiles
+        # Iterate through the members of a group getting matching user profiles
         user_profile = UserProfile.objects.get(user=v)
-        # get the balance and round to two decimal places
+        # Get the balance and round to two decimal places
         money = user_profile.balance
         money = round(money, 2)
-        # track total ammount spent by a group and number of group members
+        # Track total ammount spent by a group and number of group members
         total = total + money
         nummembers = nummembers + 1
 
-    # determine average owed
+    # Determine average owed
     average = total / nummembers
     average = round(average, 2)
     final_balance = 0
@@ -476,14 +479,14 @@ def average_balances(request):
         user_profile = UserProfile.objects.get(user=v)
         user = user_profile.user
         user_name = user.username
-        # get user spending
+        # Get user spending
         user_balance = user_profile.balance
-        # cast to float prior to calculations
+        # Cast to float prior to calculations
         user_float = float(user_balance)
-        # what each user owes is current balance minus average
+        # What each user owes is current balance minus average
         finalbalance = user_float - average
 
-        # handle whether user is owed or owes money since last settlement
+        # Handle whether user is owed or owes money since last settlement
         if finalbalance < 0:
             finalbalance = abs(finalbalance)
             print "abs:"
