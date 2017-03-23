@@ -26,7 +26,7 @@ def populate():
     partyuser = [
         {"username" : "LanceSteel", "email" : "lanceismgtow@liftweights.com", "balance" : 4.00, "picture" : File(open("media/profile_images/ghost.jpg"))},
         {"username" : "SamanthaCowlove", "email" : "sheeparefriends@notfood.com", "balance" : 7.00, "picture" : File(open("media/profile_images/broccoli.jpg"))},
-        {"username" : "PaulOtherGuy", "email" : "paul@hasnopersona.com", "balance" : 8.00, "picture" : File(open("media/profile_images/broccoli.jpg"))}
+        {"username" : "PaulOtherGuy", "email" : "paul@hasnopersona.com", "balance" : 8.00, "picture" : File(open("media/profile_images/milk.jpg"))}
         ]
     partyitem = [
         {"itemName" : "plastic cups", "groupBuying": "LanceSamanthaandPaulsFlat", "addedby" : "LanceSteel"},
@@ -90,8 +90,8 @@ def populate():
 
     lonelyuser = [
         {"username" : "BillFlower", "email" : "bill@thegarden.com", "balance" : 0.00,"picture" : File(open("media/profile_images/ghost.jpg"))},
-        {"username" : "BenPotMan", "email" : "ben@thegarden.com", "balance" : 0.00,"picture" : File(open("media/profile_images/ghost.jpg"))},
-        {"username" : "ParsleyTheLion", "email" : "parsley@thelion.com", "balance" : 0.00, "picture" : File(open("media/profile_images/ghost.jpg"))},
+        {"username" : "BenPotMan", "email" : "ben@thegarden.com", "balance" : 0.00,"picture" : File(open("media/profile_images/broccoli.jpg"))},
+        {"username" : "ParsleyTheLion", "email" : "parsley@thelion.com", "balance" : 0.00, "picture" : File(open("media/profile_images/milk.jpg"))},
         ]
 
 
