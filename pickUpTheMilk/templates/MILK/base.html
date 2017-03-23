@@ -40,9 +40,9 @@
 
           {% if user.is_authenticated %}
               {% if app_url == '/profile/' %}
-              <li><a class="active" href="{% url 'profile' user.username %}">Profile</a></li>
+              <li><a class="active" href="{% url 'profile' userprofile.slug %}">Profile</a></li>
               {% else %}
-              <li><a href="{% url 'profile' user.username %}">Profile</a></li>
+              <li><a href="{% url 'profile' userprofile.slug %}">Profile</a></li>
               {% endif %}
           {% endif %}
 
