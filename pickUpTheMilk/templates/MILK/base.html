@@ -44,6 +44,15 @@
               {% else %}
               <li><a href="{% url 'profile' userprofile.slug %}">Profile</a></li>
               {% endif %}
+
+              {% if user.groups.all.0 %}
+                {% if app_url == '/group/' %}
+                <li><a class="active" href="{% url 'group' user.groups.all.0 %}">Group</a></li>
+                {% else %}
+                <li><a href="{% url 'group' user.groups.all.0 %}">Group</a></li>
+                {% endif %}
+              {% endif %}
+
           {% endif %}
 
           {% if app_url == '/about/' %}
@@ -105,17 +114,6 @@
     </div>
 
 
-    <!-- FOOTER -->
-  {% block footer %}
-    <div class="footer">
-      <div class="position">
-        <a href="{% url 'home' %}">Homepage</a>
-        <a href="{% url 'about' %}">About/FAQ</a>
-        <a href="{% url 'contact'%}">Contact Us</a>
-        <a href="{% url 'sitemap' %}">Site Map</a>
-      </div>
-    </div>
-  {% endblock %}
 
     <!--maxCDN -->
     <!-- Placed at the end of the document so the pages load faster -->
