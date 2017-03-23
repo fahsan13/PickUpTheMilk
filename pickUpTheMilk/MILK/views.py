@@ -208,7 +208,7 @@ def createGroupForm(request):
             print(group)
 
             # Redirect user to their profile if group succcessfully created
-            return redirect('profile', user.username)
+            return redirect('profile', user_profile.slug)
         else:
             print(form.errors)
 
