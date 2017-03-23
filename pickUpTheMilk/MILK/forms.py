@@ -4,6 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, Group
 from MILK.models import Item, UserProfile, GroupDetail, Transaction
 from registration.forms import RegistrationForm
+from decimal import Decimal
 
 # Class to override default regisration-redux form. Lets users know not to add symbols.
 class CustomRegistration(RegistrationForm):
@@ -91,7 +92,7 @@ class RecordPurchase(forms.ModelForm):
             choices=[(item, item) for item in Item.objects.filter(itemNeedsBought=True).filter(groupBuying=group)]
 
         )
-    value = forms.DecimalField(required=True, min_value=0.01,
+    value = forms.DecimalField(required=True, min_value=Decimal("0.01"),
                                help_text="Please enter price paid for item(s):")
 
     payeeID = forms.ModelChoiceField(queryset=User.objects.all(), widget=forms.HiddenInput(), required=False)
