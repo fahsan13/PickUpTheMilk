@@ -70,26 +70,10 @@ class UserProfileMethodTests(TestCase):
         the_balance = u.balance
         self.assertEqual(the_balance, 9.00)
 
-
-    def test_group_page_shows_all_members(self):
-        """
-        Check that a user without groups profile displays properly
-        """
-        #create a dummy group and several users
-        group = add_group("testgroup")
-        u1 = add_user("testuser1", "test1@test.com", 0.00, group)
-        u2 = add_user("testuser2", "test2@test.com", 0.00, group)
-        u3 = add_user("testuser3", "test3@test.com", 0.00, group)
-        #login a user
-        self.client.login(username='testuser1', password='test12345')
-
-        response = self.client.get(reverse('group', args =['testgroup']))
-        self.assertContains(response, "testuser3")
-        num_members =len(response.context['members'])
-        self.assertEqual(num_members, 3)
-
     def test_userprofile_without_group(self):
-
+        """
+        Check that a user without a group is notified of this correctly
+        """
         add_user_no_group("testuser1", "test1@test.com", 0.00)
         #login a user
         self.client.login(username='testuser1', password='test12345')
@@ -97,26 +81,18 @@ class UserProfileMethodTests(TestCase):
         self.assertContains(response, "Not a member of any groups")
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def test_userprofile_with_group(self):
+        """
+        Check that a user profile displays group name if they are a member of a group
+        """
+        #create a dummy group and user
+        group = add_group("testgroup")
+        u1 = add_user("testuser1", "test1@test.com", 0.00, group)
+        #login user
+        self.client.login(username='testuser1', password='test12345')
+        response = self.client.get(reverse('profile', args =['testuser1']))
+        group_string = "Member of group: testgroup"
+        self.assertContains(response, group_string )
 
 
 ######### HELPER METHODS #########
