@@ -27,7 +27,7 @@
         <img src="{%static "images/milklogo - white.png" %}" alt= "Milk Carton Logo"/>
 
         <div class="handle">
-          <navbarfont>Menu +</navbarfont>
+          <navbarfont>Pick Up The Milk!+</navbarfont>
         </div>
 
         <ul>
@@ -78,7 +78,11 @@
           {% else %}
           <li style="float:right"><a href="{% url 'auth_login' %}">Log in/Register</a></li>
           {% endif %}
+          <div id="logo">
+            <navbarfont>Pick Up The Milk!<navbarfont>
+          </div>
         </ul>
+
     </nav>
 
     {% endblock %}
