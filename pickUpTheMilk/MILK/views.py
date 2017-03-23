@@ -85,7 +85,7 @@ def recPurchHelper(request):
             userprofile = UserProfile.objects.get_or_create(user=request.user)[0]
 
             # Gets item object to allow toggling of needsbought booleanfield
-            toggle_item_bought = Item.objects.get(itemName=item_purchased)
+            toggle_item_bought = Item.objects.get(itemName=item_purchased, groupBuying=group)
 
             # Reflect this on user's balance
             userprofile.balance += item_cost
