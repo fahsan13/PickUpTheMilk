@@ -50,7 +50,27 @@ class UserProfile(models.Model):
         if self.balance<0: self.balance = 0
 
         # Slugify the username
-        self.slug = slugify(self.user.username)
+        slug = slugify(self.user.username)
+
+        # Append a dash onto the slug if it already exists
+        # Adapted from: http://stackoverflow.com/questions/3816307/how-to-create-a-unique-slug-in-django
+
+        # Initiate infinite loop
+        while True:
+                try:
+                    # Try getting a userprofile with this slug
+                    userprofile = UserProfile.objects.get(slug=slug)
+                    # If this returns the UserProfile we're trying to make
+                    if userprofile == self:
+                        # Proceed with the slugified username
+                        self.slug = slug
+                        break
+                    else:
+                        # Slug already exists, so we append '-'
+                        slug = slug + '-'
+                except:
+                    self.slug = slug
+                    break
         super(UserProfile, self).save(*args, **kwargs)
 
 # Dave removed all user names from the below table as these can be inferred

@@ -9,21 +9,6 @@ from registration.forms import RegistrationForm
 class CustomRegistration(RegistrationForm):
     username = forms.CharField(max_length=128, help_text="Please enter a username. No symbols or special characters!")
 
-    # def clean(self):
-    #     cleaned_data = super(CustomRegistration, self).clean()
-    #     username = cleaned_data.get("username")
-    #
-    #     if username:
-    #         # Only do something if the username is valid.
-    #         if '@' in username:
-    #             print username
-    #             raise forms.ValidationError(
-    #                 "Error! No symbols or special characters in username!"
-    #             )
-    #         else:
-    #             print "NO @"
-    #             return username
-
     class Meta:
         model = User
         fields = ('username',)
