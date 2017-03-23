@@ -323,12 +323,16 @@ def grouppage(request, groupname):
         else:
             print(remove_form.errors)
 
+    # Used for nav bar - makes its corresponding section white when we're on the group page.
+    app_url = '/group/'
+
     context_dict = {'currentgroup':groupname,
                     'groupdetail':groupdetail,
                     'user':user,
                     'removeform':remove_form,
                     'members':groupmembers,
-                    'userprofile':user_profile,}
+                    'userprofile':user_profile,
+                    'app_url':app_url}
 
     response = render(request, 'MILK/grouppage.html', context_dict)
     return response

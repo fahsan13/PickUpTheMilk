@@ -44,6 +44,15 @@
               {% else %}
               <li><a href="{% url 'profile' userprofile.slug %}">Profile</a></li>
               {% endif %}
+
+              {% if user.groups.all.0 %}
+                {% if app_url == '/group/' %}
+                <li><a class="active" href="{% url 'group' user.groups.all.0 %}">Group</a></li>
+                {% else %}
+                <li><a href="{% url 'group' user.groups.all.0 %}">Group</a></li>
+                {% endif %}
+              {% endif %}
+
           {% endif %}
 
           {% if app_url == '/about/' %}
