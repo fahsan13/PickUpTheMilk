@@ -6,8 +6,8 @@ urlpatterns = [
     url(r'^sitemap/$', views.sitemap, name= 'sitemap'),
     url(r'^contact/$', views.contact, name= 'contact'),
     url(r'^about/$', views.about, name= 'about'),
-    url(r'^register_profile/$', views.register_profile, name='register_profile'),
-    url(r'^profile/(?P<username>[\w\-]+)/$', views.profilepage, name= 'profile'),
+    # url(r'^register_profile/$', views.register_profile, name='register_profile'),
+    url(r'^profile/(?P<userprofile_user_slug>[\w\-]+)/$', views.profilepage, name= 'profile'),
     url(r'^group/(?P<groupname>[\w\-]+)/$', views.grouppage, name= 'group'),
 
     # URLs below are for AJAX related functions.

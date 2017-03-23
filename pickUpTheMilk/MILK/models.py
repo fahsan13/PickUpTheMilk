@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User, Group
+from django.template.defaultfilters import slugify
 
 # Class for an item: tracks its name and whether or not it needs bought.
 class Item(models.Model):
@@ -9,7 +10,6 @@ class Item(models.Model):
     groupBuying = models.ForeignKey(Group, null = True)
     itemNeedsBought = models.BooleanField(default = True)
     addedby = models.ForeignKey(User, null = True)
-
 
     def __str__(self):
         return self.itemName
@@ -37,14 +37,20 @@ class UserProfile(models.Model):
     balance = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
+    # Slugify the user's username - this is passed to URLS
+    slug = models.SlugField(unique=True)
+
     def __str__(self):
         return self.user.username
+
     def __unicode__(self):
         return self.user.username
-    def getUserID(self):
-        return self.user.id
+
     def save(self, *args, **kwargs):
         if self.balance<0: self.balance = 0
+
+        # Slugify the username
+        self.slug = slugify(self.user.username)
         super(UserProfile, self).save(*args, **kwargs)
 
 # Dave removed all user names from the below table as these can be inferred

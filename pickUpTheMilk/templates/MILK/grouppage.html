@@ -16,11 +16,11 @@
 
 		<div id = "adminblock">
 		  <h3>Group page for {{ currentgroup.name }}</h3>
-		  <h4>The group admin is <a href="{% url 'profile' groupdetail.administrator %}">{{ groupdetail.administrator }}</a></h4>
+		  <h4>The group admin is <a href="{% url 'profile' groupdetail.administrator.userprofile.slug %}">{{ groupdetail.administrator }}</a></h4>
 
 		  <div id="memberdiv"><b>Group Members:</b>
 		    {% for profile in members %}
-		      <li><a href="{% url 'profile' profile.username %}">{{ profile.username }}</a></li>
+		      <li><a href="{% url 'profile' profile.userprofile.slug %}">{{ profile.username }}</a></li>
 		    {% endfor %}
 		  </div></br>
 

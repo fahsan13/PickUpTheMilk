@@ -15,27 +15,7 @@ from registration.backends.simple.views import RegistrationView
 class MyRegistrationView(RegistrationView):
 
     def get_success_url(self, user):
-        return '/register_profile/'
-
-# View for second page in 2-step registration process. Required as we're
-# using registration-redux package and still want to populate the UserProfile
-# fields --(initial) balance and picture-- when the user registers.
-@login_required
-def register_profile(request):
-    form = UserProfileForm()
-
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES)
-        if form.is_valid():
-            user_profile = form.save(commit=False)
-            user_profile.user = request.user
-            user_profile.save()
-
-            return redirect('home')
-        else:
-            print(form.errors)
-    context_dict = {'form':form}
-    return render(request, 'MILK/profile_registration.html', context_dict)
+        return '/'
 
 # View for the home page of the site.
 def home(request):
@@ -236,11 +216,15 @@ def createGroupForm(request):
 
 # View for a user's profile
 @login_required
-def profilepage(request, username):
+def profilepage(request, userprofile_user_slug):
 
     try:
         # May want to view another user's profile!
-        user = User.objects.get(username=username)
+        userprofile = UserProfile.objects.get(slug=userprofile_user_slug)
+
+        # Retrieve UserProfile extension (containing balance/picture).
+        # We will then pass this to profile.html
+        user = userprofile.user
 
         # User should only functionally have one group. If
         # it exists, we select it. If it doesn't, form won't
@@ -250,10 +234,6 @@ def profilepage(request, username):
 
     except User.DoesNotExist:
         return redirect('home')
-
-    # Retrieve UserProfile extension (containing balance/picture).
-    # We will then pass this to profile.html
-    userprofile = UserProfile.objects.get_or_create(user=user)[0]
 
     # Form to add a new item (calls helper method)
     new_item = newItemForm(request, user)
@@ -268,7 +248,7 @@ def profilepage(request, username):
 
         if picture_form.is_valid():
             picture_form.save(commit=True)
-            return redirect('profile', user.username)
+            return redirect('profile', userprofile.slug)
         else:
             print(picture_form.errors)
 
