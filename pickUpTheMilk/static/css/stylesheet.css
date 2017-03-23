@@ -258,6 +258,14 @@ textarea {
 
  }
 
+#logo{
+  float: right;
+  margin-right: 145px;
+  height: 10px;
+  padding-top: 14px;
+
+}
+
 /*MOBILE SETTINGS*/
 @media screen and (max-width: 645px){
   nav ul {
@@ -268,17 +276,23 @@ textarea {
   .showing {
     max-height: 40em;
   }
+
+  #logo {
+    display: none;
+
+  }
+
   nav ul li{
     width: 100%;
     box-sizing: border-box;
-    padding:0px;
+    padding: 0;
     text-align: left;
   }
   nav img  {
     display: none;
   }
   .handle {
-    display:grid;
+    display: inline;
     z-index: 1001;
   }
   .main_content {
