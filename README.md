@@ -10,8 +10,13 @@ A Collaborative Flat-sharing shopping list and biudget web application
 Created in Django Framework
 
 Produced by 
-Faisal Ahsan
-Ewa Grabowiecka
-Lauren McGhee
-David Stuart
+
+Faisal Ahsan, 
+
+Ewa Grabowiecka,
+
+Lauren McGhee,
+
+David Stuart,
+
 Steve Worthington
